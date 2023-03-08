@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hndist.server.mapper.CimProjectionMapper">
+
+
+    <resultMap type="CimProjection" id="CimProjectionResult">
+        <result property="id" column="id"/>
+        <result property="projectionId" column="projection_id"/>
+        <result property="name" column="name"/>
+        <result property="geographic" column="geographic"/>
+        <result property="coordinateSystem" column="coordinate_system"/>
+        <result property="angularUnit" column="angular_unit"/>
+        <result property="primeMeridian" column="prime_meridian"/>
+        <result property="datum" column="datum"/>
+        <result property="spheroid" column="spheroid"/>
+        <result property="semimajorAxis" column="semimajor_axis"/>
+        <result property="semiminorAxis" column="semiminor_axis"/>
+        <result property="inverseFlattening" column="inverse_flattening"/>
+    </resultMap>
+
+    <sql id="selectCimProjectionVo">
+        select
+                id
+                ,projection_id
+                ,name
+                ,geographic
+                ,coordinate_system
+                ,angular_unit
+                ,prime_meridian
+                ,datum
+                ,spheroid
+                ,semimajor_axis
+                ,semiminor_axis
+                ,inverse_flattening
+        from cim_projection
+    </sql>
+
+    <select id="selectCimProjectionById" resultMap="CimProjectionResult">
+        <include refid="selectCimProjectionVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectCimProjectionList" resultMap="CimProjectionResult">
+        <include refid="selectCimProjectionVo"/>
+        <where>
+                        <if test="vo.id != null  and vo.id != ''"> and id = #{vo.id}</if>
+                        <if test="vo.projectionId != null  and vo.projectionId != ''"> and projection_id = #{vo.projectionId}</if>
+                        <if test="vo.name != null  and vo.name != ''"> and name like concat('%', #{vo.name},'%')</if>
+                        <if test="vo.geographic != null  and vo.geographic != ''"> and geographic = #{vo.geographic}</if>
+                        <if test="vo.coordinateSystem != null  and vo.coordinateSystem != ''"> and coordinate_system = #{vo.coordinateSystem}</if>
+                        <if test="vo.angularUnit != null  and vo.angularUnit != ''"> and angular_unit = #{vo.angularUnit}</if>
+                        <if test="vo.primeMeridian != null  and vo.primeMeridian != ''"> and prime_meridian = #{vo.primeMeridian}</if>
+                        <if test="vo.datum != null  and vo.datum != ''"> and datum = #{vo.datum}</if>
+                        <if test="vo.spheroid != null  and vo.spheroid != ''"> and spheroid = #{vo.spheroid}</if>
+                        <if test="vo.semimajorAxis != null  and vo.semimajorAxis != ''"> and semimajor_axis = #{vo.semimajorAxis}</if>
+                        <if test="vo.semiminorAxis != null  and vo.semiminorAxis != ''"> and semiminor_axis = #{vo.semiminorAxis}</if>
+                        <if test="vo.inverseFlattening != null  and vo.inverseFlattening != ''"> and inverse_flattening = #{vo.inverseFlattening}</if>
+        </where>
+    </select>
+
+    <insert id="insertCimProjection" parameterType="CimProjection" useGeneratedKeys="true" keyProperty="id">
+        insert into cim_projection
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="projectionId != null">projection_id,</if>
+            <if test="name != null">name,</if>
+            <if test="geographic != null">geographic,</if>
+            <if test="coordinateSystem != null">coordinate_system,</if>
+            <if test="angularUnit != null">angular_unit,</if>
+            <if test="primeMeridian != null">prime_meridian,</if>
+            <if test="datum != null">datum,</if>
+            <if test="spheroid != null">spheroid,</if>
+            <if test="semimajorAxis != null">semimajor_axis,</if>
+            <if test="semiminorAxis != null">semiminor_axis,</if>
+            <if test="inverseFlattening != null">inverse_flattening,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+           <if test="id != null">#{id},</if>
+           <if test="projectionId != null">#{projectionId},</if>
+           <if test="name != null">#{name},</if>
+           <if test="geographic != null">#{geographic},</if>
+           <if test="coordinateSystem != null">#{coordinateSystem},</if>
+           <if test="angularUnit != null">#{angularUnit},</if>
+           <if test="primeMeridian != null">#{primeMeridian},</if>
+           <if test="datum != null">#{datum},</if>
+           <if test="spheroid != null">#{spheroid},</if>
+           <if test="semimajorAxis != null">#{semimajorAxis},</if>
+           <if test="semiminorAxis != null">#{semiminorAxis},</if>
+           <if test="inverseFlattening != null">#{inverseFlattening},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCimProjection" parameterType="CimProjection">
+        update cim_projection
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="projectionId != null">projection_id=#{projectionId},</if>
+            <if test="name != null">name=#{name},</if>
+            <if test="geographic != null">geographic=#{geographic},</if>
+            <if test="coordinateSystem != null">coordinate_system=#{coordinateSystem},</if>
+            <if test="angularUnit != null">angular_unit=#{angularUnit},</if>
+            <if test="primeMeridian != null">prime_meridian=#{primeMeridian},</if>
+            <if test="datum != null">datum=#{datum},</if>
+            <if test="spheroid != null">spheroid=#{spheroid},</if>
+            <if test="semimajorAxis != null">semimajor_axis=#{semimajorAxis},</if>
+            <if test="semiminorAxis != null">semiminor_axis=#{semiminorAxis},</if>
+            <if test="inverseFlattening != null">inverse_flattening=#{inverseFlattening},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCimProjectionById" parameterType="String">
+        delete from cim_projection where id = #{id}
+    </delete>
+
+    <delete id="deleteCimProjectionByIds" parameterType="String">
+        delete from cim_projection where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+</mapper>

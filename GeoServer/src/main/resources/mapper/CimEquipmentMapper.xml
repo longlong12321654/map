@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hndist.server.mapper.CimEquipmentMapper">
+
+
+    <resultMap type="CimEquipment" id="CimEquipmentResult">
+        <result property="id" column="id"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="sysOrgCode" column="sys_org_code"/>
+        <result property="sort" column="sort"/>
+        <result property="name" column="name"/>
+        <result property="type" column="type"/>
+        <result property="coordinate" column="coordinate"/>
+        <result property="locationType" column="location_type"/>
+        <result property="locationId" column="location_id"/>
+        <result property="locationName" column="location_name"/>
+        <result property="address" column="address"/>
+        <result property="code" column="code"/>
+        <result property="parameter" column="parameter"/>
+        <result property="contacts" column="contacts"/>
+        <result property="contactsPhone" column="contacts_phone"/>
+        <result property="manufacturer" column="manufacturer"/>
+        <result property="town" column="town"/>
+        <result property="village" column="village"/>
+        <result property="riverLead" column="river_lead"/>
+        <result property="rytoken" column="rytoken"/>
+        <result property="personPhone" column="person_phone"/>
+        <result property="onlineStatus" column="online_status"/>
+        <result property="classification" column="classification"/>
+        <result property="riverLeadName" column="river_lead_name"/>
+        <result property="cameraTypeName" column="camera_type_name"/>
+        <result property="cameraDistinguish" column="camera_distinguish"/>
+        <result property="showStatus" column="show_status"/>
+        <result property="mapLevel" column="map_level"/>
+    </resultMap>
+
+    <sql id="selectCimEquipmentVo">
+        select
+                id
+                ,create_by
+                ,create_time
+                ,update_by
+                ,update_time
+                ,sys_org_code
+                ,sort
+                ,name
+                ,type
+                ,coordinate
+                ,location_type
+                ,location_id
+                ,location_name
+                ,address
+                ,code
+                ,parameter
+                ,contacts
+                ,contacts_phone
+                ,manufacturer
+                ,town
+                ,village
+                ,river_lead
+                ,rytoken
+                ,person_phone
+                ,online_status
+                ,classification
+                ,river_lead_name
+                ,camera_type_name
+                ,camera_distinguish
+                ,show_status
+                ,map_level
+        from cim_equipment
+    </sql>
+
+    <select id="selectCimEquipmentById" resultMap="CimEquipmentResult">
+        <include refid="selectCimEquipmentVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectCimEquipmentList" resultMap="CimEquipmentResult">
+        <include refid="selectCimEquipmentVo"/>
+        <where>
+                        <if test="vo.id != null  and vo.id != ''"> and id = #{vo.id}</if>
+                        <if test="vo.createBy != null  and vo.createBy != ''"> and create_by = #{vo.createBy}</if>
+                        <if test="vo.createTime != null  and vo.createTime != ''"> and create_time = #{vo.createTime}</if>
+                        <if test="vo.updateBy != null  and vo.updateBy != ''"> and update_by = #{vo.updateBy}</if>
+                        <if test="vo.updateTime != null  and vo.updateTime != ''"> and update_time = #{vo.updateTime}</if>
+                        <if test="vo.sysOrgCode != null  and vo.sysOrgCode != ''"> and sys_org_code = #{vo.sysOrgCode}</if>
+                        <if test="vo.sort != null  and vo.sort != ''"> and sort = #{vo.sort}</if>
+                        <if test="vo.name != null  and vo.name != ''"> and name like concat('%',#{vo.name},'%')</if>
+                        <if test="vo.type != null  and vo.type != ''"> and type = #{vo.type}</if>
+                        <if test="vo.coordinate != null  and vo.coordinate != ''"> and coordinate = #{vo.coordinate}</if>
+                        <if test="vo.locationType != null  and vo.locationType != ''"> and location_type = #{vo.locationType}</if>
+                        <if test="vo.locationId != null  and vo.locationId != ''"> and location_id = #{vo.locationId}</if>
+                        <if test="vo.locationName != null  and vo.locationName != ''"> and location_name = #{vo.locationName}</if>
+                        <if test="vo.address != null  and vo.address != ''"> and address = #{vo.address}</if>
+                        <if test="vo.code != null  and vo.code != ''"> and code = #{vo.code}</if>
+                        <if test="vo.parameter != null  and vo.parameter != ''"> and parameter = #{vo.parameter}</if>
+                        <if test="vo.contacts != null  and vo.contacts != ''"> and contacts = #{vo.contacts}</if>
+                        <if test="vo.contactsPhone != null  and vo.contactsPhone != ''"> and contacts_phone = #{vo.contactsPhone}</if>
+                        <if test="vo.manufacturer != null  and vo.manufacturer != ''"> and manufacturer = #{vo.manufacturer}</if>
+                        <if test="vo.town != null  and vo.town != ''"> and town = #{vo.town}</if>
+                        <if test="vo.village != null  and vo.village != ''"> and village = #{vo.village}</if>
+                        <if test="vo.riverLead != null  and vo.riverLead != ''"> and river_lead = #{vo.riverLead}</if>
+                        <if test="vo.rytoken != null  and vo.rytoken != ''"> and rytoken = #{vo.rytoken}</if>
+                        <if test="vo.personPhone != null  and vo.personPhone != ''"> and person_phone = #{vo.personPhone}</if>
+                        <if test="vo.onlineStatus != null  and vo.onlineStatus != ''"> and online_status = #{vo.onlineStatus}</if>
+                        <if test="vo.classification != null  and vo.classification != ''"> and classification = #{vo.classification}</if>
+                        <if test="vo.riverLeadName != null  and vo.riverLeadName != ''"> and river_lead_name = #{vo.riverLeadName}</if>
+                        <if test="vo.cameraTypeName != null  and vo.cameraTypeName != ''"> and camera_type_name = #{vo.cameraTypeName}</if>
+                        <if test="vo.cameraDistinguish != null  and vo.cameraDistinguish != ''"> and camera_distinguish = #{vo.cameraDistinguish}</if>
+                        <if test="vo.showStatus != null  and vo.showStatus != ''"> and show_status = #{vo.showStatus}</if>
+                        <if test="vo.mapLevel != null  and vo.mapLevel != ''"> and map_level = #{vo.mapLevel}</if>
+        </where>
+    </select>
+
+    <insert id="insertCimEquipment" parameterType="CimEquipment" useGeneratedKeys="true" keyProperty="id">
+        insert into cim_equipment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="sysOrgCode != null">sys_org_code,</if>
+            <if test="sort != null">sort,</if>
+            <if test="name != null">name,</if>
+            <if test="type != null">type,</if>
+            <if test="coordinate != null">coordinate,</if>
+            <if test="locationType != null">location_type,</if>
+            <if test="locationId != null">location_id,</if>
+            <if test="locationName != null">location_name,</if>
+            <if test="address != null">address,</if>
+            <if test="code != null">code,</if>
+            <if test="parameter != null">parameter,</if>
+            <if test="contacts != null">contacts,</if>
+            <if test="contactsPhone != null">contacts_phone,</if>
+            <if test="manufacturer != null">manufacturer,</if>
+            <if test="town != null">town,</if>
+            <if test="village != null">village,</if>
+            <if test="riverLead != null">river_lead,</if>
+            <if test="rytoken != null">rytoken,</if>
+            <if test="personPhone != null">person_phone,</if>
+            <if test="onlineStatus != null">online_status,</if>
+            <if test="classification != null">classification,</if>
+            <if test="riverLeadName != null">river_lead_name,</if>
+            <if test="cameraTypeName != null">camera_type_name,</if>
+            <if test="cameraDistinguish != null">camera_distinguish,</if>
+            <if test="showStatus != null">show_status,</if>
+            <if test="mapLevel != null">map_level,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+           <if test="id != null">#{id},</if>
+           <if test="createBy != null">#{createBy},</if>
+           <if test="createTime != null">#{createTime},</if>
+           <if test="updateBy != null">#{updateBy},</if>
+           <if test="updateTime != null">#{updateTime},</if>
+           <if test="sysOrgCode != null">#{sysOrgCode},</if>
+           <if test="sort != null">#{sort},</if>
+           <if test="name != null">#{name},</if>
+           <if test="type != null">#{type},</if>
+           <if test="coordinate != null">#{coordinate},</if>
+           <if test="locationType != null">#{locationType},</if>
+           <if test="locationId != null">#{locationId},</if>
+           <if test="locationName != null">#{locationName},</if>
+           <if test="address != null">#{address},</if>
+           <if test="code != null">#{code},</if>
+           <if test="parameter != null">#{parameter},</if>
+           <if test="contacts != null">#{contacts},</if>
+           <if test="contactsPhone != null">#{contactsPhone},</if>
+           <if test="manufacturer != null">#{manufacturer},</if>
+           <if test="town != null">#{town},</if>
+           <if test="village != null">#{village},</if>
+           <if test="riverLead != null">#{riverLead},</if>
+           <if test="rytoken != null">#{rytoken},</if>
+           <if test="personPhone != null">#{personPhone},</if>
+           <if test="onlineStatus != null">#{onlineStatus},</if>
+           <if test="classification != null">#{classification},</if>
+           <if test="riverLeadName != null">#{riverLeadName},</if>
+           <if test="cameraTypeName != null">#{cameraTypeName},</if>
+           <if test="cameraDistinguish != null">#{cameraDistinguish},</if>
+           <if test="showStatus != null">#{showStatus},</if>
+           <if test="mapLevel != null">#{mapLevel},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCimEquipment" parameterType="CimEquipment">
+        update cim_equipment
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createBy != null">create_by=#{createBy},</if>
+            <if test="createTime != null">create_time=#{createTime},</if>
+            <if test="updateBy != null">update_by=#{updateBy},</if>
+            <if test="updateTime != null">update_time=#{updateTime},</if>
+            <if test="sysOrgCode != null">sys_org_code=#{sysOrgCode},</if>
+            <if test="sort != null">sort=#{sort},</if>
+            <if test="name != null">name=#{name},</if>
+            <if test="type != null">type=#{type},</if>
+            <if test="coordinate != null">coordinate=#{coordinate},</if>
+            <if test="locationType != null">location_type=#{locationType},</if>
+            <if test="locationId != null">location_id=#{locationId},</if>
+            <if test="locationName != null">location_name=#{locationName},</if>
+            <if test="address != null">address=#{address},</if>
+            <if test="code != null">code=#{code},</if>
+            <if test="parameter != null">parameter=#{parameter},</if>
+            <if test="contacts != null">contacts=#{contacts},</if>
+            <if test="contactsPhone != null">contacts_phone=#{contactsPhone},</if>
+            <if test="manufacturer != null">manufacturer=#{manufacturer},</if>
+            <if test="town != null">town=#{town},</if>
+            <if test="village != null">village=#{village},</if>
+            <if test="riverLead != null">river_lead=#{riverLead},</if>
+            <if test="rytoken != null">rytoken=#{rytoken},</if>
+            <if test="personPhone != null">person_phone=#{personPhone},</if>
+            <if test="onlineStatus != null">online_status=#{onlineStatus},</if>
+            <if test="classification != null">classification=#{classification},</if>
+            <if test="riverLeadName != null">river_lead_name=#{riverLeadName},</if>
+            <if test="cameraTypeName != null">camera_type_name=#{cameraTypeName},</if>
+            <if test="cameraDistinguish != null">camera_distinguish=#{cameraDistinguish},</if>
+            <if test="showStatus != null">show_status=#{showStatus},</if>
+            <if test="mapLevel != null">map_level=#{mapLevel},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCimEquipmentById" parameterType="String">
+        delete from cim_equipment where id = #{id}
+    </delete>
+
+    <delete id="deleteCimEquipmentByIds" parameterType="String">
+        delete from cim_equipment where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+</mapper>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hndist.server.mapper.CimTrackMapper">
+
+
+    <resultMap type="CimTrack" id="CimTrackResult">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="pid" column="pid"/>
+        <result property="show" column="is_show"/>
+        <result property="isdynamic" column="isdynamic"/>
+        <result property="style" column="style"/>
+        <result property="isparent" column="isparent"/>
+        <result property="thumbnail" column="thumbnail"/>
+        <result property="createTime" column="create_time"/>
+        <result property="remark" column="remark"/>
+        <result property="icon" column="icon"/>
+    </resultMap>
+
+    <sql id="selectCimTrackVo">
+        select
+                id
+                ,name
+                ,pid
+                ,is_show
+                ,isdynamic
+                ,style
+                ,isparent
+                ,thumbnail
+                ,create_time
+                ,remark
+                ,icon
+        from cim_track
+    </sql>
+
+    <select id="selectCimTrackById" resultMap="CimTrackResult">
+        <include refid="selectCimTrackVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectCimTrackList" resultMap="CimTrackResult">
+        <include refid="selectCimTrackVo"/>
+        <where>
+                        <if test="vo.id != null  and vo.id != ''"> and id = #{vo.id}</if>
+                        <if test="vo.name != null  and vo.name != ''"> and name like concat('%',#{vo.name},'%')</if>
+                        <if test="vo.pid != null  and vo.pid != ''"> and pid = #{vo.pid}</if>
+                        <if test="vo.show != null  and vo.show != ''"> and is_show = #{vo.show}</if>
+                        <if test="vo.isdynamic != null  and vo.isdynamic != ''"> and isdynamic = #{vo.isdynamic}</if>
+                        <if test="vo.style != null  and vo.style != ''"> and style = #{vo.style}</if>
+                        <if test="vo.isparent != null  and vo.isparent != ''"> and isparent = #{vo.isparent}</if>
+                        <if test="vo.thumbnail != null  and vo.thumbnail != ''"> and thumbnail = #{vo.thumbnail}</if>
+                        <if test="vo.createTime != null  and vo.createTime != ''"> and create_time = #{vo.createTime}</if>
+                        <if test="vo.remark != null  and vo.remark != ''"> and remark = #{vo.remark}</if>
+            <if test="vo.params.beginTime != null and vo.params.beginTime != ''"><!-- 开始时间检索 -->
+                and to_timestamp(to_char(create_time,'YYYY-mm-dd'), 'YYYY-mm-dd') &gt;= to_timestamp(#{vo.params.beginTime}, 'YYYY-mm-dd')
+            </if>
+            <if test="vo.params.endTime != null and vo.params.endTime != ''"><!-- 结束时间检索 -->
+                and to_timestamp(to_char(create_time,'YYYY-mm-dd'), 'YYYY-mm-dd') &lt;= to_timestamp(#{vo.params.endTime}, 'YYYY-mm-dd')
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertCimTrack" parameterType="CimTrack" useGeneratedKeys="true" keyProperty="id">
+        insert into cim_track
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="pid != null">pid,</if>
+            <if test="show != null">is_show,</if>
+            <if test="isdynamic != null">isdynamic,</if>
+            <if test="style != null">style,</if>
+            <if test="isparent != null">isparent,</if>
+            <if test="thumbnail != null">thumbnail,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="icon != null">icon,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+           <if test="id != null">#{id},</if>
+           <if test="name != null">#{name},</if>
+           <if test="pid != null">#{pid},</if>
+           <if test="show != null">#{show},</if>
+           <if test="isdynamic != null">#{isdynamic},</if>
+           <if test="style != null">#{style},</if>
+           <if test="isparent != null">#{isparent},</if>
+           <if test="thumbnail != null">#{thumbnail},</if>
+           <if test="createTime != null">#{createTime},</if>
+           <if test="remark != null">#{remark},</if>
+           <if test="icon != null">#{icon},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCimTrack" parameterType="CimTrack">
+        update cim_track
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name=#{name},</if>
+            <if test="pid != null">pid=#{pid},</if>
+            <if test="show != null">is_show=#{show},</if>
+            <if test="isdynamic != null">isdynamic=#{isdynamic},</if>
+            <if test="style != null">style=#{style},</if>
+            <if test="isparent != null">isparent=#{isparent},</if>
+            <if test="thumbnail != null">thumbnail=#{thumbnail},</if>
+            <if test="createTime != null">create_time=#{createTime},</if>
+            <if test="remark != null">remark=#{remark},</if>
+            <if test="icon != null">icon=#{icon},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCimTrackById" parameterType="String">
+        delete from cim_track where id = #{id}
+    </delete>
+
+    <delete id="deleteCimTrackByIds" parameterType="String">
+        delete from cim_track where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="selectCimTrackTreeList" parameterType="String" resultMap="CimTrackResult">
+        <include refid="selectCimTrackVo"/>
+        <where>
+            <if test="type==null or type=='' "> and isparent = '1'</if>
+        </where>
+    </select>
+
+
+</mapper>

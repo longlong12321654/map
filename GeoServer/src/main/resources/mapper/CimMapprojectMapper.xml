@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hndist.server.mapper.CimMapprojectMapper">
+
+
+    <resultMap type="CimMapproject" id="CimMapprojectResult">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="isparent" column="isparent"/>
+        <result property="projectpath" column="projectpath"/>
+        <result property="spatialReference" column="spatial_reference"/>
+        <result property="thumbnail" column="thumbnail"/>
+        <result property="projecttype" column="projecttype"/>
+        <result property="createTime" column="create_time"/>
+        <result property="remark" column="remark"/>
+        <result property="pid" column="pid"/>
+        <result property="icon" column="icon"/>
+    </resultMap>
+
+    <sql id="selectCimMapprojectVo">
+        select
+                id
+                ,name
+                ,isparent
+                ,projectpath
+                ,spatial_reference
+                ,thumbnail
+                ,projecttype
+                ,create_time
+                ,remark
+                ,pid
+                ,icon
+        from cim_mapproject
+    </sql>
+
+    <select id="selectCimMapprojectById" resultMap="CimMapprojectResult">
+        <include refid="selectCimMapprojectVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectCimMapprojectList" resultMap="CimMapprojectResult">
+        <include refid="selectCimMapprojectVo"/>
+        <where>
+                        <if test="vo.id != null  and vo.id != ''"> and id = #{vo.id}</if>
+                        <if test="vo.name != null  and vo.name != ''"> and name like concat('%', #{vo.name}, '%')</if>
+                        <if test="vo.isparent != null  and vo.isparent != ''"> and isparent = #{vo.isparent}</if>
+                        <if test="vo.projectpath != null  and vo.projectpath != ''"> and projectpath = #{vo.projectpath}</if>
+                        <if test="vo.spatialReference != null  and vo.spatialReference != ''"> and spatial_reference = #{vo.spatialReference}</if>
+                        <if test="vo.thumbnail != null  and vo.thumbnail != ''"> and thumbnail = #{vo.thumbnail}</if>
+                        <if test="vo.projecttype != null  and vo.projecttype != ''"> and projecttype = #{vo.projecttype}</if>
+                        <if test="vo.createTime != null  and vo.createTime != ''"> and create_time = #{vo.createTime}</if>
+                        <if test="vo.remark != null  and vo.remark != ''"> and remark = #{vo.remark}</if>
+                        <if test="vo.pid != null  and vo.pid != ''"> and pid = #{vo.pid}</if>
+        </where>
+    </select>
+
+    <insert id="insertCimMapproject" parameterType="CimMapproject" useGeneratedKeys="true" keyProperty="id">
+        insert into cim_mapproject
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="isparent != null">isparent,</if>
+            <if test="projectpath != null">projectpath,</if>
+            <if test="spatialReference != null">spatial_reference,</if>
+            <if test="thumbnail != null">thumbnail,</if>
+            <if test="projecttype != null">projecttype,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="pid != null">pid,</if>
+            <if test="icon != null">icon,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+           <if test="id != null">#{id},</if>
+           <if test="name != null">#{name},</if>
+           <if test="isparent != null">#{isparent},</if>
+           <if test="projectpath != null">#{projectpath},</if>
+           <if test="spatialReference != null">#{spatialReference},</if>
+           <if test="thumbnail != null">#{thumbnail},</if>
+           <if test="projecttype != null">#{projecttype},</if>
+           <if test="createTime != null">#{createTime},</if>
+           <if test="remark != null">#{remark},</if>
+           <if test="pid != null">#{pid},</if>
+           <if test="icon != null">#{icon},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCimMapproject" parameterType="CimMapproject">
+        update cim_mapproject
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name=#{name},</if>
+            <if test="isparent != null">isparent=#{isparent},</if>
+            <if test="projectpath != null">projectpath=#{projectpath},</if>
+            <if test="spatialReference != null">spatial_reference=#{spatialReference},</if>
+            <if test="thumbnail != null">thumbnail=#{thumbnail},</if>
+            <if test="projecttype != null">projecttype=#{projecttype},</if>
+            <if test="createTime != null">create_time=#{createTime},</if>
+            <if test="remark != null">remark=#{remark},</if>
+            <if test="pid != null">pid=#{pid},</if>
+            <if test="icon != null">icon=#{icon},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCimMapprojectById" parameterType="String">
+        delete from cim_mapproject where id = #{id}
+    </delete>
+
+    <delete id="deleteCimMapprojectByIds" parameterType="String">
+        delete from cim_mapproject where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="selectCimMapprojectTreeList" parameterType="String" resultMap="CimMapprojectResult">
+        <include refid="selectCimMapprojectVo"/>
+        <where>
+            <if test="type==null or type=='' "> and isparent = '1'</if>
+        </where>
+    </select>
+
+
+</mapper>

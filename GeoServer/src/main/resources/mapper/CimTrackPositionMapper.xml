@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hndist.server.mapper.CimTrackPositionMapper">
+
+
+    <resultMap type="CimTrackPosition" id="CimTrackPositionResult">
+        <result property="id" column="id"/>
+        <result property="trackId" column="track_id"/>
+        <result property="name" column="name"/>
+        <result property="code" column="code"/>
+        <result property="userId" column="user_id"/>
+        <result property="longtiud" column="longtiud"/>
+        <result property="latitude" column="latitude"/>
+        <result property="style" column="style"/>
+        <result property="thumbnail" column="thumbnail"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <sql id="selectCimTrackPositionVo">
+        select
+                id
+                ,track_id
+                ,name
+                ,code
+                ,user_id
+                ,longtiud
+                ,latitude
+                ,style
+                ,thumbnail
+                ,create_time
+        from cim_track_position
+    </sql>
+
+    <select id="selectCimTrackPositionById" resultMap="CimTrackPositionResult">
+        <include refid="selectCimTrackPositionVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectCimTrackPositionList" resultMap="CimTrackPositionResult">
+        <include refid="selectCimTrackPositionVo"/>
+        <where>
+                        <if test="vo.id != null  and vo.id != ''"> and id = #{vo.id}</if>
+                        <if test="vo.trackId != null  and vo.trackId != ''"> and track_id = #{vo.trackId}</if>
+                        <if test="vo.name != null  and vo.name != ''"> and name like concat('%',#{vo.name},'%')</if>
+                        <if test="vo.code != null  and vo.code != ''"> and code = #{vo.code}</if>
+                        <if test="vo.userId != null  and vo.userId != ''"> and user_id = #{vo.userId}</if>
+                        <if test="vo.longtiud != null  and vo.longtiud != ''"> and longtiud = #{vo.longtiud}</if>
+                        <if test="vo.latitude != null  and vo.latitude != ''"> and latitude = #{vo.latitude}</if>
+                        <if test="vo.style != null  and vo.style != ''"> and style = #{vo.style}</if>
+                        <if test="vo.thumbnail != null  and vo.thumbnail != ''"> and thumbnail = #{vo.thumbnail}</if>
+                        <if test="vo.createTime != null  and vo.createTime != ''"> and create_time = #{vo.createTime}</if>
+
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                and to_timestamp(to_char(create_time,'YYYY-mm-dd'), 'YYYY-mm-dd') &gt;= to_timestamp(#{params.beginTime}, 'YYYY-mm-dd')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                and to_timestamp(to_char(create_time,'YYYY-mm-dd'), 'YYYY-mm-dd') &lt;= to_timestamp(#{params.endTime}, 'YYYY-mm-dd')
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertCimTrackPosition" parameterType="CimTrackPosition" useGeneratedKeys="true" keyProperty="id">
+        insert into cim_track_position
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="trackId != null">track_id,</if>
+            <if test="name != null">name,</if>
+            <if test="code != null">code,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="longtiud != null">longtiud,</if>
+            <if test="latitude != null">latitude,</if>
+            <if test="style != null">style,</if>
+            <if test="thumbnail != null">thumbnail,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+           <if test="id != null">#{id},</if>
+           <if test="trackId != null">#{trackId},</if>
+           <if test="name != null">#{name},</if>
+           <if test="code != null">#{code},</if>
+           <if test="userId != null">#{userId},</if>
+           <if test="longtiud != null">#{longtiud},</if>
+           <if test="latitude != null">#{latitude},</if>
+           <if test="style != null">#{style},</if>
+           <if test="thumbnail != null">#{thumbnail},</if>
+           <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCimTrackPosition" parameterType="CimTrackPosition">
+        update cim_track_position
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="trackId != null">track_id=#{trackId},</if>
+            <if test="name != null">name=#{name},</if>
+            <if test="code != null">code=#{code},</if>
+            <if test="userId != null">user_id=#{userId},</if>
+            <if test="longtiud != null">longtiud=#{longtiud},</if>
+            <if test="latitude != null">latitude=#{latitude},</if>
+            <if test="style != null">style=#{style},</if>
+            <if test="thumbnail != null">thumbnail=#{thumbnail},</if>
+            <if test="createTime != null">create_time=#{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCimTrackPositionById" parameterType="String">
+        delete from cim_track_position where id = #{id}
+    </delete>
+
+    <delete id="deleteCimTrackPositionByIds" parameterType="String">
+        delete from cim_track_position where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+</mapper>

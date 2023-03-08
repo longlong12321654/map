@@ -1,0 +1,203 @@
+MAP
+    NAME '${mapService.name}'
+    SIZE 512 512
+    <#if mapService.multiCatalogFlag?? && mapService.multiCatalogFlag == "true">
+    FONTSET "../../fonts/fonts.txt"
+    <#else>
+    FONTSET "../fonts/fonts.txt"
+    </#if>
+    <#if mapService.fullExtent??>
+    EXTENT ${mapService.fullExtent.xmin!'-180'} ${mapService.fullExtent.ymin!'-90'} ${mapService.fullExtent.xmax!'180'} ${mapService.fullExtent.ymax!'90'}
+    <#else>
+    EXTENT -180 -90 180 90
+    </#if>
+    IMAGECOLOR 255 255 255
+    <#if mapService.multiCatalogFlag?? && mapService.multiCatalogFlag == "true">
+    SYMBOLSET "../../fonts/symbols.txt"
+    <#else>
+    SYMBOLSET "../fonts/symbols.txt"
+    </#if>
+    PROJECTION
+        "+init=EPSG:4326"
+    END
+
+    OUTPUTFORMAT
+        NAME "png8"
+        DRIVER AGG/PNG8
+        MIMETYPE "image/png; mode=8bit"
+        IMAGEMODE RGB
+        EXTENSION "png"
+        FORMATOPTION "QUANTIZE_FORCE=on"
+        FORMATOPTION "QUANTIZE_COLORS=256"
+        FORMATOPTION "GAMMA=0.75"
+        TRANSPARENT ON
+    END
+
+    OUTPUTFORMAT
+        NAME "mvt"
+        DRIVER MVT
+        #FORMATOPTION "EXTENT=512" # default is 4096
+        FORMATOPTION "EDGE_BUFFER=20"
+    END
+
+    WEB
+        METADATA
+            "wms_enable_request" "*"
+            "mvt_size" '512'
+            "wms_title" 'Test mapfile for MVT development.'
+            "wms_onlineresource" "${mapService.mapserver}?MAP=${mapService.filePath}&"
+            "wms_srs" 'EPSG:4326'
+            "wms_allow_getmap_without_styles" "true"
+
+            "wfs_title" "WMS Demo Server"
+            "wfs_onlineresource" "${mapService.mapserver}?MAP=${mapService.filePath}&"
+            #"ows_onlineresource" "${mapService.mapserver}?MAP=${mapService.filePath}&"
+            "wfs_srs" "EPSG:4326"
+            "wfs_enable_request" "*"
+            #"wms_srs"  "EPSG:4326"
+            #"wms_allow_getmap_without_styles" "true"
+            #"wms_enable_request" "*"
+            "wms_feature_info_mime_type" "text/html"
+            #"ows_enable_request" "*"
+            "wms_format" "image/png"
+        END
+    END
+
+<#list mapService.mapLayerList as mapLayer>
+<#if mapLayer.spaceType??>
+    LAYER
+            NAME "${mapLayer.name}"
+            <#if mapLayer.absolutePath?ends_with(".gdb")>
+            # gdb数据连接
+            CONNECTIONTYPE OGR
+            CONNECTION "${mapLayer.absolutePath}"
+            DATA "${mapLayer.name}"
+            <#elseif mapLayer.type == "postgres">
+            CONNECTIONTYPE POSTGIS
+            CONNECTION "${mapLayer.absolutePath}"
+            DATA "${mapLayer.geom} from ${mapLayer.name}"
+            <#else>
+            DATA "${mapLayer.absolutePath}"
+            </#if>
+            TYPE ${mapLayer.spaceType}
+            STATUS OFF
+            ENCODING ${mapLayer.encoding!'UTF-8'}
+  <#if mapLayer.tagging??>
+            LABELITEM "${mapLayer.tagging.tagFiled!''}"
+  </#if>
+  <#if !(mapLayer.symbolSystem.valueFileds)??>
+            CLASS
+                #轮廓颜色
+    <#if mapLayer.spaceType == "POINT">
+				SIZE 30
+                SYMBOL "star"
+                COLOR "${mapLayer.symbol.color!'#000000'}"
+    <#else>
+                STYLE
+                    COLOR "${mapLayer.symbol.color!'#000000'}"
+					<#if mapLayer.symbol.outlineColor??>
+					OUTLINECOLOR "${mapLayer.symbol.outlineColor!'#FF00FFCC'}"
+					WIDTH ${mapLayer.symbol.width?c}
+					<#else>
+					OUTLINECOLOR "${mapLayer.symbol.color!'#FF00FFCC'}"
+					WIDTH ${mapLayer.symbol.width?c}
+					</#if>
+                END
+    </#if>
+
+    <#if mapLayer.tagging??>
+                LABEL
+                    FONT ${mapLayer.tagging.tagFont!'simsun'}
+                    TYPE truetype
+                    POSITION CC
+                    PARTIALS FALSE
+                    BUFFER 5
+                    SIZE ${mapLayer.tagging.tagSize!'20'}
+                    COLOR <#if mapLayer.tagging.tagColor?length == 0>'#0B0000'<#else> "${mapLayer.tagging.tagColor!}"</#if>
+                    MINFEATURESIZE 10
+                    MINDISTANCE 300
+                    ENCODING UTF-8
+                END
+   </#if>
+            END
+            METADATA
+               "wfs_srs" "EPSG:4326"
+               "wfs_enable_request" "*"
+               "gml_include_items" "all"
+               "gml_featureid" "osm_id"
+               "gml_geometries" "all"
+               "wms_version" "1.3.0"
+               "wms_srs" "EPSG:4326"
+               "wms_enable_request" "*"
+               "ows_enable_request" "*"
+               "wms_feature_info_mime_type" "text/html"
+               "wms_format" "image/png"
+            END
+    <#else>
+       <#list mapLayer.symbolSystem.valueFileds?split(",") as vf>
+        <#list mapLayer.symbolSystem.symbolList as symbols>
+            # 唯一值
+            CLASSGROUP "group${vf_index}"
+            CLASS
+                #轮廓颜色
+            <#if mapLayer.spaceType?upper_case == "POINT">
+				SIZE 10
+                SYMBOL "circle"
+                COLOR "${symbols.color!'#000000'}"
+                NAME "one${vf_index}"
+                EXPRESSION ('[${vf}]' eq '${symbols.value}')
+			<#else>
+                STYLE
+                    COLOR "${symbols.color!'#000000'}"
+					<#if symbols.outlineColor??>
+					OUTLINECOLOR "${symbols.outlineColor!'#FF00FFCC'}"
+					WIDTH ${symbols.width?c}
+					<#else>
+					OUTLINECOLOR "${symbols.color!'#FF00FFCC'}"
+                    WIDTH ${symbols.width?c}
+					</#if>
+                END
+                NAME "one${vf_index}"
+                EXPRESSION ('[${vf}]' eq '${symbols.value}')
+            </#if>
+                GROUP "group${vf_index}"
+                <#if mapLayer.tagging??>
+                LABEL
+                    FONT ${mapLayer.tagging.tagFont!'simsun'}
+                    TYPE truetype
+                    POSITION CC
+                    PARTIALS FALSE
+                    BUFFER 5
+                    SIZE ${mapLayer.tagging.tagSize!'20'}
+                    COLOR <#if mapLayer.tagging.tagColor?length == 0>'#0B0000'<#else> "${mapLayer.tagging.tagColor!}"</#if>
+                    MINFEATURESIZE 10
+                    MINDISTANCE 300
+                    ENCODING UTF-8
+                END
+            </#if>
+            END
+
+            METADATA
+                "wfs_srs" "EPSG:4326"
+                "wfs_enable_request" "*"
+                "gml_include_items" "all"
+                "gml_featureid" "osm_id"
+                "gml_geometries" "all"
+                "wms_version" "1.3.0"
+                "wms_srs" "EPSG:4326"
+                "wms_enable_request" "*"
+                "ows_enable_request" "*"
+                "wms_feature_info_mime_type" "text/html"
+                "wms_format" "image/png"
+            END
+        </#list>
+       </#list>
+    </#if>
+   END
+</#if>
+</#list>
+END
+
+/******
+${mapServiceJSON}
+******/

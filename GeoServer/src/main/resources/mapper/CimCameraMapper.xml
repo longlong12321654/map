@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hndist.server.mapper.CimCameraMapper">
+
+
+    <resultMap type="CimCamera" id="CimCameraResult">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="code" column="code"/>
+        <result property="address" column="address"/>
+        <result property="pid" column="pid"/>
+        <result property="cameraType" column="camera_type"/>
+        <result property="isparent" column="isparent"/>
+        <result property="longitud" column="longitud"/>
+        <result property="latitude" column="latitude"/>
+        <result property="videoUrl" column="video_url"/>
+        <result property="cameraStatus" column="camera_status"/>
+        <result property="thumbnail" column="thumbnail"/>
+        <result property="createTime" column="create_time"/>
+        <result property="remark" column="remark"/>
+        <result property="icon" column="icon"/>
+    </resultMap>
+
+    <sql id="selectCimCameraVo">
+        select
+                id
+                ,name
+                ,code
+                ,address
+                ,pid
+                ,camera_type
+                ,isparent
+                ,longitud
+                ,latitude
+                ,video_url
+                ,camera_status
+                ,thumbnail
+                ,create_time
+                ,remark
+                ,icon
+        from cim_camera
+    </sql>
+
+    <select id="selectCimCameraById" resultMap="CimCameraResult">
+        <include refid="selectCimCameraVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectCimCameraList" resultMap="CimCameraResult">
+        <include refid="selectCimCameraVo"/>
+        <where>
+                        <if test="vo.id != null  and vo.id != ''"> and id = #{vo.id}</if>
+                        <if test="vo.name != null  and vo.name != ''"> and name like concat('%',#{vo.name},'%')</if>
+                        <if test="vo.code != null  and vo.code != ''"> and code = #{vo.code}</if>
+                        <if test="vo.address != null  and vo.address != ''"> and address like concat('%',#{vo.address},'%')</if>
+                        <if test="vo.pid != null  and vo.pid != ''"> and pid = #{vo.pid}</if>
+                        <if test="vo.cameraType != null  and vo.cameraType != ''"> and camera_type = #{vo.cameraType}</if>
+                        <if test="vo.isparent != null  and vo.isparent != ''"> and isparent = #{vo.isparent}</if>
+                        <if test="vo.longitud != null  and vo.longitud != ''"> and longitud = #{vo.longitud}</if>
+                        <if test="vo.latitude != null  and vo.latitude != ''"> and latitude = #{vo.latitude}</if>
+                        <if test="vo.videoUrl != null  and vo.videoUrl != ''"> and video_url like concat('%',#{vo.videoUrl},'%')</if>
+                        <if test="vo.cameraStatus != null  and vo.cameraStatus != ''"> and camera_status = #{vo.cameraStatus}</if>
+                        <if test="vo.thumbnail != null  and vo.thumbnail != ''"> and thumbnail = #{vo.thumbnail}</if>
+                        <if test="vo.createTime != null  and vo.createTime != ''"> and create_time = #{vo.createTime}</if>
+                        <if test="vo.remark != null  and vo.remark != ''"> and remark = #{vo.remark}</if>
+        </where>
+    </select>
+
+    <insert id="insertCimCamera" parameterType="CimCamera" useGeneratedKeys="true" keyProperty="id">
+        insert into cim_camera
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="code != null">code,</if>
+            <if test="address != null">address,</if>
+            <if test="pid != null">pid,</if>
+            <if test="cameraType != null">camera_type,</if>
+            <if test="isparent != null">isparent,</if>
+            <if test="longitud != null">longitud,</if>
+            <if test="latitude != null">latitude,</if>
+            <if test="videoUrl != null">video_url,</if>
+            <if test="cameraStatus != null">camera_status,</if>
+            <if test="thumbnail != null">thumbnail,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="icon != null">icon,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+           <if test="id != null">#{id},</if>
+           <if test="name != null">#{name},</if>
+           <if test="code != null">#{code},</if>
+           <if test="address != null">#{address},</if>
+           <if test="pid != null">#{pid},</if>
+           <if test="cameraType != null">#{cameraType},</if>
+           <if test="isparent != null">#{isparent},</if>
+           <if test="longitud != null">#{longitud},</if>
+           <if test="latitude != null">#{latitude},</if>
+           <if test="videoUrl != null">#{videoUrl},</if>
+           <if test="cameraStatus != null">#{cameraStatus},</if>
+           <if test="thumbnail != null">#{thumbnail},</if>
+           <if test="createTime != null">#{createTime},</if>
+           <if test="remark != null">#{remark},</if>
+           <if test="icon != null">#{icon},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCimCamera" parameterType="CimCamera">
+        update cim_camera
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name=#{name},</if>
+            <if test="code != null">code=#{code},</if>
+            <if test="address != null">address=#{address},</if>
+            <if test="pid != null">pid=#{pid},</if>
+            <if test="cameraType != null">camera_type=#{cameraType},</if>
+            <if test="isparent != null">isparent=#{isparent},</if>
+            <if test="longitud != null">longitud=#{longitud},</if>
+            <if test="latitude != null">latitude=#{latitude},</if>
+            <if test="videoUrl != null">video_url=#{videoUrl},</if>
+            <if test="cameraStatus != null">camera_status=#{cameraStatus},</if>
+            <if test="thumbnail != null">thumbnail=#{thumbnail},</if>
+            <if test="createTime != null">create_time=#{createTime},</if>
+            <if test="remark != null">remark=#{remark},</if>
+            <if test="icon != null">icon=#{icon},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCimCameraById" parameterType="String">
+        delete from cim_camera where id = #{id}
+    </delete>
+
+    <delete id="deleteCimCameraByIds" parameterType="String">
+        delete from cim_camera where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="selectCimCameraTreeList" parameterType="String" resultMap="CimCameraResult">
+        <include refid="selectCimCameraVo"/>
+        <where>
+            <if test="type==null or type=='' "> and isparent = '1'</if>
+        </where>
+    </select>
+
+
+</mapper>

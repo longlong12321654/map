@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>城市信息模型（CIM）服务端</title>
+    <!-- 引用icon -->
+    <link rel="shortcut icon" href="/${projectName}/favicon.ico">
+    <!-- 引用主样式文件 -->
+    <link href="/${projectName}/css/main.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div>
+    <div class="wrapper">
+        <!-- 头部 -->
+        <div class="header">
+            <div class="title">城市信息模型（CIM）基础平台 - 接口服务</div>
+            <div class="login">
+                <a href="http://www.hndist.com/" target="_blank">API文档</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="http://www.hndist.com/" target="_blank">关于数慧</a>
+            </div>
+        </div>
+        <!-- 导航 -->
+        <div class="nav">
+            <span class="menu"><a href="/${projectName}/cim/rest">首页</a></span> >
+            <span class="menu"><a href="/${projectName}/cim/rest/services">地图服务</a></span>
+            <#if folder!="/">
+            > <span class="menu"><a href="/${projectName}/cim/rest/services/${folder}">${folder}</a></span>
+        </#if>
+    </div>
+    <!-- 主体 -->
+    <div class="main">
+        <div class="folder">
+            服务目录:${folder}
+        </div>
+        <div class="info">系统版本：${version}</div>
+        <#if folder=="/">
+        <div class="info">服务目录:</div>
+        <#if mapServiceList??>
+        <#list mapServiceList as mapServer>
+        <#if mapServer?? && mapServer.catalog?? && mapServer.catalog!=folder && mapServer.name!="/">
+        <div>
+            <ul>
+                <li>
+                    <a href="/${projectName}/cim/rest/services/${mapServer.name}">${mapServer.name}</a>
+                </li>
+            </ul>
+        </div>
+    </#if>
+</#list>
+</#if>
+</#if>
+
+<div class="info">服务列表:</div>
+<#if mapServiceList??>
+<#list mapServiceList as mapServer>
+<#if mapServer?? && (!(mapServer.catalog??) || mapServer.catalog==folder)>
+<div>
+    <ul>
+        <li>
+            <a href="/${projectName}/cim/rest/services/<#if mapServer.catalog?? && mapServer.catalog!='/'>${mapServer.catalog}/</#if>${mapServer.name}/${mapServer.serviceEngine?replace('hndist server', 'MapServer')}?f=html">${mapServer.name}</a> (${mapServer.serviceEngine?replace('hndist server', 'MapServer')})
+        </li>
+    </ul>
+</div>
+</#if>
+</#list>
+</#if>
+
+<div class="interfaces">支持的接口：
+    <span><a href="/${projectName}/cim/rest/services?f=json">REST</a></span>
+</div>
+
+</div>
+</div>
+</body>
+
+</html>

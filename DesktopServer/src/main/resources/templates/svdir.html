@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${dirname}"></title>
+    <link rel="shortcut icon" href="../static/favicon.ico" th:href="@{/favicon.ico}">
+</head>
+<body>
+<div>
+    <div>
+        <span>数慧GIS 接口服务目录</span>
+        <span style="float: right;color: #9c1a8b;text-decoration: underline;margin-right: 20px">登录</span>
+    </div>
+
+    <div style="height: 30px;border-top:solid 1px;background: #e5eff7;border-bottom: solid 1px;line-height: 25px;margin-top: 10px">
+              <span style="margin-left: 10px">
+                  <span class="daohao">主页</span> >
+                  <span class="daohao">服务</span> >
+                  <span class="daohao" th:text="${dirname}"></span> >
+              </span>
+
+        <span style="float: right">
+                <span class="daohao_right" style="text-decoration: underline;color: #0055f2">帮助</span> |
+                <span class="daohao_right" style="text-decoration: underline;color: #0055f2">接口参考</span>
+            </span>
+
+    </div>
+    <div class="content" style="margin-left: 20px">
+        <p style="text-decoration: underline;color: #0055f2">
+            <span style="text-decoration: underline;color: #551a8b;">JSON</span><span>|</span><span style="text-decoration: underline;color: #551a8b;">SOAP</span>
+        </p>
+
+        <h2 th:text="'文件:/'+${dirname}"></h2>
+        <h3>服务：</h3>
+        <ul style="color: #0000ee;text-decoration: underline" th:each="dir:${diritem}">
+            <li><a href="#" th:text="${dir}"></a></li>
+        </ul>
+
+
+
+    </div>
+
+    <h4 class="zcjk">支持操作：
+        <span>REST</span>
+        <span>SOAP</span>
+        <span>Sitemap</span>
+        <span>Geo Sitemap</span>
+
+    </h4>
+    <div>
+</body>
+<style>
+    .zcjk span{
+        color: #551a8b;
+        text-decoration: underline;
+        margin-left: 5px;
+        cursor: pointer;
+    }
+    .daohao{
+        text-decoration: underline;
+        color: #551a8b;
+        cursor: pointer;
+    }
+</style>
+</html>

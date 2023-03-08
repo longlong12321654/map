@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hndist.server.mapper.CimAnalysisConfigMapper">
+
+
+    <resultMap type="CimAnalysisConfig" id="BsAnalysisConfigResult">
+        <result property="id" column="id"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="name" column="name"/>
+        <result property="type" column="type"/>
+        <result property="param" column="param"/>
+        <result property="memo" column="memo"/>
+        <result property="pid" column="pid"/>
+        <result property="serviceUrl" column="service_url"/>
+        <result property="viewFields" column="view_fields"/>
+        <result property="conclesion" column="conclesion"/>
+        <result property="content" column="is_content"/>
+        <result property="icon" column="icon"/>
+        <result property="serverId" column="server_id"/>
+        <result property="serviceengine" column="serviceengine"/>
+        <result property="ip" column="ip"/>
+        <result property="port" column="port"/>
+    </resultMap>
+
+    <sql id="selectBsAnalysisConfigVo">
+        select
+            cac.id,
+            cac.create_by,
+            cac.create_time,
+            cac.update_by,
+            cac.update_time,
+            cac.name,
+            cac.type,
+            cac.param,
+            cac.memo,
+            cac.pid,
+            cac.service_url,
+            cac.view_fields,
+            cac.conclesion,
+            cac.is_content,
+            cac.icon,
+            cac.server_id,
+            cs.serviceengine,
+            cs.ip,
+            cs.port
+        from
+            cim_analysis_config cac
+                left join cim_server cs on cac.server_id=cs.id
+    </sql>
+
+    <select id="selectBsAnalysisConfigById" resultMap="BsAnalysisConfigResult">
+        <include refid="selectBsAnalysisConfigVo"/>
+        where cac.id = #{id}
+    </select>
+
+    <select id="selectBsAnalysisConfigList" resultMap="BsAnalysisConfigResult">
+        <include refid="selectBsAnalysisConfigVo"/>
+        <where>
+                        <if test="vo.id != null  and vo.id != ''"> and cac.id = #{vo.id}</if>
+                        <if test="vo.createBy != null  and vo.createBy != ''"> and cac.create_by = #{vo.createBy}</if>
+                        <if test="vo.createTime != null  and vo.createTime != ''"> and cac.create_time = #{vo.createTime}</if>
+                        <if test="vo.updateBy != null  and vo.updateBy != ''"> and cac.update_by = #{vo.updateBy}</if>
+                        <if test="vo.updateTime != null  and vo.updateTime != ''"> and cac.update_time = #{vo.updateTime}</if>
+                        <if test="vo.name != null  and vo.name != ''"> and cac.name like concat('%', #{vo.name}, '%')</if>
+                        <if test="vo.type != null  and vo.type != ''"> and cac.type = #{vo.type}</if>
+                        <if test="vo.param != null  and vo.param != ''"> and cac.param = #{vo.param}</if>
+                        <if test="vo.memo != null  and vo.memo != ''"> and cac.memo = #{vo.memo}</if>
+                        <if test="vo.pid != null  and vo.pid != ''"> and cac.pid = #{vo.pid}</if>
+                        <if test="vo.serverId != null  and vo.serverId != ''"> and cac.server_id = #{vo.serverId}</if>
+                        <if test="vo.serverId != null  and vo.serverId != ''"> and cac.server_id = #{vo.serverId}</if>
+                        <if test="vo.serviceengine != null  and vo.serviceengine != ''"> and cac.serviceengine = #{vo.serviceengine}</if>
+        </where>
+            ORDER BY  update_time, create_time desc
+    </select>
+
+    <insert id="insertBsAnalysisConfig" parameterType="CimAnalysisConfig" useGeneratedKeys="true" keyProperty="id">
+        insert into cim_analysis_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="name != null">name,</if>
+            <if test="type != null">type,</if>
+            <if test="param != null">param,</if>
+            <if test="memo != null">memo,</if>
+            <if test="pid != null">pid,</if>
+            <if test="serviceUrl != null">service_url,</if>
+            <if test="viewFields != null">view_fields,</if>
+            <if test="conclesion != null">conclesion,</if>
+            <if test="content != null">is_content,</if>
+            <if test="icon != null">icon,</if>
+            <if test="serverId != null">server_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+           <if test="id != null">#{id},</if>
+           <if test="createBy != null">#{createBy},</if>
+           <if test="createTime != null">#{createTime},</if>
+           <if test="updateBy != null">#{updateBy},</if>
+           <if test="updateTime != null">#{updateTime},</if>
+           <if test="name != null">#{name},</if>
+           <if test="type != null">#{type},</if>
+           <if test="param != null">#{param},</if>
+           <if test="memo != null">#{memo},</if>
+            <if test="pid != null">#{pid},</if>
+            <if test="serviceUrl != null">#{serviceUrl},</if>
+            <if test="viewFields != null">#{viewFields},</if>
+            <if test="conclesion != null">#{conclesion},</if>
+            <if test="content != null">#{content},</if>
+            <if test="icon != null">#{icon},</if>
+            <if test="serverId != null">#{serverId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBsAnalysisConfig" parameterType="CimAnalysisConfig">
+        update cim_analysis_config
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createBy != null">create_by=#{createBy},</if>
+            <if test="createTime != null">create_time=#{createTime},</if>
+            <if test="updateBy != null">update_by=#{updateBy},</if>
+            <if test="updateTime != null">update_time=#{updateTime},</if>
+            <if test="name != null">name=#{name},</if>
+            <if test="type != null">type=#{type},</if>
+            <if test="param != null">param=#{param},</if>
+            <if test="memo != null">memo=#{memo},</if>
+            <if test="pid != null">pid=#{pid},</if>
+            <if test="serviceUrl != null">service_url=#{serviceUrl},</if>
+            <if test="viewFields != null">view_fields=#{viewFields},</if>
+            <if test="conclesion != null">conclesion=#{conclesion},</if>
+            <if test="content != null">is_content=#{content},</if>
+            <if test="icon != null">icon=#{icon},</if>
+            <if test="serverId != null">server_id=#{serverId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBsAnalysisConfigById" parameterType="String">
+        delete from cim_analysis_config where id = #{id}
+    </delete>
+
+    <delete id="deleteBsAnalysisConfigByIds" parameterType="String">
+        delete from cim_analysis_config where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectListByIds" resultMap="BsAnalysisConfigResult">
+        select
+            cac.id,
+            cac.create_by,
+            cac.create_time,
+            cac.update_by,
+            cac.update_time,
+            cac.name,
+            cac.type,
+            cac.param,
+            cac.memo,
+            cac.pid,
+            cac.service_url,
+            cac.view_fields,
+            cac.conclesion,
+            cac.is_content,
+            cac.icon,
+            cac.server_id,
+            cs.serviceengine,
+            cs.ip,
+            cs.port
+        from
+            cim_analysis_config cac
+        left join cim_server cs on cac.server_id=cs.id
+        where cac.id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+
+    <select id="selectBsAnalysisConfigTreeList" parameterType="String" resultMap="BsAnalysisConfigResult">
+        select
+        id
+        ,create_by
+        ,create_time
+        ,update_by
+        ,update_time
+        ,name
+        ,type
+        ,param
+        ,memo
+        ,pid
+        ,service_url
+        ,view_fields
+        ,conclesion
+        ,is_content
+        ,icon
+        from cim_analysis_config
+        <where>
+            <if test="type==null or type=='' "> and is_content = '1'</if>
+        </where>
+    </select>
+
+</mapper>

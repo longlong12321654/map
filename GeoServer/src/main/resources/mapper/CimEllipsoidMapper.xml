@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hndist.server.mapper.CimEllipsoidMapper">
+
+
+    <resultMap type="CimEllipsoid" id="CimEllipsoidResult">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="semimajorAxis" column="semimajor_axis"/>
+        <result property="semiminorAxis" column="semiminor_axis"/>
+        <result property="inverseFlattening" column="inverse_flattening"/>
+    </resultMap>
+
+    <sql id="selectBaseEllipsoidVo">
+        select
+                id
+                ,name
+                ,semimajor_axis
+                ,semiminor_axis
+                ,inverse_flattening
+        from cim_ellipsoid
+    </sql>
+
+    <select id="selectBaseEllipsoidById" resultMap="CimEllipsoidResult">
+        <include refid="selectBaseEllipsoidVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectBaseEllipsoidList" resultMap="CimEllipsoidResult">
+        <include refid="selectBaseEllipsoidVo"/>
+        <where>
+                        <if test="vo.id != null  and vo.id != ''"> and id = #{vo.id}</if>
+                        <if test="vo.name != null  and vo.name != ''"> and name like concat('%',#{vo.name},'%')</if>
+                        <if test="vo.semimajorAxis != null  and vo.semimajorAxis != ''"> and semimajor_axis = #{vo.semimajorAxis}</if>
+                        <if test="vo.semiminorAxis != null  and vo.semiminorAxis != ''"> and semiminor_axis = #{vo.semiminorAxis}</if>
+                        <if test="vo.inverseFlattening != null  and vo.inverseFlattening != ''"> and inverse_flattening = #{vo.inverseFlattening}</if>
+        </where>
+    </select>
+
+    <insert id="insertBaseEllipsoid" parameterType="CimEllipsoid" useGeneratedKeys="true" keyProperty="id">
+        insert into cim_ellipsoid
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="semimajorAxis != null">semimajor_axis,</if>
+            <if test="semiminorAxis != null">semiminor_axis,</if>
+            <if test="inverseFlattening != null">inverse_flattening,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+           <if test="id != null">#{id},</if>
+           <if test="name != null">#{name},</if>
+           <if test="semimajorAxis != null">#{semimajorAxis},</if>
+           <if test="semiminorAxis != null">#{semiminorAxis},</if>
+           <if test="inverseFlattening != null">#{inverseFlattening},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBaseEllipsoid" parameterType="CimEllipsoid">
+        update cim_ellipsoid
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name=#{name},</if>
+            <if test="semimajorAxis != null">semimajor_axis=#{semimajorAxis},</if>
+            <if test="semiminorAxis != null">semiminor_axis=#{semiminorAxis},</if>
+            <if test="inverseFlattening != null">inverse_flattening=#{inverseFlattening},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseEllipsoidById" parameterType="String">
+        delete from cim_ellipsoid where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseEllipsoidByIds" parameterType="String">
+        delete from cim_ellipsoid where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+</mapper>

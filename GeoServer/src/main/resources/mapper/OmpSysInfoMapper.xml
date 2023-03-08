@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hndist.server.mapper.OmpSysInfoMapper">
+
+
+    <resultMap type="OmpSysInfo" id="OmpSysInfoResult">
+        <result property="id" column="id"/>
+        <result property="sysName" column="sys_name"/>
+        <result property="sysKey" column="sys_key"/>
+        <result property="orderNum" column="order_num"/>
+        <result property="sysDes" column="sys_des"/>
+        <result property="status" column="status"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <sql id="selectOmpSysInfoVo">
+        select
+            id
+            ,sys_name
+            ,sys_key
+            ,order_num
+            ,sys_des
+            ,status
+            ,del_flag
+            ,create_by
+            ,create_time
+            ,update_by
+            ,update_time
+            ,remark
+        from omp_sys_info
+    </sql>
+
+    <select id="selectOmpSysInfoById" resultMap="OmpSysInfoResult">
+        <include refid="selectOmpSysInfoVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectOmpSysInfoList" resultMap="OmpSysInfoResult">
+        <include refid="selectOmpSysInfoVo"/>
+        <where>
+            <if test="vo.id != null  and vo.id != ''"> and id = #{vo.id}</if>
+            <if test="vo.sysName != null  and vo.sysName != ''"> and sys_name = #{vo.sysName}</if>
+            <if test="vo.sysKey != null  and vo.sysKey != ''"> and sys_key = #{vo.sysKey}</if>
+            <if test="vo.orderNum != null  and vo.orderNum != ''"> and order_num = #{vo.orderNum}</if>
+            <if test="vo.sysDes != null  and vo.sysDes != ''"> and sys_des = #{vo.sysDes}</if>
+            <if test="vo.status != null  and vo.status != ''"> and status = #{vo.status}</if>
+            <if test="vo.delFlag != null  and vo.delFlag != ''"> and del_flag = #{vo.delFlag}</if>
+            <if test="vo.createBy != null  and vo.createBy != ''"> and create_by = #{vo.createBy}</if>
+            <if test="vo.createTime != null  and vo.createTime != ''"> and create_time = #{vo.createTime}</if>
+            <if test="vo.updateBy != null  and vo.updateBy != ''"> and update_by = #{vo.updateBy}</if>
+            <if test="vo.updateTime != null  and vo.updateTime != ''"> and update_time = #{vo.updateTime}</if>
+            <if test="vo.remark != null  and vo.remark != ''"> and remark = #{vo.remark}</if>
+        </where>
+    </select>
+
+    <insert id="insertOmpSysInfo" parameterType="OmpSysInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into omp_sys_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="sysName != null">sys_name,</if>
+            <if test="sysKey != null">sys_key,</if>
+            <if test="orderNum != null">order_num,</if>
+            <if test="sysDes != null">sys_des,</if>
+            <if test="status != null">status,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+           <if test="id != null">#{id},</if>
+           <if test="sysName != null">#{sysName},</if>
+           <if test="sysKey != null">#{sysKey},</if>
+           <if test="orderNum != null">#{orderNum},</if>
+           <if test="sysDes != null">#{sysDes},</if>
+           <if test="status != null">#{status},</if>
+           <if test="delFlag != null">#{delFlag},</if>
+           <if test="createBy != null">#{createBy},</if>
+           <if test="createTime != null">#{createTime},</if>
+           <if test="updateBy != null">#{updateBy},</if>
+           <if test="updateTime != null">#{updateTime},</if>
+           <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOmpSysInfo" parameterType="OmpSysInfo">
+        update omp_sys_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sysName != null">sys_name=#{sysName},</if>
+            <if test="sysKey != null">sys_key=#{sysKey},</if>
+            <if test="orderNum != null">order_num=#{orderNum},</if>
+            <if test="sysDes != null">sys_des=#{sysDes},</if>
+            <if test="status != null">status=#{status},</if>
+            <if test="delFlag != null">del_flag=#{delFlag},</if>
+            <if test="createBy != null">create_by=#{createBy},</if>
+            <if test="createTime != null">create_time=#{createTime},</if>
+            <if test="updateBy != null">update_by=#{updateBy},</if>
+            <if test="updateTime != null">update_time=#{updateTime},</if>
+            <if test="remark != null">remark=#{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteOmpSysInfoById" parameterType="String">
+        delete from omp_sys_info where id = #{id}
+    </delete>
+
+    <delete id="deleteOmpSysInfoByIds" parameterType="String">
+        delete from omp_sys_info where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- and menu_id not in (select pid from omp_menu_sys where system_id = #{systemId}) -->
+    <select id="selectMenuListBySystemId" resultType="Long">
+        select menu_id from omp_menu_sys
+        where system_id = #{systemId}
+        order by pid, order_num
+    </select>
+
+    <select id="checkSystemNameUnique" parameterType="String" resultMap="OmpSysInfoResult">
+        <include refid="selectOmpSysInfoVo"/>
+        where sys_name=#{sysName} and del_flag = '0' limit 1
+    </select>
+
+    <select id="checkSystemKeyUnique" parameterType="String" resultMap="OmpSysInfoResult">
+        <include refid="selectOmpSysInfoVo"/>
+        where sys_key=#{sysKey} and del_flag = '0' limit 1
+    </select>
+
+</mapper>

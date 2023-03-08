@@ -1,0 +1,39 @@
+server:
+  port: 9081
+  servlet:
+    context-path: /SHMap
+  compression:
+    enabled: true
+    mime-types: application/json,application/octet-stream,application/xml,text/html,text/plain,text/css,application/x-javascript
+spring:
+  thymeleaf:
+    cache: false
+    encoding: UTF-8
+    mode: HTML
+    prefix: classpath:/templates/
+    suffix: .html
+    enabled: true
+
+#地图服务配置
+hndistmap:
+  mapserver: http://127.0.0.1:8088/cgi-bin/mapserv
+  3dserver: http://127.0.0.1:8080/3DServer/
+  iotserver: http://127.0.0.1:8099/iotServer/
+  serverpath: /opt/homebrew/var/www/
+
+#GIS服务器扫描
+gisServe:
+  # dev环境
+  ip: 192.168.1.
+  # 生产环境
+  #ip: 172.200.140.
+  max: 255
+  port: 6080
+  prefix: /arcgis/rest/services
+
+# 日志配置
+logging:
+  level:
+    com.hndist: debug
+    org.springframework: error
+    springfox: error

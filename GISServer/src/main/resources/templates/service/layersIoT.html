@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>城市信息模型（CIM）服务端</title>
+    <!-- 引用icon -->
+    <link rel="shortcut icon" href="/${projectName}/favicon.ico">
+    <!-- 引用主样式文件 -->
+    <link href="/${projectName}/css/main.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div>
+    <div class="wrapper">
+        <!-- 头部 -->
+        <div class="header">
+            <div class="title">城市信息模型（CIM）服务端 </div>
+            <div class="login">
+                <a href="http://www.hndist.com/" target="_blank">API文档</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="http://www.hndist.com/" target="_blank">关于数慧</a>
+            </div>
+        </div>
+        <!-- 导航 -->
+        <div class="nav">
+            <span class="menu"><a href="/${projectName}/cim/rest">首页</a></span> >
+            <span class="menu"><a href="/${projectName}/cim/rest/services">地图服务</a></span>
+            <#if mapServer.catalog??>
+            > <span class="menu"><a href="/${projectName}/cim/rest/services/${mapServer.catalog}">${mapServer.catalog}</a></span>
+            > <span class="menu"><a href="/${projectName}/cim/rest/services/${mapServer.catalog}/${mapServer.name}/MapServer">${mapServer.name}</a></span>
+            <#else>
+            > <span class="menu"><a href="/${projectName}/cim/rest/services/${mapServer.name}/MapServer">${mapServer.name}</a></span>
+        </#if>
+
+    </div>
+    <!-- 主体 -->
+    <div class="main">
+        <div class="folder">
+            ${mapServer.name} (${mapServer.serviceEngine?replace('hndist server', 'MapServer')})
+        </div>
+        <div class="info">物联网服务预览：<a href="/${projectName}/preview.html?map=<#if (mapServer.catalog?? && mapServer.catalog!='/')>${mapServer.catalog}/</#if>${mapServer.name}&type=IotServer" target="_blank" >预览服务</a></div>
+        <div class="info">物联网服务名称：${mapServer.name}</div>
+        <div>
+            <br>
+        </div>
+    </div>
+</div>
+
+</div>
+</div>
+</body>
+</html>

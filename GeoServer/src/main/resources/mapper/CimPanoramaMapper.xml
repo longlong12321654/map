@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hndist.server.mapper.CimPanoramaMapper">
+
+
+    <resultMap type="CimPanorama" id="CimPanoramaResult">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="code" column="code"/>
+        <result property="address" column="address"/>
+        <result property="pid" column="pid"/>
+        <result property="isparent" column="isparent"/>
+        <result property="longitud" column="longitud"/>
+        <result property="latiude" column="latiude"/>
+        <result property="imageUrl" column="image_url"/>
+        <result property="thumbnail" column="thumbnail"/>
+        <result property="createTime" column="create_time"/>
+        <result property="remark" column="remark"/>
+        <result property="icon" column="icon"/>
+    </resultMap>
+
+    <sql id="selectCimPanoramaVo">
+        select
+                id
+                ,name
+                ,code
+                ,address
+                ,pid
+                ,isparent
+                ,longitud
+                ,latiude
+                ,image_url
+                ,thumbnail
+                ,create_time
+                ,remark
+                ,icon
+        from cim_panorama
+    </sql>
+
+    <select id="selectCimPanoramaById" resultMap="CimPanoramaResult">
+        <include refid="selectCimPanoramaVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectCimPanoramaList" resultMap="CimPanoramaResult">
+        <include refid="selectCimPanoramaVo"/>
+        <where>
+                        <if test="vo.id != null  and vo.id != ''"> and id = #{vo.id}</if>
+                        <if test="vo.name != null  and vo.name != ''"> and name like concat('%',#{vo.name},'%')</if>
+                        <if test="vo.code != null  and vo.code != ''"> and code = #{vo.code}</if>
+                        <if test="vo.address != null  and vo.address != ''"> and address like concat('%', #{vo.address},'%') </if>
+                        <if test="vo.pid != null  and vo.pid != ''"> and pid = #{vo.pid}</if>
+                        <if test="vo.isparent != null  and vo.isparent != ''"> and isparent = #{vo.isparent}</if>
+                        <if test="vo.longitud != null  and vo.longitud != ''"> and longitud = #{vo.longitud}</if>
+                        <if test="vo.latiude != null  and vo.latiude != ''"> and latiude = #{vo.latiude}</if>
+                        <if test="vo.imageUrl != null  and vo.imageUrl != ''"> and image_url like concat('%', #{vo.imageUrl},'%') </if>
+                        <if test="vo.thumbnail != null  and vo.thumbnail != ''"> and thumbnail = #{vo.thumbnail}</if>
+                        <if test="vo.createTime != null  and vo.createTime != ''"> and create_time = #{vo.createTime}</if>
+                        <if test="vo.remark != null  and vo.remark != ''"> and remark = #{vo.remark}</if>
+        </where>
+    </select>
+
+    <insert id="insertCimPanorama" parameterType="CimPanorama" useGeneratedKeys="true" keyProperty="id">
+        insert into cim_panorama
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="code != null">code,</if>
+            <if test="address != null">address,</if>
+            <if test="pid != null">pid,</if>
+            <if test="isparent != null">isparent,</if>
+            <if test="longitud != null">longitud,</if>
+            <if test="latiude != null">latiude,</if>
+            <if test="imageUrl != null">image_url,</if>
+            <if test="thumbnail != null">thumbnail,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="icon != null">icon,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+           <if test="id != null">#{id},</if>
+           <if test="name != null">#{name},</if>
+           <if test="code != null">#{code},</if>
+           <if test="address != null">#{address},</if>
+           <if test="pid != null">#{pid},</if>
+           <if test="isparent != null">#{isparent},</if>
+           <if test="longitud != null">#{longitud},</if>
+           <if test="latiude != null">#{latiude},</if>
+           <if test="imageUrl != null">#{imageUrl},</if>
+           <if test="thumbnail != null">#{thumbnail},</if>
+           <if test="createTime != null">#{createTime},</if>
+           <if test="remark != null">#{remark},</if>
+           <if test="icon != null">#{icon},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCimPanorama" parameterType="CimPanorama">
+        update cim_panorama
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name=#{name},</if>
+            <if test="code != null">code=#{code},</if>
+            <if test="address != null">address=#{address},</if>
+            <if test="pid != null">pid=#{pid},</if>
+            <if test="isparent != null">isparent=#{isparent},</if>
+            <if test="longitud != null">longitud=#{longitud},</if>
+            <if test="latiude != null">latiude=#{latiude},</if>
+            <if test="imageUrl != null">image_url=#{imageUrl},</if>
+            <if test="thumbnail != null">thumbnail=#{thumbnail},</if>
+            <if test="createTime != null">create_time=#{createTime},</if>
+            <if test="remark != null">remark=#{remark},</if>
+            <if test="icon != null">icon=#{icon},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCimPanoramaById" parameterType="String">
+        delete from cim_panorama where id = #{id}
+    </delete>
+
+    <delete id="deleteCimPanoramaByIds" parameterType="String">
+        delete from cim_panorama where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="selectCimPanoramaTreeList" parameterType="String" resultMap="CimPanoramaResult">
+        <include refid="selectCimPanoramaVo"/>
+        <where>
+            <if test="type==null or type=='' "> and isparent = '1'</if>
+        </where>
+    </select>
+
+
+</mapper>

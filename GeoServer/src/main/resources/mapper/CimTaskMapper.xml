@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hndist.server.mapper.CimTaskMapper">
+
+
+    <resultMap type="CimTask" id="CimTaskResult">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="tasktype" column="tasktype"/>
+        <result property="taskremark" column="taskremark"/>
+        <result property="progress" column="progress"/>
+        <result property="taskstatus" column="taskstatus"/>
+        <result property="begintime" column="begintime"/>
+        <result property="endtime" column="endtime"/>
+        <result property="context" column="context"/>
+    </resultMap>
+
+    <sql id="selectCimTaskVo">
+        select
+                id
+                ,name
+                ,tasktype
+                ,taskremark
+                ,progress
+                ,taskstatus
+                ,begintime
+                ,endtime
+                ,context
+        from cim_task
+    </sql>
+
+    <select id="selectCimTaskById" resultMap="CimTaskResult">
+        <include refid="selectCimTaskVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectCimTaskList" resultMap="CimTaskResult">
+        <include refid="selectCimTaskVo"/>
+        <where>
+                        <if test="vo.id != null  and vo.id != ''"> and id = #{vo.id}</if>
+                        <if test="vo.name != null  and vo.name != ''"> and name like concat('%', #{vo.name}, '%')</if>
+                        <if test="vo.tasktype != null  and vo.tasktype != ''"> and tasktype = #{vo.tasktype}</if>
+                        <if test="vo.taskremark != null  and vo.taskremark != ''"> and taskremark = #{vo.taskremark}</if>
+                        <if test="vo.progress != null  and vo.progress != ''"> and progress = #{vo.progress}</if>
+                        <if test="vo.taskstatus != null  and vo.taskstatus != ''"> and taskstatus = #{vo.taskstatus}</if>
+                        <if test="vo.begintime != null  and vo.begintime != ''"> and begintime = #{vo.begintime}</if>
+                        <if test="vo.endtime != null  and vo.endtime != ''"> and endtime = #{vo.endtime}</if>
+                        <if test="vo.context != null  and vo.context != ''"> and context = #{vo.context}</if>
+        </where>
+    </select>
+
+    <insert id="insertCimTask" parameterType="CimTask" useGeneratedKeys="true" keyProperty="id">
+        insert into cim_task
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="tasktype != null">tasktype,</if>
+            <if test="taskremark != null">taskremark,</if>
+            <if test="progress != null">progress,</if>
+            <if test="taskstatus != null">taskstatus,</if>
+            <if test="begintime != null">begintime,</if>
+            <if test="endtime != null">endtime,</if>
+            <if test="context != null">context,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+           <if test="id != null">#{id},</if>
+           <if test="name != null">#{name},</if>
+           <if test="tasktype != null">#{tasktype},</if>
+           <if test="taskremark != null">#{taskremark},</if>
+           <if test="progress != null">#{progress},</if>
+           <if test="taskstatus != null">#{taskstatus},</if>
+           <if test="begintime != null">#{begintime},</if>
+           <if test="endtime != null">#{endtime},</if>
+           <if test="context != null">#{context},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCimTask" parameterType="CimTask">
+        update cim_task
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name=#{name},</if>
+            <if test="tasktype != null">tasktype=#{tasktype},</if>
+            <if test="taskremark != null">taskremark=#{taskremark},</if>
+            <if test="progress != null">progress=#{progress},</if>
+            <if test="taskstatus != null">taskstatus=#{taskstatus},</if>
+            <if test="begintime != null">begintime=#{begintime},</if>
+            <if test="endtime != null">endtime=#{endtime},</if>
+            <if test="context != null">context=#{context},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCimTaskById" parameterType="String">
+        delete from cim_task where id = #{id}
+    </delete>
+
+    <delete id="deleteCimTaskByIds" parameterType="String">
+        delete from cim_task where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+</mapper>

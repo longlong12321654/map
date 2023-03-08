@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hndist.server.mapper.CimMapmarkMapper">
+
+
+    <resultMap type="CimMapmark" id="CimMapmarkResult">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="marktype" column="marktype"/>
+        <result property="show" column="is_show"/>
+        <result property="drawjson" column="drawjson"/>
+        <result property="thumbnail" column="thumbnail"/>
+        <result property="createTime" column="create_time"/>
+        <result property="context" column="context"/>
+    </resultMap>
+
+    <sql id="selectCimMapmarkVo">
+        select
+                id
+                ,name
+                ,marktype
+                ,is_show
+                ,drawjson
+                ,thumbnail
+                ,create_time
+                ,context
+        from cim_mapmark
+    </sql>
+
+    <select id="selectCimMapmarkById" resultMap="CimMapmarkResult">
+        <include refid="selectCimMapmarkVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectCimMapmarkList" resultMap="CimMapmarkResult">
+        <include refid="selectCimMapmarkVo"/>
+        <where>
+                        <if test="vo.id != null  and vo.id != ''"> and id = #{vo.id}</if>
+                        <if test="vo.name != null  and vo.name != ''"> and name like concat('%',#{vo.name},'%')</if>
+                        <if test="vo.marktype != null  and vo.marktype != ''"> and marktype = #{vo.marktype}</if>
+                        <if test="vo.show != null  and vo.show != ''"> and is_show = #{vo.show}</if>
+                        <if test="vo.drawjson != null  and vo.drawjson != ''"> and drawjson = #{vo.drawjson}</if>
+                        <if test="vo.thumbnail != null  and vo.thumbnail != ''"> and thumbnail = #{vo.thumbnail}</if>
+                        <if test="vo.createTime != null  and vo.createTime != ''"> and create_time = #{vo.createTime}</if>
+                        <if test="vo.context != null  and vo.context != ''"> and context = #{vo.context}</if>
+        </where>
+    </select>
+
+    <insert id="insertCimMapmark" parameterType="CimMapmark" useGeneratedKeys="true" keyProperty="id">
+        insert into cim_mapmark
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="marktype != null">marktype,</if>
+            <if test="show != null">is_show,</if>
+            <if test="drawjson != null">drawjson,</if>
+            <if test="thumbnail != null">thumbnail,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="context != null">context,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+           <if test="id != null">#{id},</if>
+           <if test="name != null">#{name},</if>
+           <if test="marktype != null">#{marktype},</if>
+           <if test="show != null">#{show},</if>
+           <if test="drawjson != null">#{drawjson},</if>
+           <if test="thumbnail != null">#{thumbnail},</if>
+           <if test="createTime != null">#{createTime},</if>
+           <if test="context != null">#{context},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCimMapmark" parameterType="CimMapmark">
+        update cim_mapmark
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name=#{name},</if>
+            <if test="marktype != null">marktype=#{marktype},</if>
+            <if test="show != null">is_show=#{show},</if>
+            <if test="drawjson != null">drawjson=#{drawjson},</if>
+            <if test="thumbnail != null">thumbnail=#{thumbnail},</if>
+            <if test="createTime != null">create_time=#{createTime},</if>
+            <if test="context != null">context=#{context},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCimMapmarkById" parameterType="String">
+        delete from cim_mapmark where id = #{id}
+    </delete>
+
+    <delete id="deleteCimMapmarkByIds" parameterType="String">
+        delete from cim_mapmark where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+</mapper>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hndist.server.mapper.CimSettingMapper">
+
+
+    <resultMap type="CimSetting" id="CimSettingResult">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="logo" column="logo"/>
+        <result property="skins" column="skins"/>
+        <result property="userId" column="user_id"/>
+        <result property="roleId" column="role_id"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <sql id="selectCimSettingVo">
+        select
+                id
+                ,name
+                ,logo
+                ,skins
+                ,user_id
+                ,role_id
+                ,create_time
+        from cim_setting
+    </sql>
+
+    <select id="selectCimSettingById" resultMap="CimSettingResult">
+        <include refid="selectCimSettingVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectCimSettingList" resultMap="CimSettingResult">
+        <include refid="selectCimSettingVo"/>
+        <where>
+                        <if test="vo.id != null  and vo.id != ''"> and id = #{vo.id}</if>
+                        <if test="vo.name != null  and vo.name != ''"> and name = #{vo.name}</if>
+                        <if test="vo.logo != null  and vo.logo != ''"> and logo = #{vo.logo}</if>
+                        <if test="vo.skins != null  and vo.skins != ''"> and skins = #{vo.skins}</if>
+                        <if test="vo.userId != null  and vo.userId != ''"> and user_id = #{vo.userId}</if>
+                        <if test="vo.roleId != null  and vo.roleId != ''"> and role_id = #{vo.roleId}</if>
+                        <if test="vo.createTime != null  and vo.createTime != ''"> and create_time = #{vo.createTime}</if>
+        </where>
+    </select>
+
+    <insert id="insertCimSetting" parameterType="CimSetting" useGeneratedKeys="true" keyProperty="id">
+        insert into cim_setting
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="logo != null">logo,</if>
+            <if test="skins != null">skins,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="roleId != null">role_id,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+           <if test="id != null">#{id},</if>
+           <if test="name != null">#{name},</if>
+           <if test="logo != null">#{logo},</if>
+           <if test="skins != null">#{skins},</if>
+           <if test="userId != null">#{userId},</if>
+           <if test="roleId != null">#{roleId},</if>
+           <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCimSetting" parameterType="CimSetting">
+        update cim_setting
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name=#{name},</if>
+            <if test="logo != null">logo=#{logo},</if>
+            <if test="skins != null">skins=#{skins},</if>
+            <if test="userId != null">user_id=#{userId},</if>
+            <if test="roleId != null">role_id=#{roleId},</if>
+            <if test="createTime != null">create_time=#{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCimSettingById" parameterType="String">
+        delete from cim_setting where id = #{id}
+    </delete>
+
+    <delete id="deleteCimSettingByIds" parameterType="String">
+        delete from cim_setting where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+</mapper>

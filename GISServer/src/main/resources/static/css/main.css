@@ -1,0 +1,121 @@
+html,body{
+    font-family:arial,helvetica,PingFang SC,Microsoft YaHei,sans-serif;
+    font-size: 14px;
+    padding: 0px;
+    margin: 0px;
+}
+
+/* UL LI */
+ul {
+    height: 8px;
+}
+li {
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* 头部 */
+.header {
+    BACKGROUND-COLOR: #2D3240;
+    COLOR: #fff;
+    PADDING: 5px 22px;
+    font-weight: 500;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* 头部标题 */
+.header .title{
+    font-size: 18px;
+}
+
+/* 登录(后续加入) */
+.header .login{
+    position: absolute;
+    right: 25px;
+}
+
+/* 超链接样式 */
+.header .login a{
+    COLOR: #fff;
+    text-decoration:none
+}
+
+/* 导航 */
+.nav{
+    BORDER-BOTTOM: #E9EBF1 1px solid;
+    BORDER-TOP: #E9EBF1 1px solid;
+    padding: 5px 22px;
+}
+
+.nav .menu{
+    padding-left:5px;
+}
+
+/* 超链接样式 */
+.nav a{
+    color: rgba(0, 0, 0, 0.8);
+    text-decoration:none
+}
+
+/* 主体 */
+.main{
+    padding: 5px 22px;
+}
+
+/* 目录 */
+.main .folder {
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 36px;
+}
+
+/* 文本 */
+.main .info {
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 36px;
+}
+
+/* 接口 */
+.main .interfaces {
+    margin-top: 60px;
+    font-weight: 800;
+    font-size: 16px;
+    margin-bottom: 50px;
+}
+
+/* 地图范围 */
+.main .extent{
+    padding: 10px;
+}
+
+.main .extent span{
+    height: 28px;
+    margin-left: 30px;
+    font-size: 16px;
+    display: block;
+}
+
+/* 查询 */
+.querys{
+    width:50%;
+    border:solid 1px;
+    background: #e5eff7;
+    margin-bottom: 60px;
+}
+
+.querys table{
+    width: 100% ;
+}
+
+.querys tr td:nth-child(1){
+    padding:5px 20px;
+    width: 20%;
+}
+
+.querystr td:nth-child(2){
+    padding:5px 20px;
+    width: 80%;
+
+}

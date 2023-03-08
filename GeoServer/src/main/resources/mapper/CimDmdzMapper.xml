@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hndist.server.mapper.CimDmdzMapper">
+
+    <!-- 当前mapper下所有语句开启二级缓存 -->
+    <cache eviction="LRU" flushInterval="60000" size="512" readOnly="true"/>
+
+    <resultMap type="CimDmdz" id="CimDmdzResult">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="imageUrl" column="image_url"/>
+        <result property="videoUrl" column="video_url"/>
+        <result property="address" column="address"/>
+        <result property="dmStatus" column="dm_status"/>
+        <result property="createBy" column="create_by"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="recommend" column="recommend"/>
+        <result property="useSearch" column="use_search"/>
+        <result property="permi" column="permi"/>
+        <result property="coordinate" column="coordinate"/>
+        <result property="memo" column="memo"/>
+        <result property="altitude" column="altitude"/>
+        <result property="deviceType" column="device_type"/>
+        <result property="deviceAddr" column="device_addr"/>
+    </resultMap>
+
+    <sql id="selectCimDmdzVo">
+        select
+                id
+                ,name
+                ,image_url
+                ,video_url
+                ,address
+                ,dm_status
+                ,create_by
+                ,update_by
+                ,create_time
+                ,update_time
+                ,recommend
+                ,use_search
+                ,permi
+                ,coordinate
+                ,memo
+                ,altitude
+                ,device_type
+                ,device_addr
+        from cim_dmdz
+    </sql>
+
+    <select id="selectCimDmdzById" resultMap="CimDmdzResult">
+        <include refid="selectCimDmdzVo"/>
+        where id = #{id}
+                and (
+                    permi = #{userId} or permi='' or permi is null
+                    <if test="roleList != null">
+                        <foreach collection='roleList' item='roleId'> or permi = #{roleId} </foreach>
+                    </if>
+                )
+    </select>
+
+    <select id="selectCimDmdzList" resultMap="CimDmdzResult">
+        <include refid="selectCimDmdzVo"/>
+        <where>
+                        <if test="vo.id != null  and vo.id != ''"> and id = #{vo.id}</if>
+                    
+                    
+                        <if test="vo.name != null  and vo.name != ''"> and name like concat('%', (#{vo.name}), '%')</if>
+                    
+                    
+                        <if test="vo.imageUrl != null  and vo.imageUrl != ''"> and image_url = #{vo.imageUrl}</if>
+                    
+                    
+                        <if test="vo.videoUrl != null  and vo.videoUrl != ''"> and video_url = #{vo.videoUrl}</if>
+                    
+                    
+                        <if test="vo.address != null  and vo.address != ''"> and address = #{vo.address}</if>
+                    
+                    
+                        <if test="vo.dmStatus != null  and vo.dmStatus != ''"> and dm_status = #{vo.dmStatus}</if>
+                    
+                    
+                        <if test="vo.createBy != null  and vo.createBy != ''"> and create_by = #{vo.createBy}</if>
+                    
+                    
+                        <if test="vo.updateBy != null  and vo.updateBy != ''"> and update_by = #{vo.updateBy}</if>
+                    
+                    
+                        <if test="vo.createTime != null  and vo.createTime != ''"> and create_time = #{vo.createTime}</if>
+                    
+                      
+                        <if test="vo.updateTime != null  and vo.updateTime != ''"> and update_time = #{vo.updateTime}</if>
+                      
+                    
+                        <if test="vo.recommend != null  and vo.recommend != ''"> and recommend = #{vo.recommend}</if>
+                    
+                    
+                        <if test="vo.useSearch != null  and vo.useSearch != ''"> and use_search = #{vo.useSearch}</if>
+                    
+                    
+                        and (
+                            permi = #{userId} or permi='' or permi is null
+                            <if test="roleList != null">
+                                <foreach collection='roleList' item='roleId'> or permi = #{roleId} </foreach>
+                            </if>
+                        )
+                    
+                    
+                        <if test="vo.coordinate != null  and vo.coordinate != ''"> and coordinate = #{vo.coordinate}</if>
+                    
+                    
+                        <if test="vo.memo != null  and vo.memo != ''"> and memo = #{vo.memo}</if>
+
+
+                        <if test="vo.altitude != null  and vo.altitude != ''"> and altitude = #{vo.altitude}</if>
+
+
+                        <if test="vo.deviceType != null  and vo.deviceType != ''"> and device_type = #{vo.deviceType}</if>
+
+
+                        <if test="vo.deviceAddr != null  and vo.deviceAddr != ''"> and device_addr = #{vo.deviceAddr}</if>
+
+                    
+        </where>
+          ORDER BY  update_time desc nulls last, create_time desc nulls last
+    </select>
+
+    <!-- dmdz快速列表-->
+    <select id="selectDmdzQuickSearchList" resultType="com.hndist.server.domain.dto.CimDmdzDTO">
+        select id,name,image_url from cim_dmdz
+        <where>
+            <if test="vo.recommend != null  and vo.recommend != ''">
+             and recommend = '1'
+            </if>
+            <if test="vo.name != null  and vo.name != ''">
+             and name like concat(#{vo.name},'%')
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertCimDmdz" parameterType="CimDmdz" useGeneratedKeys="true" keyProperty="id">
+        insert into cim_dmdz
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="imageUrl != null">image_url,</if>
+            <if test="videoUrl != null">video_url,</if>
+            <if test="address != null">address,</if>
+            <if test="dmStatus != null">dm_status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="recommend != null">recommend,</if>
+            <if test="useSearch != null">use_search,</if>
+            <if test="permi != null">permi,</if>
+            <if test="coordinate != null">coordinate,</if>
+            <if test="memo != null">memo,</if>
+            <if test="altitude != null">altitude,</if>
+            <if test="deviceType != null">device_type,</if>
+            <if test="deviceAddr != null">device_addr,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+           <if test="id != null">#{id},</if>
+           <if test="name != null">#{name},</if>
+           <if test="imageUrl != null">#{imageUrl},</if>
+           <if test="videoUrl != null">#{videoUrl},</if>
+           <if test="address != null">#{address},</if>
+           <if test="dmStatus != null">#{dmStatus},</if>
+           <if test="createBy != null">#{createBy},</if>
+           <if test="updateBy != null">#{updateBy},</if>
+           <if test="createTime != null">#{createTime},</if>
+           <if test="updateTime != null">#{updateTime},</if>
+           <if test="recommend != null">#{recommend},</if>
+           <if test="useSearch != null">#{useSearch},</if>
+           <if test="permi != null">#{permi},</if>
+           <if test="coordinate != null">#{coordinate},</if>
+           <if test="memo != null">#{memo},</if>
+           <if test="altitude != null">#{altitude},</if>
+           <if test="deviceType != null">#{deviceType},</if>
+           <if test="deviceAddr != null">#{deviceAddr},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCimDmdz" parameterType="CimDmdz">
+        update cim_dmdz
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name=#{name},</if>
+            <if test="imageUrl != null">image_url=#{imageUrl},</if>
+            <if test="videoUrl != null">video_url=#{videoUrl},</if>
+            <if test="address != null">address=#{address},</if>
+            <if test="dmStatus != null">dm_status=#{dmStatus},</if>
+            <if test="createBy != null">create_by=#{createBy},</if>
+            <if test="updateBy != null">update_by=#{updateBy},</if>
+            <if test="createTime != null">create_time=#{createTime},</if>
+            <if test="updateTime != null">update_time=#{updateTime},</if>
+            <if test="recommend != null">recommend=#{recommend},</if>
+            <if test="useSearch != null">use_search=#{useSearch},</if>
+            <if test="permi != null">permi=#{permi},</if>
+            <if test="coordinate != null">coordinate=#{coordinate},</if>
+            <if test="memo != null">memo=#{memo},</if>
+            <if test="altitude != null">altitude=#{altitude},</if>
+            <if test="deviceType != null">device_type=#{deviceType},</if>
+            <if test="deviceAddr != null">device_addr=#{deviceAddr},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCimDmdzById" parameterType="String">
+        delete from cim_dmdz where id = #{id}
+    </delete>
+
+    <delete id="deleteCimDmdzByIds" parameterType="String">
+        delete from cim_dmdz where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectDmdzCount" resultType="int">
+        select count(*) from bs_resource_contents
+    </select>
+
+</mapper>

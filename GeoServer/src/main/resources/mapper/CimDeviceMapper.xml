@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hndist.server.mapper.CimDeviceMapper">
+
+
+    <resultMap type="CimDevice" id="CimDeviceResult">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="code" column="code"/>
+        <result property="address" column="address"/>
+        <result property="pid" column="pid"/>
+        <result property="deviceType" column="device_type"/>
+        <result property="isparent" column="isparent"/>
+        <result property="longitud" column="longitud"/>
+        <result property="latitude" column="latitude"/>
+        <result property="deviceUrl" column="device_url"/>
+        <result property="thumbnail" column="thumbnail"/>
+        <result property="createTime" column="create_time"/>
+        <result property="remark" column="remark"/>
+        <result property="icon" column="icon"/>
+    </resultMap>
+
+    <sql id="selectCimDeviceVo">
+        select
+                id
+                ,name
+                ,code
+                ,address
+                ,pid
+                ,device_type
+                ,isparent
+                ,longitud
+                ,latitude
+                ,device_url
+                ,thumbnail
+                ,create_time
+                ,remark
+                ,icon
+        from cim_device
+    </sql>
+
+    <select id="selectCimDeviceById" resultMap="CimDeviceResult">
+        <include refid="selectCimDeviceVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectCimDeviceList" resultMap="CimDeviceResult">
+        <include refid="selectCimDeviceVo"/>
+        <where>
+                        <if test="vo.id != null  and vo.id != ''"> and id = #{vo.id}</if>
+                        <if test="vo.name != null  and vo.name != ''"> and name like concat('%',#{vo.name},'%')</if>
+                        <if test="vo.code != null  and vo.code != ''"> and code = #{vo.code}</if>
+                        <if test="vo.address != null  and vo.address != ''"> and address like concat('%', #{vo.address},'%')</if>
+                        <if test="vo.pid != null  and vo.pid != ''"> and pid = #{vo.pid}</if>
+                        <if test="vo.deviceType != null  and vo.deviceType != ''"> and device_type = #{vo.deviceType}</if>
+                        <if test="vo.isparent != null  and vo.isparent != ''"> and isparent = #{vo.isparent}</if>
+                        <if test="vo.longitud != null  and vo.longitud != ''"> and longitud = #{vo.longitud}</if>
+                        <if test="vo.latitude != null  and vo.latitude != ''"> and latitude = #{vo.latitude}</if>
+                        <if test="vo.deviceUrl != null  and vo.deviceUrl != ''"> and device_url like concat('%', #{vo.deviceUrl},'%')</if>
+                        <if test="vo.thumbnail != null  and vo.thumbnail != ''"> and thumbnail = #{vo.thumbnail}</if>
+                        <if test="vo.createTime != null  and vo.createTime != ''"> and create_time = #{vo.createTime}</if>
+                        <if test="vo.remark != null  and vo.remark != ''"> and remark = #{vo.remark}</if>
+        </where>
+    </select>
+
+    <insert id="insertCimDevice" parameterType="CimDevice" useGeneratedKeys="true" keyProperty="id">
+        insert into cim_device
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="code != null">code,</if>
+            <if test="address != null">address,</if>
+            <if test="pid != null">pid,</if>
+            <if test="deviceType != null">device_type,</if>
+            <if test="isparent != null">isparent,</if>
+            <if test="longitud != null">longitud,</if>
+            <if test="latitude != null">latitude,</if>
+            <if test="deviceUrl != null">device_url,</if>
+            <if test="thumbnail != null">thumbnail,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="icon != null">icon,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+           <if test="id != null">#{id},</if>
+           <if test="name != null">#{name},</if>
+           <if test="code != null">#{code},</if>
+           <if test="address != null">#{address},</if>
+           <if test="pid != null">#{pid},</if>
+           <if test="deviceType != null">#{deviceType},</if>
+           <if test="isparent != null">#{isparent},</if>
+           <if test="longitud != null">#{longitud},</if>
+           <if test="latitude != null">#{latitude},</if>
+           <if test="deviceUrl != null">#{deviceUrl},</if>
+           <if test="thumbnail != null">#{thumbnail},</if>
+           <if test="createTime != null">#{createTime},</if>
+           <if test="remark != null">#{remark},</if>
+           <if test="icon != null">#{icon},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCimDevice" parameterType="CimDevice">
+        update cim_device
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name=#{name},</if>
+            <if test="code != null">code=#{code},</if>
+            <if test="address != null">address=#{address},</if>
+            <if test="pid != null">pid=#{pid},</if>
+            <if test="deviceType != null">device_type=#{deviceType},</if>
+            <if test="isparent != null">isparent=#{isparent},</if>
+            <if test="longitud != null">longitud=#{longitud},</if>
+            <if test="latitude != null">latitude=#{latitude},</if>
+            <if test="deviceUrl != null">device_url=#{deviceUrl},</if>
+            <if test="thumbnail != null">thumbnail=#{thumbnail},</if>
+            <if test="createTime != null">create_time=#{createTime},</if>
+            <if test="remark != null">remark=#{remark},</if>
+            <if test="icon != null">icon=#{icon},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCimDeviceById" parameterType="String">
+        delete from cim_device where id = #{id}
+    </delete>
+
+    <delete id="deleteCimDeviceByIds" parameterType="String">
+        delete from cim_device where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="selectCimDeviceTreeList" parameterType="String" resultMap="CimDeviceResult">
+        <include refid="selectCimDeviceVo"/>
+        <where>
+            <if test="type==null or type=='' "> and isparent = '1'</if>
+        </where>
+    </select>
+
+
+</mapper>

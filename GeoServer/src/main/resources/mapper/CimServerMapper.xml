@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hndist.server.mapper.CimServerMapper">
+
+
+    <resultMap type="CimServer" id="CimServerResult">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="ip" column="ip"/>
+        <result property="port" column="port"/>
+        <result property="serviceengine" column="serviceengine"/>
+        <result property="createTime" column="create_time"/>
+        <result property="context" column="context"/>
+        <result property="pid" column="pid"/>
+        <result property="label" column="label"/>
+    </resultMap>
+
+    <sql id="selectCimServerVo">
+        select
+                id
+                ,name
+                ,ip
+                ,port
+                ,serviceengine
+                ,create_time
+                ,context
+                ,pid
+                ,label
+        from cim_server
+    </sql>
+
+    <select id="selectCimServerById" resultMap="CimServerResult">
+        <include refid="selectCimServerVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectCimServerByName" resultMap="CimServerResult">
+        <include refid="selectCimServerVo"/>
+        where name = #{name}
+    </select>
+
+    <select id="selectCimServerList" resultMap="CimServerResult">
+        <include refid="selectCimServerVo"/>
+        <where>
+            <if test="vo.id != null  and vo.id != ''">and id = #{vo.id}</if>
+            <if test="vo.name != null  and vo.name != ''">and name like concat('%', #{vo.name}, '%')</if>
+            <if test="vo.ip != null  and vo.ip != ''">and pid = #{vo.ip}</if>
+            <if test="vo.port != null  and vo.port != ''">and port = #{vo.port}</if>
+            <if test="vo.createTime != null  and vo.createTime != ''">and create_time = #{vo.createTime}</if>
+            <if test="vo.serviceengine != null  and vo.serviceengine != ''">and serviceengine = #{vo.serviceengine}</if>
+            <if test="vo.context != null  and vo.context != ''">and context = #{vo.context}</if>
+
+
+        </where>
+            ORDER BY create_time desc nulls last
+    </select>
+
+    <insert id="insertCimServer" parameterType="CimServer" useGeneratedKeys="true" keyProperty="id">
+        insert into cim_server
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="ip != null">ip,</if>
+            <if test="name != null">name,</if>
+            <if test="port != null">port,</if>
+            <if test="serviceengine != null">serviceengine,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="context != null">context,</if>
+            <if test="pid != null">pid,</if>
+            <if test="label != null">label,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+           <if test="id != null">#{id},</if>
+           <if test="ip != null">#{ip},</if>
+           <if test="name != null">#{name},</if>
+           <if test="port != null">#{port},</if>
+           <if test="serviceengine != null">#{serviceengine},</if>
+           <if test="createTime != null">#{createTime},</if>
+           <if test="context != null">#{context},</if>
+           <if test="pid != null">#{pid},</if>
+           <if test="label != null">#{label},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCimServer" parameterType="CimServer">
+        update cim_server
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="ip != null">ip=#{ip},</if>
+            <if test="name != null">name=#{name},</if>
+            <if test="port != null">port=#{port},</if>
+            <if test="serviceengine != null">serviceengine=#{serviceengine},</if>
+            <if test="createTime != null">create_time=#{createTime},</if>
+            <if test="context != null">context=#{context},</if>
+            <if test="pid != null">pid=#{pid},</if>
+            <if test="label != null">label=#{label},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCimServerById" parameterType="String">
+        delete from cim_server where id = #{id}
+    </delete>
+
+    <delete id="deleteCimServerByIds" parameterType="String">
+        delete from cim_server where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="existIpForInsert" resultType="int">
+        select count(*) from cim_server where name= #{name}
+    </select>
+
+    <select id="existIpForEdit" resultType="int">
+        select count(*) from cim_server where name= #{name} and id <![CDATA[ <> ]]> #{id}
+    </select>
+
+
+    <select id="selectServerCount" resultType="int">
+        select count(*) from cim_server
+    </select>
+
+</mapper>

@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hndist.server.mapper.CimCityExperienceMapper">
+
+
+    <resultMap type="CimCityExperience" id="CimCityExperienceResult">
+        <result property="id" column="id"/>
+        <result property="pid" column="pid"/>
+        <result property="isparent" column="isparent"/>
+        <result property="name" column="name"/>
+        <result property="icon" column="icon"/>
+        <result property="thumbnail" column="thumbnail"/>
+        <result property="tool" column="tool"/>
+        <result property="xzq" column="xzq"/>
+        <result property="xzqCode" column="xzq_code"/>
+        <result property="resourceId" column="resource_id"/>
+        <result property="isselected" column="isselected"/>
+        <result property="specialStyle" column="special_style"/>
+        <result property="createTime" column="create_time"/>
+        <result property="reorder" column="reorder"/>
+        <result property="areaCode" column="area_code"/>
+        <result property="manageSpecial" column="manage_special"/>
+        <association property="mapresources" javaType="com.hndist.server.domain.CimMapresources">
+            <result property="id" column="id"/>
+            <result property="name" column="resource_name"/>
+            <result property="label" column="label"/>
+            <result property="isparent" column="isparent"/>
+            <result property="show" column="is_show"/>
+            <result property="status" column="status"/>
+            <result property="serviceurl" column="serviceurl"/>
+            <result property="city" column="city"/>
+            <result property="key" column="key"/>
+            <result property="spatialReference" column="spatial_reference"/>
+            <result property="tags" column="tags"/>
+            <result property="thumbnail" column="thumbnail"/>
+            <result property="servicetype" column="servicetype"/>
+            <result property="serviceengine" column="serviceengine"/>
+            <result property="serviceengineText" column="serviceengineText"/>
+            <result property="servicetypeText" column="servicetypeText"/>
+            <result property="transparency" column="transparency"/>
+            <result property="reorder" column="reorder"/>
+            <result property="createTime" column="create_time"/>
+            <result property="context" column="context"/>
+            <result property="pid" column="pid"/>
+            <result property="icon" column="icon"/>
+            <result property="extent" column="extent"/>
+            <result property="serverId" column="server_id"/>
+            <result property="spatialRefer" column="spatial_refer"/>
+            <result property="specialMap" column="is_special_map"/>
+        </association>
+    </resultMap>
+
+    <sql id="selectCimCityExperienceVo">
+        select
+            ce."id",
+            ce.pid,
+            ce.isparent,
+            ce.name,
+            ce.icon,
+            ce.thumbnail,
+            ce.tool,
+            ce.xzq,
+            ce.xzq_code,
+            ce.resource_id,
+            ce.isselected,
+            ce.special_style,
+            ce.create_time,
+            ce.reorder,
+            ce.area_code,
+            ce.manage_special,
+            cm."name" resource_name,
+            cm.serviceurl,
+            cm.thumbnail,
+            cm.extent,
+            cm.servicetype,
+            sdd.dict_label servicetypeText
+        from
+            cim_city_experience ce
+                left join cim_mapresources cm on ce.resource_id = cm.id
+                left join sys_dict_data sdd on sdd.dict_value = cm.servicetype and sdd.dict_type = 'sys_servicetype'
+    </sql>
+
+    <select id="selectCimCityExperienceById" resultMap="CimCityExperienceResult">
+        <include refid="selectCimCityExperienceVo"/>
+        where ce.id = #{id}
+    </select>
+
+    <select id="selectCimCityExperienceList" resultMap="CimCityExperienceResult">
+        <include refid="selectCimCityExperienceVo"/>
+        <where>
+                        <if test="vo.id != null  and vo.id != ''"> and ce.id = #{vo.id}</if>
+                        <if test="vo.pid != null  and vo.pid != ''"> and ce.pid = #{vo.pid}</if>
+                        <if test="vo.isparent != null  and vo.isparent != ''"> and ce.isparent = #{vo.isparent}</if>
+                        <if test="vo.name != null  and vo.name != ''"> and ce.name like concat('%', #{vo.name}, '%')</if>
+                        <if test="vo.icon != null  and vo.icon != ''"> and ce.icon = #{vo.icon}</if>
+                        <if test="vo.thumbnail != null  and vo.thumbnail != ''"> and ce.thumbnail = #{vo.thumbnail}</if>
+                        <if test="vo.tool != null  and vo.tool != ''"> and ce.tool = #{vo.tool}</if>
+                        <if test="vo.xzq != null  and vo.xzq != ''"> and ce.xzq = #{vo.xzq}</if>
+                        <if test="vo.xzqCode != null  and vo.xzqCode != ''"> and ce.xzq_code = #{vo.xzqCode}</if>
+                        <if test="vo.resourceId != null  and vo.resourceId != ''"> and ce.resource_id = #{vo.resourceId}</if>
+                        <if test="vo.isselected != null  and vo.isselected != ''"> and ce.isselected = #{vo.isselected}</if>
+                        <if test="vo.specialStyle != null  and vo.specialStyle != ''"> and ce.special_style = #{vo.specialStyle}</if>
+                        <if test="vo.createTime != null  and vo.createTime != ''"> and ce.create_time = #{vo.createTime}</if>
+                        <if test="vo.reorder != null  and vo.reorder != ''"> and ce.reorder = #{vo.reorder}</if>
+                        <if test="vo.areaCode != null  and vo.areaCode != ''"> and ce.area_code like concat(#{vo.areaCode}, '%')</if>
+        </where>
+        order by ce.reorder nulls last
+    </select>
+
+    <insert id="insertCimCityExperience" parameterType="CimCityExperience" useGeneratedKeys="true" keyProperty="id">
+        insert into cim_city_experience
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="pid != null">pid,</if>
+            <if test="isparent != null">isparent,</if>
+            <if test="name != null">name,</if>
+            <if test="icon != null">icon,</if>
+            <if test="thumbnail != null">thumbnail,</if>
+            <if test="tool != null">tool,</if>
+            <if test="xzq != null">xzq,</if>
+            <if test="xzqCode != null">xzq_code,</if>
+            <if test="resourceId != null">resource_id,</if>
+            <if test="isselected != null">isselected,</if>
+            <if test="specialStyle != null">special_style,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="reorder != null">reorder,</if>
+            <if test="areaCode != null">area_code,</if>
+            <if test="manageSpecial != null">manage_special,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+           <if test="id != null">#{id},</if>
+           <if test="pid != null">#{pid},</if>
+           <if test="isparent != null">#{isparent},</if>
+           <if test="name != null">#{name},</if>
+           <if test="icon != null">#{icon},</if>
+           <if test="thumbnail != null">#{thumbnail},</if>
+           <if test="tool != null">#{tool},</if>
+           <if test="xzq != null">#{xzq},</if>
+           <if test="xzqCode != null">#{xzqCode},</if>
+           <if test="resourceId != null">#{resourceId},</if>
+           <if test="isselected != null">#{isselected},</if>
+           <if test="specialStyle != null">#{specialStyle},</if>
+           <if test="createTime != null">#{createTime},</if>
+           <if test="reorder != null">#{reorder},</if>
+           <if test="areaCode != null">#{areaCode},</if>
+           <if test="manageSpecial != null">#{manageSpecial},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCimCityExperience" parameterType="CimCityExperience">
+        update cim_city_experience
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pid != null">pid=#{pid},</if>
+            <if test="isparent != null">isparent=#{isparent},</if>
+            <if test="name != null">name=#{name},</if>
+            <if test="icon != null">icon=#{icon},</if>
+            <if test="thumbnail != null">thumbnail=#{thumbnail},</if>
+            <if test="tool != null">tool=#{tool},</if>
+            <if test="xzq != null">xzq=#{xzq},</if>
+            <if test="xzqCode != null">xzq_code=#{xzqCode},</if>
+            <if test="resourceId != null">resource_id=#{resourceId},</if>
+            <if test="isselected != null">isselected=#{isselected},</if>
+            <if test="specialStyle != null">special_style=#{specialStyle},</if>
+            <if test="createTime != null">create_time=#{createTime},</if>
+            <if test="reorder != null">reorder=#{reorder},</if>
+            <if test="areaCode != null">area_code=#{areaCode},</if>
+            <if test="manageSpecial != null">manage_special=#{manageSpecial},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCimCityExperienceById" parameterType="String">
+        delete from cim_city_experience where id = #{id}
+    </delete>
+
+    <delete id="deleteCimCityExperienceByIds" parameterType="String">
+        delete from cim_city_experience where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="selectCimCityExperienceTreeList" parameterType="String" resultMap="CimCityExperienceResult">
+        <include refid="selectCimCityExperienceVo"/>
+        <where>
+            <if test="type==null or type=='' "> and ce.isparent = '1'</if>
+        </where>
+    </select>
+
+    <select id="selectCimCityExperByName" resultType="int">
+        select count(*) from cim_city_experience where name = #{name}
+    </select>
+
+    <select id="selectCimCityExperByNameExclude" resultType="int">
+        <![CDATA[
+        select count(*) from cim_city_experience where name = #{arg0} and id <> #{arg1}
+        ]]>
+    </select>
+
+
+</mapper>

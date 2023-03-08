@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>城市信息模型（CIM）服务端</title>
+    <!-- 引用icon -->
+    <link rel="shortcut icon" href="/${projectName}/favicon.ico">
+    <!-- 引用主样式文件 -->
+    <link href="/${projectName}/css/main.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="wrapper">
+    <!-- 头部 -->
+    <div class="header">
+        <div class="title">城市信息模型（CIM）基础平台 - 接口服务</div>
+        <div class="login">
+            <a href="http://www.hndist.com/" target="_blank">API文档</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="http://www.hndist.com/" target="_blank">关于数慧</a>
+        </div>
+    </div>
+    <!-- 导航 -->
+    <div class="nav">
+        <span class="menu"><a href="/${projectName}/cim/rest">首页</a></span> >
+        <span class="menu"><a href="/${projectName}/cim/rest/services">地图服务</a></span>
+        <#if mapServer.catalog??>
+        > <span class="menu"><a href="/${projectName}/cim/rest/services/${mapServer.catalog}">${mapServer.catalog}</a></span>
+        > <span class="menu"><a href="/${projectName}/cim/rest/services/${mapServer.catalog}/${mapServer.name}/MapServer">${mapServer.name}</a></span>
+        > <span class="menu"><a href="/${projectName}/cim/rest/services/${mapServer.catalog}/${mapServer.name}/MapServer/${layerName}">${layerName}</a></span>
+        > <span class="menu"><a href="/${projectName}/cim/rest/services/${mapServer.catalog}/${mapServer.name}/MapServer/${layerName}/query">查询</a></span>
+        <#else>
+        > <span class="menu"><a href="/${projectName}/cim/rest/services/${mapServer.name}/MapServer">${mapServer.name}</a></span>
+        > <span class="menu"><a href="/${projectName}/cim/rest/services/${mapServer.name}/MapServer/${layerName}">${layerName}</a></span>
+        > <span class="menu"><a href="/${projectName}/cim/rest/services/${mapServer.name}/MapServer/${layerName}/query">查询</a></span>
+    </#if>
+</div>
+
+<!-- 主体 -->
+<div class="main">
+    <div class="folder">
+        查询：${layerName}
+    </div>
+    <br>
+    <div>
+        <form action="/${projectName}/p_cim/rest/services/<#if mapServer.catalog??>${mapServer.catalog}/</#if>${mapServer.name}/MapServer/${layerName}/query" method="get">
+            <table class="querys">
+                <tr>
+                    <td>属性查询条件</td>
+                    <td><input style="width:80%" name="where"></td>
+                </tr>
+                <tr>
+                    <td>空间查询集合</td>
+                    <td><textarea cols="40" rows="6" style="text-align: left;font: 16px 宋体;" name="geometry"></textarea></td>
+                </tr>
+                <tr>
+                    <td>空间类型</td>
+                    <td>
+                        <select style="width: 70px" name="geometryType">
+                            <option value="Point">点</option>
+                            <option value="Polyline">线</option>
+                            <option value="Polygon">面</option>
+                            <option value="Point">多点</option>
+                            <option value="Polyline">多线</option>
+                            <option value="Polygon">多面</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>关系类型</td>
+                    <td>
+                        <select style="width: 70px" name="spatialRel">
+                            <option>相交</option>
+                            <option>包含</option>
+                            <option>交叉</option>
+                            <option>外部相交</option>
+                            <option>索引相交</option>
+                            <option>覆盖</option>
+                            <option>相接</option>
+                            <option>关系</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>输出字段</td>
+                    <td><input style="width: 80%"></td>
+                </tr>
+                <tr>
+                    <td>返回几何图形</td>
+                    <td>
+                        <input type="radio" name="returnGeometry" value="True" checked><label>是</label>
+                        <input type="radio" name="returnGeometry" value="False"><label>否</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>仅返回总数</td>
+                    <td>
+                        <input type="radio" value="ue"><label >是</label>
+                        <input type="radio" value="lse" checked><label>否</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>字段排序</td>
+                    <td><input style="width: 60%"></td>
+                </tr>
+                <tr>
+                    <td>格式</td>
+                    <td>
+                        <select style="width: 70px" name="f">
+                            <option value="json">JSON</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div>
+                            <button type="submit" style="width: 100px;margin: 10px 0px">查询(GET)</button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+</div>
+</body>
+</html>

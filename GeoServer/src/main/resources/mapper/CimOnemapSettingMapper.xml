@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hndist.server.mapper.CimOnemapSettingMapper">
+
+
+    <resultMap type="CimOnemapSetting" id="CimOnemapSettingResult">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="logo" column="logo"/>
+        <result property="ishead" column="ishead"/>
+        <result property="isLeftMenu" column="is_left_menu"/>
+        <result property="isTerrain" column="is_terrain"/>
+        <result property="iscontour" column="iscontour"/>
+        <result property="isWarp" column="is_warp"/>
+        <result property="skins" column="skins"/>
+        <result property="userId" column="user_id"/>
+        <result property="roleId" column="role_id"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <sql id="selectCimOnemapSettingVo">
+        select
+                id
+                ,name
+                ,logo
+                ,ishead
+                ,is_left_menu
+                ,is_terrain
+                ,iscontour
+                ,is_warp
+                ,skins
+                ,user_id
+                ,role_id
+                ,create_time
+        from cim_onemap_setting
+    </sql>
+
+    <select id="selectCimOnemapSettingById" resultMap="CimOnemapSettingResult">
+        <include refid="selectCimOnemapSettingVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectCimOnemapSettingList" resultMap="CimOnemapSettingResult">
+        <include refid="selectCimOnemapSettingVo"/>
+        <where>
+                        <if test="vo.id != null  and vo.id != ''"> and id = #{vo.id}</if>
+                        <if test="vo.name != null  and vo.name != ''"> and name = #{vo.name}</if>
+                        <if test="vo.logo != null  and vo.logo != ''"> and logo = #{vo.logo}</if>
+                        <if test="vo.ishead != null  and vo.ishead != ''"> and ishead = #{vo.ishead}</if>
+                        <if test="vo.isLeftMenu != null  and vo.isLeftMenu != ''"> and is_left_menu = #{vo.isLeftMenu}</if>
+                        <if test="vo.isTerrain != null  and vo.isTerrain != ''"> and is_terrain = #{vo.isTerrain}</if>
+                        <if test="vo.iscontour != null  and vo.iscontour != ''"> and iscontour = #{vo.iscontour}</if>
+                        <if test="vo.isWarp != null  and vo.isWarp != ''"> and is_warp = #{vo.isWarp}</if>
+                        <if test="vo.skins != null  and vo.skins != ''"> and skins = #{vo.skins}</if>
+                        <if test="vo.userId != null  and vo.userId != ''"> and user_id = #{vo.userId}</if>
+                        <if test="vo.roleId != null  and vo.roleId != ''"> and role_id = #{vo.roleId}</if>
+                        <if test="vo.createTime != null  and vo.createTime != ''"> and create_time = #{vo.createTime}</if>
+        </where>
+    </select>
+
+    <insert id="insertCimOnemapSetting" parameterType="CimOnemapSetting" useGeneratedKeys="true" keyProperty="id">
+        insert into cim_onemap_setting
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="logo != null">logo,</if>
+            <if test="ishead != null">ishead,</if>
+            <if test="isLeftMenu != null">is_left_menu,</if>
+            <if test="isTerrain != null">is_terrain,</if>
+            <if test="iscontour != null">iscontour,</if>
+            <if test="isWarp != null">is_warp,</if>
+            <if test="skins != null">skins,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="roleId != null">role_id,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+           <if test="id != null">#{id},</if>
+           <if test="name != null">#{name},</if>
+           <if test="logo != null">#{logo},</if>
+           <if test="ishead != null">#{ishead},</if>
+           <if test="isLeftMenu != null">#{isLeftMenu},</if>
+           <if test="isTerrain != null">#{isTerrain},</if>
+           <if test="iscontour != null">#{iscontour},</if>
+           <if test="isWarp != null">#{isWarp},</if>
+           <if test="skins != null">#{skins},</if>
+           <if test="userId != null">#{userId},</if>
+           <if test="roleId != null">#{roleId},</if>
+           <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCimOnemapSetting" parameterType="CimOnemapSetting">
+        update cim_onemap_setting
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name=#{name},</if>
+            <if test="logo != null">logo=#{logo},</if>
+            <if test="ishead != null">ishead=#{ishead},</if>
+            <if test="isLeftMenu != null">is_left_menu=#{isLeftMenu},</if>
+            <if test="isTerrain != null">is_terrain=#{isTerrain},</if>
+            <if test="iscontour != null">iscontour=#{iscontour},</if>
+            <if test="isWarp != null">is_warp=#{isWarp},</if>
+            <if test="skins != null">skins=#{skins},</if>
+            <if test="userId != null">user_id=#{userId},</if>
+            <if test="roleId != null">role_id=#{roleId},</if>
+            <if test="createTime != null">create_time=#{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCimOnemapSettingById" parameterType="String">
+        delete from cim_onemap_setting where id = #{id}
+    </delete>
+
+    <delete id="deleteCimOnemapSettingByIds" parameterType="String">
+        delete from cim_onemap_setting where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+</mapper>

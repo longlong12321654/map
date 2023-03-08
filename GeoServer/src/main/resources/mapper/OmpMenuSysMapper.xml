@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hndist.server.mapper.OmpMenuSysMapper">
+
+
+    <resultMap type="OmpMenuSys" id="OmpMenuSysResult">
+        <result property="id" column="id"/>
+        <result property="systemId" column="system_id"/>
+        <result property="menuId" column="menu_id"/>
+        <result property="name" column="name"/>
+        <result property="pid" column="pid"/>
+        <result property="orderNum" column="order_num"/>
+        <result property="menuCode" column="menu_code"/>
+        <result property="menuType" column="menu_type"/>
+        <result property="pub" column="is_pub"/>
+        <result property="visible" column="visible"/>
+        <result property="status" column="status"/>
+        <result property="serviceName" column="service_name"/>
+        <result property="serviceType" column="service_type"/>
+        <result property="serviceUrl" column="service_url"/>
+        <result property="maxScaleVal" column="max_scale_val"/>
+        <result property="minScaleVal" column="min_scale_val"/>
+        <result property="zoomTo" column="is_zoom_to"/>
+        <result property="opacityBar" column="opacity_bar"/>
+        <result property="opacityVal" column="opacity_val"/>
+        <result property="loadVisible" column="load_visible"/>
+        <result property="perms" column="perms"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <sql id="selectOmpMenuSysVo">
+        select
+                id
+                ,system_id
+                ,menu_id
+                ,name
+                ,pid
+                ,order_num
+                ,menu_code
+                ,menu_type
+                ,is_pub
+                ,visible
+                ,status
+                ,service_name
+                ,service_type
+                ,service_url
+                ,max_scale_val
+                ,min_scale_val
+                ,is_zoom_to
+                ,opacity_bar
+                ,opacity_val
+                ,load_visible
+                ,perms
+                ,create_by
+                ,create_time
+                ,update_by
+                ,update_time
+                ,remark
+        from omp_menu_sys
+    </sql>
+
+    <select id="selectOmpMenuSysById" resultMap="OmpMenuSysResult">
+        <include refid="selectOmpMenuSysVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectOmpMenuSysList" resultMap="OmpMenuSysResult">
+        <include refid="selectOmpMenuSysVo"/>
+        <where>
+            del_flag = '0'
+            <if test="vo.name != null and vo.name != ''">
+                AND name like concat('%', #{vo.name}, '%')
+            </if>
+            <if test="vo.visible != null and vo.visible != ''">
+                AND visible = #{vo.visible}
+            </if>
+            <if test="vo.status != null and vo.status != ''">
+                AND status = #{vo.status}
+            </if>
+            <if test="vo.pub != null  and vo.pub != ''">
+                and is_pub = #{vo.pub}
+            </if>
+            <if test="vo.id != null  and vo.id != ''"> and id = #{vo.id}</if>
+            <if test="vo.systemId != null  and vo.systemId != ''"> and system_id = #{vo.systemId}</if>
+            <if test="vo.pid != null  and vo.pid != ''"> and pid = #{vo.pid}</if>
+            <if test="vo.orderNum != null  and vo.orderNum != ''"> and order_num = #{vo.orderNum}</if>
+            <if test="vo.menuCode != null  and vo.menuCode != ''"> and menu_code = #{vo.menuCode}</if>
+            <if test="vo.menuType != null  and vo.menuType != ''"> and menu_type = #{vo.menuType}</if>
+            <if test="vo.serviceName != null  and vo.serviceName != ''">
+                and service_name like concat('%', #{vo.serviceName}, '%')
+            </if>
+            <if test="vo.serviceType != null  and vo.serviceType != ''">
+                and service_type = #{vo.serviceType}
+            </if>
+            <if test="vo.serviceUrl != null  and vo.serviceUrl != ''">
+                and service_url = #{vo.serviceUrl}
+            </if>
+            <if test="vo.maxScaleVal != null  and vo.maxScaleVal != ''"> and max_scale_val = #{vo.maxScaleVal}</if>
+            <if test="vo.minScaleVal != null  and vo.minScaleVal != ''"> and min_scale_val = #{vo.minScaleVal}</if>
+            <if test="vo.zoomTo != null  and vo.zoomTo != ''"> and is_zoom_to = #{vo.zoomTo}</if>
+            <if test="vo.opacityBar != null  and vo.opacityBar != ''"> and opacity_bar = #{vo.opacityBar}</if>
+            <if test="vo.opacityVal != null  and vo.opacityVal != ''"> and opacity_val = #{vo.opacityVal}</if>
+            <if test="vo.loadVisible != null  and vo.loadVisible != ''"> and load_visible = #{vo.loadVisible}</if>
+            <if test="vo.perms != null  and vo.perms != ''"> and perms = #{vo.perms}</if>
+            <if test="vo.createBy != null  and vo.createBy != ''"> and create_by = #{vo.createBy}</if>
+            <if test="vo.createTime != null  and vo.createTime != ''"> and create_time = #{vo.createTime}</if>
+            <if test="vo.updateBy != null  and vo.updateBy != ''"> and update_by = #{vo.updateBy}</if>
+            <if test="vo.updateTime != null  and vo.updateTime != ''"> and update_time = #{vo.updateTime}</if>
+            <if test="vo.remark != null  and vo.remark != ''"> and remark = #{vo.remark}</if>
+        </where>
+        order by pid, order_num
+    </select>
+
+    <insert id="insertOmpMenuSys" parameterType="OmpMenuSys" useGeneratedKeys="true" keyProperty="id">
+        insert into omp_menu_sys
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="menuId != null">menu_id,</if>
+            <if test="systemId != null">system_id,</if>
+            <if test="name != null">name,</if>
+            <if test="pid != null">pid,</if>
+            <if test="orderNum != null">order_num,</if>
+            <if test="menuCode != null">menu_code,</if>
+            <if test="menuType != null">menu_type,</if>
+            <if test="pub != null">is_pub,</if>
+            <if test="visible != null">visible,</if>
+            <if test="status != null">status,</if>
+            <if test="serviceName != null">service_name,</if>
+            <if test="serviceType != null">service_type,</if>
+            <if test="serviceUrl != null">service_url,</if>
+            <if test="maxScaleVal != null">max_scale_val,</if>
+            <if test="minScaleVal != null">min_scale_val,</if>
+            <if test="zoomTo != null">is_zoom_to,</if>
+            <if test="opacityBar != null">opacity_bar,</if>
+            <if test="opacityVal != null">opacity_val,</if>
+            <if test="loadVisible != null">load_visible,</if>
+            <if test="perms != null">perms,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="menuId != null">#{menuId},</if>
+            <if test="systemId != null">#{systemId},</if>
+            <if test="name != null">#{name},</if>
+            <if test="pid != null">#{pid},</if>
+            <if test="orderNum != null">#{orderNum},</if>
+            <if test="menuCode != null">#{menuCode},</if>
+            <if test="menuType != null">#{menuType},</if>
+            <if test="pub != null">#{pub},</if>
+            <if test="visible != null">#{visible},</if>
+            <if test="status != null">#{status},</if>
+            <if test="serviceName != null">#{serviceName},</if>
+            <if test="serviceType != null">#{serviceType},</if>
+            <if test="serviceUrl != null">#{serviceUrl},</if>
+            <if test="maxScaleVal != null">#{maxScaleVal},</if>
+            <if test="minScaleVal != null">#{minScaleVal},</if>
+            <if test="zoomTo != null">#{zoomTo},</if>
+            <if test="opacityBar != null">#{opacityBar},</if>
+            <if test="opacityVal != null">#{opacityVal},</if>
+            <if test="loadVisible != null">#{loadVisible},</if>
+            <if test="perms != null">#{perms},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateOmpMenuSys" parameterType="OmpMenuSys">
+        update omp_menu_sys
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="systemId != null">system_id=#{systemId},</if>
+            <if test="menuId != null">menu_id=#{menuId},</if>
+            <if test="name != null">name=#{name},</if>
+            <if test="pid != null">pid=#{pid},</if>
+            <if test="orderNum != null">order_num=#{orderNum},</if>
+            <if test="menuCode != null">menu_code=#{menuCode},</if>
+            <if test="menuType != null">menu_type=#{menuType},</if>
+            <if test="pub != null">is_pub=#{pub},</if>
+            <if test="visible != null">visible=#{visible},</if>
+            <if test="status != null">status=#{status},</if>
+            <if test="serviceName != null">service_name=#{serviceName},</if>
+            <if test="serviceType != null">service_type=#{serviceType},</if>
+            <if test="serviceUrl != null">service_url=#{serviceUrl},</if>
+            <if test="maxScaleVal != null">max_scale_val=#{maxScaleVal},</if>
+            <if test="minScaleVal != null">min_scale_val=#{minScaleVal},</if>
+            <if test="zoomTo != null">is_zoom_to=#{zoomTo},</if>
+            <if test="opacityBar != null">opacity_bar=#{opacityBar},</if>
+            <if test="opacityVal != null">opacity_val=#{opacityVal},</if>
+            <if test="loadVisible != null">load_visible=#{loadVisible},</if>
+            <if test="perms != null">perms=#{perms},</if>
+            <if test="createBy != null">create_by=#{createBy},</if>
+            <if test="createTime != null">create_time=#{createTime},</if>
+            <if test="updateBy != null">update_by=#{updateBy},</if>
+            <if test="updateTime != null">update_time=#{updateTime},</if>
+            <if test="remark != null">remark=#{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteOmpMenuSysById" parameterType="String">
+        delete from omp_menu_sys where id = #{id}
+    </delete>
+
+    <delete id="deleteOmpMenuSysByIds" parameterType="String">
+        delete from omp_menu_sys where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectOmpMenuSysTreeList" parameterType="String" resultMap="OmpMenuSysResult">
+        <include refid="selectOmpMenuSysVo"/>
+        <where>
+            <if test="type==null or type=='' "> and is_content = '1'</if>
+        </where>
+    </select>
+
+    <select id="checkMenuExistSystem" resultType="Integer">
+	    select count(1) from omp_menu_sys where menu_id = #{menuId} and del_flag = '0'
+	</select>
+
+    <insert id="batchMenuSys">
+        insert into omp_menu_sys(
+            system_id, menu_id,name,pid,order_num,menu_type,is_pub,
+            visible,status,del_flag,service_name,service_type,service_url,max_scale_val,
+            min_scale_val,is_zoom_to,opacity_bar,opacity_val,load_visible,perms
+        ) values
+        <foreach item="item" index="index" collection="menus" separator=",">
+            (
+                #{sysId},#{item.menuId},#{item.name},#{item.pid},#{item.orderNum},#{item.menuType},
+                #{item.pub},#{item.visible},#{item.status},'0',#{item.serviceName},#{item.serviceType},
+                #{item.serviceUrl},#{item.maxScaleVal},#{item.minScaleVal},#{item.zoomTo},
+                #{item.opacityBar},#{item.opacityVal},#{item.loadVisible},#{item.perms}
+            )
+        </foreach>
+    </insert>
+
+    <select id="selectMenuIdsBySysId" resultType="Long">
+	    select menu_id from omp_menu_sys where system_id = #{id} and del_flag = '0'
+	</select>
+
+    <delete id="deleteOmpMenuSysBySysId" parameterType="Long">
+        delete from omp_menu_sys where system_id = #{id}
+    </delete>
+
+
+</mapper>

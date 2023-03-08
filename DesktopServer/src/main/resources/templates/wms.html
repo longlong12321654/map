@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}"></title>
+    <link rel="shortcut icon" href="../static/favicon.ico" th:href="@{/favicon.ico}">
+</head>
+<body>
+<div>
+    <div>
+        <span>数慧GIS 接口服务目录</span>
+        <span style="float: right;color: #9c1a8b;text-decoration: underline;margin-right: 20px">登录</span>
+    </div>
+
+    <div style="height: 30px;border-top:solid 1px;background: #e5eff7;border-bottom: solid 1px;line-height: 25px;margin-top: 10px">
+          <span style="margin-left: 10px">
+              <span class="daohao">主页</span> >
+              <span class="daohao">服务</span> >
+              <span class="daohao" th:text="${title}"></span></span>
+
+        <span style="float: right"><span class="daohao_right" style="text-decoration: underline;color: #0055f2">帮助</span> |  <span class="daohao_right" style="text-decoration: underline;color: #0055f2">接口参考</span></span>
+
+    </div>
+
+    <div class="content" style="margin-left: 20px">
+        <p style="text-decoration: underline;color: #0055f2">
+            <span style="text-decoration: underline;color: #551a8b;">JSON</span> | <span style="text-decoration: underline;color: #551a8b;">SOAP</span> | <span style="text-decoration: underline;color: #551a8b;">WMTS</span>
+        </p>
+
+        <h3 th:text="${title}+'(mapserver)'"></h3>
+        <h4 class="chk">查看：<span><a href="https://www.google.com/maps/@22.278543,114.165394,17z?hl=zh">谷歌地图</a></span>
+            <span><a href="#">Cesium</a></span>
+            <span><a href="#">OpenLayer</a></span>
+            <span><a href="#">MapBox</a></span>
+        </h4>
+        <h4>服务描述：</h4>
+        <h4>地图名称：图层</h4>
+        <h4 style="color: #0055f2;">图例:无</h4>
+        <h4 style="color: #0055f2;">所有图层和表</h4>
+        <h4 style="color: #0055f2;">图层：</h4>
+        <ul style="color: #0000ee;text-decoration: underline" th:each="tc:${tc_list}">
+            <li><a href="#" th:text="${tc}" th:href="@{/rest/services/{name}/MapServer/layer/{lnm}(name=${title},lnm=${tc})}" ></a></li>
+        </ul>
+<!--        <ul style="color: #0000ee;text-decoration: underline" th:each="tc:${tc_list}">-->
+<!--            <li><a href="#" th:href="@{/hndist/{service}/{name}(name=${tc},service=${title})}" th:text="${tc}"></a></li>-->
+<!--        </ul>-->
+
+        <h4>空间参考：</h4>
+        <h4>瓦片信息：</h4>
+        <h4>初始范围：</h4>
+        <h4>全部范围：</h4>
+        <h4>支持图片格式：<span>PNG32,PNG24,PNG,JPG,DIB,TIFF,EMF,PS,PDF,GIF,SVG,SVGZ,BMP</span></h4>
+        <h4>最大比例：</h4>
+        <h4>最小比例：</h4>
+
+    </div>
+
+    <h4 class="zcjk">支持操作：
+        <span>导出地图</span>
+        <span>识别</span>
+        <span>查询</span>
+        <span>返回更新</span>
+        <span>生成KML</span>
+    </h4>
+</div>
+</body>
+<style>
+    .zcjk span{
+        color: #551a8b;
+        text-decoration: underline;
+        margin-left: 5px;
+        cursor: pointer;
+
+    }
+    .daohao{
+        text-decoration: underline;
+        color: #551a8b;
+        cursor: pointer;
+
+    }
+    .chk span{
+        margin-left: 10px;
+    }
+
+
+</style>
+</html>

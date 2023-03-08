@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hndist.server.mapper.CimPathWalkthroughMapper">
+
+
+    <resultMap type="CimPathWalkthrough" id="CimPathWalkthroughResult">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="speed" column="speed"/>
+        <result property="height" column="height"/>
+        <result property="distance" column="distance"/>
+        <result property="model" column="model"/>
+        <result property="pitch" column="pitch"/>
+        <result property="positions" column="positions"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <sql id="selectCimPathWalkthroughVo">
+        select
+                id
+                ,name
+                ,speed
+                ,height
+                ,distance
+                ,model
+                ,pitch
+                ,positions
+                ,create_time
+        from cim_path_walkthrough
+    </sql>
+
+    <select id="selectCimPathWalkthroughById" resultMap="CimPathWalkthroughResult">
+        <include refid="selectCimPathWalkthroughVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectCimPathWalkthroughList" resultMap="CimPathWalkthroughResult">
+        <include refid="selectCimPathWalkthroughVo"/>
+        <where>
+                        <if test="vo.id != null  and vo.id != ''"> and id = #{vo.id}</if>
+                        <if test="vo.name != null  and vo.name != ''"> and name like concat('%', #{vo.name}, '%')</if>
+                        <if test="vo.speed != null  and vo.speed != ''"> and speed = #{vo.speed}</if>
+                        <if test="vo.height != null  and vo.height != ''"> and height = #{vo.height}</if>
+                        <if test="vo.distance != null  and vo.distance != ''"> and distance = #{vo.distance}</if>
+                        <if test="vo.model != null  and vo.model != ''"> and model = #{vo.model}</if>
+                        <if test="vo.pitch != null  and vo.pitch != ''"> and pitch = #{vo.pitch}</if>
+                        <if test="vo.positions != null  and vo.positions != ''"> and positions = #{vo.positions}</if>
+                        <if test="vo.createTime != null  and vo.createTime != ''"> and create_time = #{vo.createTime}</if>
+        </where>
+    </select>
+
+    <insert id="insertCimPathWalkthrough" parameterType="CimPathWalkthrough" useGeneratedKeys="true" keyProperty="id">
+        insert into cim_path_walkthrough
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="speed != null">speed,</if>
+            <if test="height != null">height,</if>
+            <if test="distance != null">distance,</if>
+            <if test="model != null">model,</if>
+            <if test="pitch != null">pitch,</if>
+            <if test="positions != null">positions,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+           <if test="id != null">#{id},</if>
+           <if test="name != null">#{name},</if>
+           <if test="speed != null">#{speed},</if>
+           <if test="height != null">#{height},</if>
+           <if test="distance != null">#{distance},</if>
+           <if test="model != null">#{model},</if>
+           <if test="pitch != null">#{pitch},</if>
+           <if test="positions != null">#{positions},</if>
+           <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCimPathWalkthrough" parameterType="CimPathWalkthrough">
+        update cim_path_walkthrough
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name=#{name},</if>
+            <if test="speed != null">speed=#{speed},</if>
+            <if test="height != null">height=#{height},</if>
+            <if test="distance != null">distance=#{distance},</if>
+            <if test="model != null">model=#{model},</if>
+            <if test="pitch != null">pitch=#{pitch},</if>
+            <if test="positions != null">positions=#{positions},</if>
+            <if test="createTime != null">create_time=#{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCimPathWalkthroughById" parameterType="String">
+        delete from cim_path_walkthrough where id = #{id}
+    </delete>
+
+    <delete id="deleteCimPathWalkthroughByIds" parameterType="String">
+        delete from cim_path_walkthrough where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+</mapper>

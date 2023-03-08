@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hndist.server.mapper.CimClusterAnalysMapper">
+
+
+    <resultMap type="CimClusterAnalys" id="CimClusterAnalysResult">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="serviceurl" column="serviceurl"/>
+        <result property="thumbnail" column="thumbnail"/>
+        <result property="context" column="context"/>
+        <result property="analysType" column="analys_type"/>
+        <result property="basemap" column="basemap"/>
+        <result property="visualAngle" column="visual_angle"/>
+        <result property="layerName" column="layer_name"/>
+        <result property="clusterFiled" column="cluster_filed"/>
+        <result property="isparent" column="isparent"/>
+        <result property="pid" column="pid"/>
+        <result property="icon" column="icon"/>
+        <result property="datatype" column="datatype"/>
+        <result property="servicetype" column="servicetype"/>
+        <result property="serviceengine" column="serviceengine"/>
+    </resultMap>
+
+    <sql id="selectCimClusterAnalysVo">
+        select
+                id
+                ,name
+                ,serviceurl
+                ,thumbnail
+                ,context
+                ,analys_type
+                ,basemap
+                ,visual_angle
+                ,layer_name
+                ,cluster_filed
+                ,isparent
+                ,pid
+                ,icon
+                ,datatype
+                ,servicetype
+                ,serviceengine
+        from cim_cluster_analys
+    </sql>
+
+    <select id="selectCimClusterAnalysById" resultMap="CimClusterAnalysResult">
+        <include refid="selectCimClusterAnalysVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectCimClusterAnalysList" resultMap="CimClusterAnalysResult">
+        <include refid="selectCimClusterAnalysVo"/>
+        <where>
+                        <if test="vo.id != null  and vo.id != ''"> and id = #{vo.id}</if>
+                        <if test="vo.name != null  and vo.name != ''"> and name like concat('%',#{vo.name},'%')</if>
+                        <if test="vo.serviceurl != null  and vo.serviceurl != ''"> and serviceurl = #{vo.serviceurl}</if>
+                        <if test="vo.thumbnail != null  and vo.thumbnail != ''"> and thumbnail = #{vo.thumbnail}</if>
+                        <if test="vo.context != null  and vo.context != ''"> and context = #{vo.context}</if>
+                        <if test="vo.analysType != null  and vo.analysType != ''"> and analys_type = #{vo.analysType}</if>
+                        <if test="vo.basemap != null  and vo.basemap != ''"> and basemap = #{vo.basemap}</if>
+                        <if test="vo.visualAngle != null  and vo.visualAngle != ''"> and visual_angle = #{vo.visualAngle}</if>
+                        <if test="vo.layerName != null  and vo.layerName != ''"> and layer_name = #{vo.layerName}</if>
+                        <if test="vo.clusterFiled != null  and vo.clusterFiled != ''"> and cluster_filed = #{vo.clusterFiled}</if>
+                        <if test="vo.isparent != null  and vo.isparent != ''"> and isparent = #{vo.isparent}</if>
+                        <if test="vo.pid != null  and vo.pid != ''"> and pid = #{vo.pid}</if>
+                        <if test="vo.icon != null  and vo.icon != ''"> and icon = #{vo.icon}</if>
+                        <if test="vo.datatype != null  and vo.datatype != ''"> and datatype = #{vo.datatype}</if>
+        </where>
+    </select>
+
+    <insert id="insertCimClusterAnalys" parameterType="CimClusterAnalys" useGeneratedKeys="true" keyProperty="id">
+        insert into cim_cluster_analys
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="serviceurl != null">serviceurl,</if>
+            <if test="thumbnail != null">thumbnail,</if>
+            <if test="context != null">context,</if>
+            <if test="analysType != null">analys_type,</if>
+            <if test="basemap != null">basemap,</if>
+            <if test="visualAngle != null">visual_angle,</if>
+            <if test="layerName != null">layer_name,</if>
+            <if test="clusterFiled != null">cluster_filed,</if>
+            <if test="isparent != null">isparent,</if>
+            <if test="pid != null">pid,</if>
+            <if test="icon != null">icon,</if>
+            <if test="datatype != null">datatype,</if>
+            <if test="servicetype != null">servicetype,</if>
+            <if test="serviceengine != null">serviceengine,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+           <if test="id != null">#{id},</if>
+           <if test="name != null">#{name},</if>
+           <if test="serviceurl != null">#{serviceurl},</if>
+           <if test="thumbnail != null">#{thumbnail},</if>
+           <if test="context != null">#{context},</if>
+           <if test="analysType != null">#{analysType},</if>
+           <if test="basemap != null">#{basemap},</if>
+           <if test="visualAngle != null">#{visualAngle},</if>
+           <if test="layerName != null">#{layerName},</if>
+           <if test="clusterFiled != null">#{clusterFiled},</if>
+           <if test="isparent != null">#{isparent},</if>
+           <if test="pid != null">#{pid},</if>
+           <if test="icon != null">#{icon},</if>
+           <if test="datatype != null">#{datatype},</if>
+           <if test="servicetype != null">#{servicetype},</if>
+           <if test="serviceengine != null">#{serviceengine},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCimClusterAnalys" parameterType="CimClusterAnalys">
+        update cim_cluster_analys
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name=#{name},</if>
+            <if test="serviceurl != null">serviceurl=#{serviceurl},</if>
+            <if test="thumbnail != null">thumbnail=#{thumbnail},</if>
+            <if test="context != null">context=#{context},</if>
+            <if test="analysType != null">analys_type=#{analysType},</if>
+            <if test="basemap != null">basemap=#{basemap},</if>
+            <if test="visualAngle != null">visual_angle=#{visualAngle},</if>
+            <if test="layerName != null">layer_name=#{layerName},</if>
+            <if test="clusterFiled != null">cluster_filed=#{clusterFiled},</if>
+            <if test="isparent != null">isparent=#{isparent},</if>
+            <if test="pid != null">pid=#{pid},</if>
+            <if test="icon != null">icon=#{icon},</if>
+            <if test="datatype != null">datatype=#{datatype},</if>
+            <if test="servicetype != null">servicetype=#{servicetype},</if>
+            <if test="serviceengine != null">serviceengine=#{serviceengine},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCimClusterAnalysById" parameterType="String">
+        delete from cim_cluster_analys where id = #{id}
+    </delete>
+
+    <delete id="deleteCimClusterAnalysByIds" parameterType="String">
+        delete from cim_cluster_analys where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="selectCimClusterAnalysTreeList" parameterType="String" resultMap="CimClusterAnalysResult">
+        <include refid="selectCimClusterAnalysVo"/>
+        <where>
+            <if test="type==null or type=='' "> and isparent = '1'</if>
+        </where>
+    </select>
+
+
+</mapper>

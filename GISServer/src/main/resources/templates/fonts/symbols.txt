@@ -1,0 +1,315 @@
+#########################
+# Sample MapServer Symbols
+#
+#   - For more examples see: https://mapserver.org/mapfile/symbology/examples.html
+#
+#   - For more advanced examples see: https://mapserver.org/mapfile/symbology/construction.html
+#
+#########################
+
+SYMBOLSET
+
+Symbol
+Name 'tent'
+Type VECTOR
+Filled TRUE
+Points
+0 1
+.5 0
+1 1
+.75 1
+.5 .5
+.25 1
+0 1
+END
+END 
+
+Symbol
+Name 'star'
+Type VECTOR
+Filled TRUE
+Points
+0 .375
+.35 .375
+.5 0
+.65 .375
+1 .375
+.75 .625
+.875 1
+.5 .75
+.125 1
+.25 .625
+END
+END 
+
+Symbol
+Name 'triangle'
+Type VECTOR
+Filled TRUE
+Points
+0 1
+.5 0
+1 1
+0 1
+END
+END 
+
+Symbol
+Name 'square'
+Type VECTOR
+Filled TRUE
+Points
+0 1
+0 0
+1 0
+1 1
+0 1
+END
+END 
+
+Symbol
+Name 'plus'
+Type VECTOR
+Points
+.5 0
+.5 1
+-99 -99
+0 .5
+1 .5
+END
+END 
+
+Symbol
+Name 'cross'
+Type VECTOR
+Points
+0 0
+1 1
+-99 -99
+0 1
+1 0
+END
+END
+
+Symbol
+Name 'circle'
+Type ELLIPSE
+Filled TRUE
+Points
+1 1
+END
+END 
+
+
+Symbol
+Type VECTOR
+TRANSPARENT 0
+Points
+0 1
+1 1
+END
+END 
+
+Symbol
+Type VECTOR
+TRANSPARENT 0
+Points
+1 0
+1 1
+END
+END 
+
+Symbol
+Type VECTOR
+TRANSPARENT 0
+Points
+0 0
+1 1
+END
+END 
+
+Symbol
+Type VECTOR
+TRANSPARENT 0
+Points
+0 1
+1 0
+END
+END 
+
+Symbol
+Type VECTOR
+Points
+0 1
+1 0
+-99 -99
+0 0
+1 1
+END
+END 
+
+Symbol
+Type ELLIPSE
+Filled TRUE
+Points
+1 1
+END
+END 
+
+SYMBOL
+  NAME "chess"
+  TYPE vector
+  FILLED true
+  POINTS
+    0 0
+    10 0
+    10 10
+    0 10
+    0 0
+    -99 -99
+    10 10
+    20 10
+    20 20
+    10 20
+    10 10
+  END
+END
+
+SYMBOL
+  NAME "diag_dots"
+  TYPE vector
+  FILLED true
+  POINTS
+    # Central circle:
+    0.7450    0.4500
+    0.7365    0.5147
+    0.7115    0.5750
+    0.6718    0.6268
+    0.6200    0.6665
+    0.5597    0.6915
+    0.4950    0.7000
+    0.4303    0.6915
+    0.3700    0.6665
+    0.3182    0.6268
+    0.2785    0.5750
+    0.2535    0.5147
+    0.2450    0.4500
+    0.2535    0.3853
+    0.2785    0.3250
+    0.3182    0.2732
+    0.3700    0.2335
+    0.4303    0.2085
+    0.4950    0.2000
+    0.5597    0.2085
+    0.6200    0.2335
+    0.6718    0.2732
+    0.7115    0.3250
+    0.7365    0.3853
+    0.7450    0.4500
+    -99 -99
+    0.25      0.0
+    0.2415    0.0647
+    0.2165    0.1250
+    0.1768    0.1768
+    0.1250    0.2165
+    0.0647    0.2415
+    0.0       0.25
+    0.0       0.0
+    0.25      0.0
+    -99 -99
+    1 0.25
+    0.9252    0.2415
+    0.8649    0.2165
+    0.8132    0.1768
+    0.7734    0.1250
+    0.7485    0.0647
+    0.74      0.0
+    1 0.0
+    1 0.25
+    -99 -99
+    0.74      1
+    0.7485    0.9252
+    0.7734    0.8649
+    0.8132    0.8132
+    0.8649    0.7734
+    0.9252    0.7485
+    1 0.74
+    1 1
+    0.74      1
+    -99 -99
+    0.0       0.74
+    0.0647    0.7485
+    0.1250    0.7734
+    0.1768    0.8132
+    0.2165    0.8649
+    0.2415    0.9252
+    0.25      1
+    0.0       1
+    0.0       0.74
+  END
+END
+
+SYMBOL
+  NAME "hatchsymbol"
+  TYPE hatch
+END
+
+
+
+
+SYMBOL
+  NAME "vertline"
+  TYPE vector
+  FILLED true
+  POINTS
+    0 0
+    0 10
+    2.8 10
+    2.8 0
+    0 0
+  END # POINTS
+  ANCHORPOINT 0.5 0
+END # SYMBOL
+
+SYMBOL
+  NAME "o-flag-trans"
+  TYPE pixmap
+  IMAGE "o-flag-trans.png"
+END # SYMBOL
+
+
+SYMBOL
+  NAME "circlef"
+  TYPE ellipse
+  FILLED true
+  POINTS
+    10 10
+  END # POINTS
+END # SYMBOL
+
+
+SYMBOL
+  NAME "v-line"
+  TYPE vector
+  FILLED false
+  POINTS
+    0  0
+    5  10
+    10 0
+  END # POINTS
+END # SYMBOL
+
+SYMBOL
+  NAME "v-poly"
+  TYPE vector
+  FILLED true
+  POINTS
+    0  0
+    3.5 8
+    7 0
+    5.2 0
+    3.5 4
+    1.8 0
+    0 0
+  END # POINTS
+END # SYMBOL

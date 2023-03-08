@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hndist.server.mapper.CimMapsymbolMapper">
+
+
+    <resultMap type="CimMapsymbol" id="CimMapsymbolResult">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="pid" column="pid"/>
+        <result property="thumbnail" column="thumbnail"/>
+        <result property="symbol" column="symbol"/>
+        <result property="context" column="context"/>
+        <result property="isparent" column="isparent"/>
+        <result property="icon" column="icon"/>
+    </resultMap>
+
+    <sql id="selectCimMapsymbolVo">
+        select
+                id
+                ,name
+                ,pid
+                ,thumbnail
+                ,symbol
+                ,context
+                ,isparent
+                ,icon
+        from cim_mapsymbol
+    </sql>
+
+    <select id="selectCimMapsymbolById" resultMap="CimMapsymbolResult">
+        <include refid="selectCimMapsymbolVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectCimMapsymbolList" resultMap="CimMapsymbolResult">
+        <include refid="selectCimMapsymbolVo"/>
+        <where>
+                        <if test="vo.id != null  and vo.id != ''"> and id = #{vo.id}</if>
+                        <if test="vo.name != null  and vo.name != ''"> and name like concat('%', #{vo.name}, '%')</if>
+                        <if test="vo.pid != null  and vo.pid != ''"> and pid = #{vo.pid}</if>
+                        <if test="vo.thumbnail != null  and vo.thumbnail != ''"> and thumbnail = #{vo.thumbnail}</if>
+                        <if test="vo.symbol != null  and vo.symbol != ''"> and symbol = #{vo.symbol}</if>
+                        <if test="vo.context != null  and vo.context != ''"> and context = #{vo.context}</if>
+                        <if test="vo.isparent != null  and vo.isparent != ''"> and isparent = #{vo.isparent}</if>
+                        <if test="vo.icon != null  and vo.icon != ''"> and icon = #{vo.icon}</if>
+        </where>
+    </select>
+
+    <insert id="insertCimMapsymbol" parameterType="CimMapsymbol" useGeneratedKeys="true" keyProperty="id">
+        insert into cim_mapsymbol
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="pid != null">pid,</if>
+            <if test="thumbnail != null">thumbnail,</if>
+            <if test="symbol != null">symbol,</if>
+            <if test="context != null">context,</if>
+            <if test="isparent != null">isparent,</if>
+            <if test="icon != null">icon,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+           <if test="id != null">#{id},</if>
+           <if test="name != null">#{name},</if>
+           <if test="pid != null">#{pid},</if>
+           <if test="thumbnail != null">#{thumbnail},</if>
+           <if test="symbol != null">#{symbol},</if>
+           <if test="context != null">#{context},</if>
+           <if test="isparent != null">#{isparent},</if>
+           <if test="icon != null">#{icon},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCimMapsymbol" parameterType="CimMapsymbol">
+        update cim_mapsymbol
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name=#{name},</if>
+            <if test="pid != null">pid=#{pid},</if>
+            <if test="thumbnail != null">thumbnail=#{thumbnail},</if>
+            <if test="symbol != null">symbol=#{symbol},</if>
+            <if test="context != null">context=#{context},</if>
+            <if test="isparent != null">isparent=#{isparent},</if>
+            <if test="icon != null">icon=#{icon},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCimMapsymbolById" parameterType="String">
+        delete from cim_mapsymbol where id = #{id}
+    </delete>
+
+    <delete id="deleteCimMapsymbolByIds" parameterType="String">
+        delete from cim_mapsymbol where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="selectCimMapsymbolTreeList" parameterType="String" resultMap="CimMapsymbolResult">
+        <include refid="selectCimMapsymbolVo"/>
+        <where>
+            <if test="type==null or type=='' "> and isparent = '1'</if>
+        </where>
+    </select>
+
+    <select id="selectCimMapsymbolByName" parameterType="String" resultMap="CimMapsymbolResult">
+        <include refid="selectCimMapsymbolVo"/>
+        where name = #{name}
+    </select>
+
+
+</mapper>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${layname}"></title>
+    <link rel="shortcut icon" href="../static/favicon.ico" th:href="@{/favicon.ico}">
+</head>
+<body>
+    <div>
+        <div>
+            <span>数慧GIS 接口服务目录</span>
+            <span style="float: right;color: #9c1a8b;text-decoration: underline;margin-right: 20px">登录</span>
+        </div>
+
+        <div style="height: 30px;border-top:solid 1px;background: #e5eff7;border-bottom: solid 1px;line-height: 25px;margin-top: 10px">
+            <span style="margin-left: 10px">
+                  <span class="daohao">主页</span> >
+                  <span class="daohao">服务</span> >
+                  <span class="daohao" th:text="${name}"></span> >
+                  <span class="daohao" th:text="${lnm}"></span> >
+                  <span class="daohao" th:text="query"></span>
+
+            </span>
+
+            <span style="float: right"><span class="daohao_right" style="text-decoration: underline;color: #0055f2">帮助</span> |  <span class="daohao_right" style="text-decoration: underline;color: #0055f2">接口参考</span></span>
+
+        </div>
+
+        <!-- 可视化查询 -->
+        <div>
+            <h2 th:text="'查询：'+${layname}"></h2>
+            <div class="indexbox">
+                <table>
+                    <tr>
+                        <td>区域</td>
+                        <td><input style="width: 80%"></td>
+                    </tr>
+                    <tr>
+                        <td>文本</td>
+                        <td><input></td>
+                    </tr>
+                    <tr>
+                        <td>瓦片ID</td>
+                        <td><input style="width: 80%"></td>
+                    </tr>
+                    <tr>
+                        <td>时间</td>
+                        <td><input style="width: 80%"></td>
+                    </tr>
+                    <tr>
+                        <td>输入几何点集</td>
+                        <td><textarea id="doc" cols="40" rows="6" style="text-align: left;font: 16px 宋体;"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>空间类型</td>
+                        <td>
+                            <select style="width: 70px">
+                                <option>点</option>
+                                <option>线</option>
+                                <option>面</option>
+                                <option>多点</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>空间坐标系</td>
+                        <td><input style="width: 80%"></td>
+                    </tr>
+                    <tr>
+                        <td>关系类型</td>
+                        <td>
+                            <select style="width: 70px">
+                                <option>相交</option>
+                                <option>包含</option>
+                                <option>交叉</option>
+                                <option>外部相交</option>
+                                <option>索引相交</option>
+                                <option>覆盖</option>
+                                <option>相接</option>
+                                <option>关系</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>关系</td>
+                        <td><input style="width: 50%"></td>
+                    </tr>
+                    <tr>
+                        <td>输出字段</td>
+                        <td><input style="width: 80%"></td>
+                    </tr>
+                    <tr>
+                        <td>返回几何图形</td>
+                        <td>
+                            <input type="radio" id="True" name="drone" value="True" checked><label for="True">True</label>
+                            <input type="radio" id="False" name="drone" value="False"><label for="False">False</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>最大偏离量</td>
+                        <td><input style="width: 50%"></td>
+                    </tr>
+                    <tr>
+                        <td>几何精度</td>
+                        <td><input style="width: 50%"></td>
+                    </tr>
+                    <tr>
+                        <td>仅返回ID</td>
+                        <td>
+                            <input type="radio" id="xx" name="rone" value="rue"><label for="xx">True</label>
+                            <input type="radio" id="yy" name="rone" value="alse" checked><label for="yy">False</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>仅返回总数</td>
+                        <td>
+                            <input type="radio" id="xxx" name="one" value="ue"><label for="xxx">True</label>
+                            <input type="radio" id="yyy" name="one" value="lse" checked><label for="yyy">False</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>字段排序</td>
+                        <td><input style="width: 60%"></td>
+                    </tr>
+                    <tr>
+                        <td>输出统计</td>
+                        <td><textarea id="do" cols="40" rows="4" style="text-align: left;font: 16px 宋体;"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>格式</td>
+                        <td>
+                            <select style="width: 70px">
+                                <option>HTML</option>
+                                <option>JSON</option>
+                                <option>XML</option>
+                                <option>PNG</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <div style="float: right">
+                                <button style="width: 100px">查询(GET)</button>
+                                <button style="width: 100px;margin-left: 10px">查询(POST)</button>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+
+</script>
+<style>
+    .daohao{
+        text-decoration: underline;
+        color: #551a8b;
+        cursor: pointer;
+    }
+    body{
+        margin:10px 10px;padding: 0 0
+    }
+    .indexbox{
+        width:60%;
+        border:solid 1px;
+        background: #e5eff7;
+        margin-bottom: 60px;
+
+    }
+    table{
+        width: 100% ;
+    }
+    tr td:nth-child(1){
+        padding:5px 20px;
+        width: 20%;
+
+
+    }
+    tr td:nth-child(2){
+        padding:5px 20px;
+        width: 80%;
+
+    }
+</style>
+</html>

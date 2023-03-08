@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hndist.server.mapper.CimDatasourceMetaMapper">
+
+
+    <resultMap type="CimDatasourceMeta" id="CimDatasourceMetaResult">
+        <result property="id" column="id"/>
+        <result property="datasourceId" column="datasource_id"/>
+        <result property="dataType" column="data_type"/>
+        <result property="dataSubType" column="data_sub_type"/>
+        <result property="productTime" column="product_time"/>
+        <result property="summary" column="summary"/>
+        <result property="keywords" column="keywords"/>
+        <result property="dataQuality" column="data_quality"/>
+        <result property="standardName" column="standard_name"/>
+        <result property="fileIdentifier" column="file_identifier"/>
+        <result property="dataLog" column="data_log"/>
+        <result property="datasetLang" column="dataset_lang"/>
+        <result property="projectType" column="project_type"/>
+        <result property="extent" column="extent"/>
+        <result property="spaceType" column="space_type"/>
+        <result property="spatialResolution" column="spatial_resolution"/>
+        <result property="satellite" column="satellite"/>
+        <result property="sensor" column="sensor"/>
+        <result property="imagOrbid" column="imag_orbid"/>
+        <result property="refSystem" column="ref_system"/>
+        <result property="projection" column="projection"/>
+        <result property="ellipsoid" column="ellipsoid"/>
+        <result property="vetDatum" column="vet_datum"/>
+        <result property="vetName" column="vet_name"/>
+        <result property="layerName" column="layer_name"/>
+        <result property="attrDesc" column="attr_desc"/>
+        <result property="cloudCov" column="cloud_cov"/>
+        <result property="expression" column="expression"/>
+        <result property="contentDesc" column="content_desc"/>
+        <result property="distorCont" column="distor_cont"/>
+        <result property="formatName" column="format_name"/>
+        <result property="formatVer" column="format_ver"/>
+        <result property="linkage" column="linkage"/>
+        <result property="uselimit" column="uselimit"/>
+        <result property="accessConsts" column="access_consts"/>
+        <result property="useConsts" column="use_consts"/>
+        <result property="safetyConsts" column="safety_consts"/>
+        <result property="resTitle" column="res_title"/>
+        <result property="resDate" column="res_date"/>
+        <result property="resEd" column="res_ed"/>
+        <result property="timeExtent" column="time_extent"/>
+        <result property="beginning" column="beginning"/>
+        <result property="ending" column="ending"/>
+        <result property="rpindName" column="rpind_name"/>
+        <result property="rporgName" column="rporg_name"/>
+        <result property="rpposName" column="rppos_name"/>
+        <result property="role" column="role"/>
+        <result property="address" column="address"/>
+        <result property="city" column="city"/>
+        <result property="adminArea" column="admin_area"/>
+        <result property="postalCode" column="postal_code"/>
+        <result property="country" column="country"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="permi" column="permi"/>
+        <result property="gettime" column="gettime"/>
+        <result property="linktel" column="linktel"/>
+        <result property="township" column="township"/>
+        <result property="pchargeName" column="pcharge_name"/>
+        <result property="prunitName" column="prunit_name"/>
+        <result property="ppostName" column="ppost_name"/>
+        <result property="ptellink" column="ptellink"/>
+        <result property="pid" column="pid"/>
+    </resultMap>
+
+    <sql id="selectCimDatasourceMetaVo">
+        select
+            cdm.id
+                ,cdm.datasource_id
+                ,cdm.data_type
+                ,cdm.data_sub_type
+                ,cdm.product_time
+                ,cdm.summary
+                ,cdm.keywords
+                ,cdm.data_quality
+                ,cdm.standard_name
+                ,cdm.file_identifier
+                ,cdm.data_log
+                ,cdm.dataset_lang
+                ,cdm.project_type
+                ,cdm.extent
+                ,cdm.space_type
+                ,cdm.spatial_resolution
+                ,cdm.satellite
+                ,cdm.sensor
+                ,cdm.imag_orbid
+                ,cdm.ref_system
+                ,cdm.projection
+                ,cdm.ellipsoid
+                ,cdm.vet_datum
+                ,cdm.vet_name
+                ,cdm.layer_name
+                ,cdm.attr_desc
+                ,cdm.cloud_cov
+                ,cdm.expression
+                ,cdm.content_desc
+                ,cdm.distor_cont
+                ,cdm.format_name
+                ,cdm.format_ver
+                ,cdm.linkage
+                ,cdm.uselimit
+                ,cdm.access_consts
+                ,cdm.use_consts
+                ,cdm.safety_consts
+                ,cdm.res_title
+                ,cdm.res_date
+                ,cdm.res_ed
+                ,cdm.time_extent
+                ,cdm.beginning
+                ,cdm.ending
+                ,cdm.rpind_name
+                ,cdm.rporg_name
+                ,cdm.rppos_name
+                ,cdm.role
+                ,cdm.address
+                ,cdm.city
+                ,cdm.admin_area
+                ,cdm.postal_code
+                ,cdm.country
+                ,cdm.create_time
+                ,cdm.create_by
+                ,cdm.update_time
+                ,cdm.update_by
+                ,cdm.permi
+                ,cdm.gettime
+                ,cdm.linktel
+                ,cdm.township
+                ,cdm.pcharge_name
+                ,cdm.prunit_name
+                ,cdm.ppost_name
+                ,cdm.ptellink
+                ,cf.pid
+        from cim_datasource_meta cdm
+                 left join cim_files cf on cdm.datasource_id = cf.id
+    </sql>
+
+    <select id="selectCimDatasourceMetaById" resultMap="CimDatasourceMetaResult">
+        <include refid="selectCimDatasourceMetaVo"/>
+        where cdm.id = #{id}
+    </select>
+
+    <select id="selectCimDatasourceMetaList" resultMap="CimDatasourceMetaResult">
+        <include refid="selectCimDatasourceMetaVo"/>
+        <where>
+                        <if test="vo.id != null  and vo.id != ''"> and cdm.id = #{vo.id}</if>
+                        <if test="vo.datasourceId != null  and vo.datasourceId != ''"> and cdm.datasource_id = #{vo.datasourceId}</if>
+                        <if test="vo.dataType != null  and vo.dataType != ''"> and cdm.data_type = #{vo.dataType}</if>
+                        <if test="vo.dataSubType != null  and vo.dataSubType != ''"> and cdm.data_sub_type = #{vo.dataSubType}</if>
+                        <if test="vo.productTime != null and vo.productTime != ''"><!-- 开始时间检索 -->
+                            AND to_timestamp(to_char(cdm.product_time,'YYYY-mm-dd'), 'YYYY-mm-dd') &gt;= to_timestamp(#{vo.productTime}, 'YYYY-mm-dd')
+                        </if>
+                        <if test="vo.summary != null  and vo.summary != ''"> and cdm.summary like concat('%', #{vo.summary}, '%')</if>
+                        <if test="vo.keywords != null  and vo.keywords != ''">
+                         and (
+                            cdm.keywords like concat('%', #{vo.keywords}, '%') or
+                            cdm.summary like concat('%', #{vo.keywords}, '%') or
+                            cdm.file_identifier like concat('%', #{vo.keywords}, '%') or
+                            to_char(product_time,'YYYY-MM-DD hh24:mi:ss') like concat('%', #{vo.keywords}, '%')
+                         )
+                         </if>
+                        <if test="vo.dataQuality != null  and vo.dataQuality != ''"> and cdm.data_quality = #{vo.dataQuality}</if>
+                        <if test="vo.standardName != null  and vo.standardName != ''"> and cdm.standard_name = #{vo.standardName}</if>
+                        <if test="vo.fileIdentifier != null  and vo.fileIdentifier != ''"> and cdm.file_identifier like concat('%',#{vo.fileIdentifier},'%')</if>
+                        <if test="vo.dataLog != null  and vo.dataLog != ''"> and cdm.data_log = #{vo.dataLog}</if>
+                        <if test="vo.datasetLang != null  and vo.datasetLang != ''"> and cdm.dataset_lang = #{vo.datasetLang}</if>
+                        <if test="vo.projectType != null  and vo.projectType != ''"> and cdm.project_type = #{vo.projectType}</if>
+                        <if test="vo.extent != null  and vo.extent != ''"> and cdm.extent = #{vo.extent}</if>
+                        <if test="vo.spaceType != null  and vo.spaceType != ''"> and cdm.space_type = #{vo.spaceType}</if>
+                        <if test="vo.spatialResolution != null  and vo.spatialResolution != ''"> and spatial_resolution = #{vo.spatialResolution}</if>
+                        <if test="vo.satellite != null  and vo.satellite != ''"> and cdm.satellite = #{vo.satellite}</if>
+                        <if test="vo.sensor != null  and vo.sensor != ''"> and cdm.sensor = #{vo.sensor}</if>
+                        <if test="vo.imagOrbid != null  and vo.imagOrbid != ''"> and cdm.imag_orbid = #{vo.imagOrbid}</if>
+                        <if test="vo.refSystem != null  and vo.refSystem != ''"> and cdm.ref_system = #{vo.refSystem}</if>
+                        <if test="vo.projection != null  and vo.projection != ''"> and cdm.projection = #{vo.projection}</if>
+                        <if test="vo.ellipsoid != null  and vo.ellipsoid != ''"> and cdm.ellipsoid = #{vo.ellipsoid}</if>
+                        <if test="vo.vetDatum != null  and vo.vetDatum != ''"> and cdm.vet_datum = #{vo.vetDatum}</if>
+                        <if test="vo.vetName != null  and vo.vetName != ''"> and cdm.vet_name = #{vo.vetName}</if>
+                        <if test="vo.layerName != null  and vo.layerName != ''"> and cdm.layer_name = #{vo.layerName}</if>
+                        <if test="vo.attrDesc != null  and vo.attrDesc != ''"> and cdm.attr_desc = #{vo.attrDesc}</if>
+                        <if test="vo.cloudCov != null  and vo.cloudCov != ''"> and cdm.cloud_cov = #{vo.cloudCov}</if>
+                        <if test="vo.expression != null  and vo.expression != ''"> and cdm.expression = #{vo.expression}</if>
+                        <if test="vo.contentDesc != null  and vo.contentDesc != ''"> and cdm.content_desc = #{vo.contentDesc}</if>
+                        <if test="vo.distorCont != null  and vo.distorCont != ''"> and cdm.distor_cont = #{vo.distorCont}</if>
+                        <if test="vo.formatName != null  and vo.formatName != ''"> and cdm.format_name = #{vo.formatName}</if>
+                        <if test="vo.formatVer != null  and vo.formatVer != ''"> and cdm.format_ver = #{vo.formatVer}</if>
+                        <if test="vo.linkage != null  and vo.linkage != ''"> and cdm.linkage = #{vo.linkage}</if>
+                        <if test="vo.uselimit != null  and vo.uselimit != ''"> and cdm.uselimit = #{vo.uselimit}</if>
+                        <if test="vo.accessConsts != null  and vo.accessConsts != ''"> and cdm.access_consts = #{vo.accessConsts}</if>
+                        <if test="vo.useConsts != null  and vo.useConsts != ''"> and cdm.use_consts = #{vo.useConsts}</if>
+                        <if test="vo.safetyConsts != null  and vo.safetyConsts != ''"> and cdm.safety_consts = #{vo.safetyConsts}</if>
+                        <if test="vo.resTitle != null  and vo.resTitle != ''"> and cdm.res_title = #{vo.resTitle}</if>
+                        <if test="vo.resDate != null  and vo.resDate != ''"> and cdm.res_date = #{vo.resDate}</if>
+                        <if test="vo.resEd != null  and vo.resEd != ''"> and cdm.res_ed = #{vo.resEd}</if>
+                        <if test="vo.timeExtent != null  and vo.timeExtent != ''"> and cdm.time_extent = #{vo.timeExtent}</if>
+                        <if test="vo.beginning != null  and vo.beginning != ''"> and cdm.beginning = #{vo.beginning}</if>
+                        <if test="vo.ending != null  and vo.ending != ''"> and cdm.ending = #{vo.ending}</if>
+                        <if test="vo.rpindName != null  and vo.rpindName != ''"> and cdm.rpind_name = #{vo.rpindName}</if>
+                        <if test="vo.rporgName != null  and vo.rporgName != ''"> and cdm.rporg_name = #{vo.rporgName}</if>
+                        <if test="vo.rpposName != null  and vo.rpposName != ''"> and cdm.rppos_name = #{vo.rpposName}</if>
+                        <if test="vo.role != null  and vo.role != ''"> and cdm.role = #{vo.role}</if>
+                        <if test="vo.address != null  and vo.address != ''"> and cdm.address = #{vo.address}</if>
+                        <if test="vo.city != null  and vo.city != ''"> and cdm.city = #{vo.city}</if>
+                        <if test="vo.adminArea != null  and vo.adminArea != ''"> and cdm.admin_area = #{vo.adminArea}</if>
+                        <if test="vo.postalCode != null  and vo.postalCode != ''"> and cdm.postal_code = #{vo.postalCode}</if>
+                        <if test="vo.country != null  and vo.country != ''"> and cdm.country = #{vo.country}</if>
+                        <if test="vo.createTime != null  and vo.createTime != ''"> and cdm.create_time = #{vo.createTime}</if>
+                        <if test="vo.createBy != null  and vo.createBy != ''"> and cdm.create_by = #{vo.createBy}</if>
+                        <if test="vo.updateTime != null  and vo.updateTime != ''"> and cdm.update_time = #{vo.updateTime}</if>
+                        <if test="vo.updateBy != null  and vo.updateBy != ''"> and cdm.update_by = #{vo.updateBy}</if>
+                        <if test="vo.permi != null  and vo.permi != ''"> and permi = #{vo.permi}</if>
+                        <if test="vo.gettime != null  and vo.gettime != ''"> and cdm.gettime = #{vo.gettime}</if>
+                        <if test="vo.linktel != null  and vo.linktel != ''"> and cdm.linktel = #{vo.linktel}</if>
+                        <if test="vo.township != null  and vo.township != ''"> and cdm.township = #{vo.township}</if>
+                        <if test="vo.pchargeName != null  and vo.pchargeName != ''"> and cdm.pcharge_name = #{vo.pchargeName}</if>
+                        <if test="vo.prunitName != null  and vo.prunitName != ''"> and cdm.prunit_name = #{vo.prunitName}</if>
+                        <if test="vo.ppostName != null  and vo.ppostName != ''"> and cdm.ppostName = #{vo.ppostName}</if>
+                        <if test="vo.ptellink != null  and vo.ptellink != ''"> and cdm.ptellink = #{vo.ptellink}</if>
+                        <if test="vo.pid != null  and vo.pid != ''"> and cf.pid = #{vo.pid}</if>
+
+        </where>
+    </select>
+
+    <insert id="insertCimDatasourceMeta" parameterType="CimDatasourceMeta" useGeneratedKeys="true" keyProperty="id">
+        insert into cim_datasource_meta
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="datasourceId != null">datasource_id,</if>
+            <if test="dataType != null">data_type,</if>
+            <if test="dataSubType != null">data_sub_type,</if>
+            <if test="productTime != null">product_time,</if>
+            <if test="summary != null">summary,</if>
+            <if test="keywords != null">keywords,</if>
+            <if test="dataQuality != null">data_quality,</if>
+            <if test="standardName != null">standard_name,</if>
+            <if test="fileIdentifier != null">file_identifier,</if>
+            <if test="dataLog != null">data_log,</if>
+            <if test="datasetLang != null">dataset_lang,</if>
+            <if test="projectType != null">project_type,</if>
+            <if test="extent != null">extent,</if>
+            <if test="spaceType != null">space_type,</if>
+            <if test="spatialResolution != null">spatial_resolution,</if>
+            <if test="satellite != null">satellite,</if>
+            <if test="sensor != null">sensor,</if>
+            <if test="imagOrbid != null">imag_orbid,</if>
+            <if test="refSystem != null">ref_system,</if>
+            <if test="projection != null">projection,</if>
+            <if test="ellipsoid != null">ellipsoid,</if>
+            <if test="vetDatum != null">vet_datum,</if>
+            <if test="vetName != null">vet_name,</if>
+            <if test="layerName != null">layer_name,</if>
+            <if test="attrDesc != null">attr_desc,</if>
+            <if test="cloudCov != null">cloud_cov,</if>
+            <if test="expression != null">expression,</if>
+            <if test="contentDesc != null">content_desc,</if>
+            <if test="distorCont != null">distor_cont,</if>
+            <if test="formatName != null">format_name,</if>
+            <if test="formatVer != null">format_ver,</if>
+            <if test="linkage != null">linkage,</if>
+            <if test="uselimit != null">uselimit,</if>
+            <if test="accessConsts != null">access_consts,</if>
+            <if test="useConsts != null">use_consts,</if>
+            <if test="safetyConsts != null">safety_consts,</if>
+            <if test="resTitle != null">res_title,</if>
+            <if test="resDate != null">res_date,</if>
+            <if test="resEd != null">res_ed,</if>
+            <if test="timeExtent != null">time_extent,</if>
+            <if test="beginning != null">beginning,</if>
+            <if test="ending != null">ending,</if>
+            <if test="rpindName != null">rpind_name,</if>
+            <if test="rporgName != null">rporg_name,</if>
+            <if test="rpposName != null">rppos_name,</if>
+            <if test="role != null">role,</if>
+            <if test="address != null">address,</if>
+            <if test="city != null">city,</if>
+            <if test="adminArea != null">admin_area,</if>
+            <if test="postalCode != null">postal_code,</if>
+            <if test="country != null">country,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="permi != null">permi,</if>
+            <if test="gettime != null">gettime,</if>
+            <if test="linktel != null">linktel,</if>
+            <if test="township != null">township,</if>
+            <if test="pchargeName != null">pcharge_name,</if>
+            <if test="prunitName != null">prunit_name,</if>
+            <if test="ppostName != null">ppost_name,</if>
+            <if test="ptellink != null">ptellink,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+           <if test="id != null">#{id},</if>
+           <if test="datasourceId != null">#{datasourceId},</if>
+           <if test="dataType != null">#{dataType},</if>
+           <if test="dataSubType != null">#{dataSubType},</if>
+           <if test="productTime != null">#{productTime},</if>
+           <if test="summary != null">#{summary},</if>
+           <if test="keywords != null">#{keywords},</if>
+           <if test="dataQuality != null">#{dataQuality},</if>
+           <if test="standardName != null">#{standardName},</if>
+           <if test="fileIdentifier != null">#{fileIdentifier},</if>
+           <if test="dataLog != null">#{dataLog},</if>
+           <if test="datasetLang != null">#{datasetLang},</if>
+           <if test="projectType != null">#{projectType},</if>
+           <if test="extent != null">#{extent},</if>
+           <if test="spaceType != null">#{spaceType},</if>
+           <if test="spatialResolution != null">#{spatialResolution},</if>
+           <if test="satellite != null">#{satellite},</if>
+           <if test="sensor != null">#{sensor},</if>
+           <if test="imagOrbid != null">#{imagOrbid},</if>
+           <if test="refSystem != null">#{refSystem},</if>
+           <if test="projection != null">#{projection},</if>
+           <if test="ellipsoid != null">#{ellipsoid},</if>
+           <if test="vetDatum != null">#{vetDatum},</if>
+           <if test="vetName != null">#{vetName},</if>
+           <if test="layerName != null">#{layerName},</if>
+           <if test="attrDesc != null">#{attrDesc},</if>
+           <if test="cloudCov != null">#{cloudCov},</if>
+           <if test="expression != null">#{expression},</if>
+           <if test="contentDesc != null">#{contentDesc},</if>
+           <if test="distorCont != null">#{distorCont},</if>
+           <if test="formatName != null">#{formatName},</if>
+           <if test="formatVer != null">#{formatVer},</if>
+           <if test="linkage != null">#{linkage},</if>
+           <if test="uselimit != null">#{uselimit},</if>
+           <if test="accessConsts != null">#{accessConsts},</if>
+           <if test="useConsts != null">#{useConsts},</if>
+           <if test="safetyConsts != null">#{safetyConsts},</if>
+           <if test="resTitle != null">#{resTitle},</if>
+           <if test="resDate != null">#{resDate},</if>
+           <if test="resEd != null">#{resEd},</if>
+           <if test="timeExtent != null">#{timeExtent},</if>
+           <if test="beginning != null">#{beginning},</if>
+           <if test="ending != null">#{ending},</if>
+           <if test="rpindName != null">#{rpindName},</if>
+           <if test="rporgName != null">#{rporgName},</if>
+           <if test="rpposName != null">#{rpposName},</if>
+           <if test="role != null">#{role},</if>
+           <if test="address != null">#{address},</if>
+           <if test="city != null">#{city},</if>
+           <if test="adminArea != null">#{adminArea},</if>
+           <if test="postalCode != null">#{postalCode},</if>
+           <if test="country != null">#{country},</if>
+           <if test="createTime != null">#{createTime},</if>
+           <if test="createBy != null">#{createBy},</if>
+           <if test="updateTime != null">#{updateTime},</if>
+           <if test="updateBy != null">#{updateBy},</if>
+           <if test="permi != null">#{permi},</if>
+            <if test="gettime != null">#{gettime},</if>
+            <if test="linktel != null">#{linktel},</if>
+            <if test="township != null">#{township},</if>
+            <if test="pchargeName != null">#{pchargeName},</if>
+            <if test="prunitName != null">#{prunitName},</if>
+            <if test="ppostName != null">#{ppostName},</if>
+            <if test="ptellink != null">#{ptellink},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCimDatasourceMeta" parameterType="CimDatasourceMeta">
+        update cim_datasource_meta
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="datasourceId != null">datasource_id=#{datasourceId},</if>
+            <if test="dataType != null">data_type=#{dataType},</if>
+            <if test="dataSubType != null">data_sub_type=#{dataSubType},</if>
+            <if test="productTime != null">product_time=#{productTime},</if>
+            <if test="summary != null">summary=#{summary},</if>
+            <if test="keywords != null">keywords=#{keywords},</if>
+            <if test="dataQuality != null">data_quality=#{dataQuality},</if>
+            <if test="standardName != null">standard_name=#{standardName},</if>
+            <if test="fileIdentifier != null">file_identifier=#{fileIdentifier},</if>
+            <if test="dataLog != null">data_log=#{dataLog},</if>
+            <if test="datasetLang != null">dataset_lang=#{datasetLang},</if>
+            <if test="projectType != null">project_type=#{projectType},</if>
+            <if test="extent != null">extent=#{extent},</if>
+            <if test="spaceType != null">space_type=#{spaceType},</if>
+            <if test="spatialResolution != null">spatial_resolution=#{spatialResolution},</if>
+            <if test="satellite != null">satellite=#{satellite},</if>
+            <if test="sensor != null">sensor=#{sensor},</if>
+            <if test="imagOrbid != null">imag_orbid=#{imagOrbid},</if>
+            <if test="refSystem != null">ref_system=#{refSystem},</if>
+            <if test="projection != null">projection=#{projection},</if>
+            <if test="ellipsoid != null">ellipsoid=#{ellipsoid},</if>
+            <if test="vetDatum != null">vet_datum=#{vetDatum},</if>
+            <if test="vetName != null">vet_name=#{vetName},</if>
+            <if test="layerName != null">layer_name=#{layerName},</if>
+            <if test="attrDesc != null">attr_desc=#{attrDesc},</if>
+            <if test="cloudCov != null">cloud_cov=#{cloudCov},</if>
+            <if test="expression != null">expression=#{expression},</if>
+            <if test="contentDesc != null">content_desc=#{contentDesc},</if>
+            <if test="distorCont != null">distor_cont=#{distorCont},</if>
+            <if test="formatName != null">format_name=#{formatName},</if>
+            <if test="formatVer != null">format_ver=#{formatVer},</if>
+            <if test="linkage != null">linkage=#{linkage},</if>
+            <if test="uselimit != null">uselimit=#{uselimit},</if>
+            <if test="accessConsts != null">access_consts=#{accessConsts},</if>
+            <if test="useConsts != null">use_consts=#{useConsts},</if>
+            <if test="safetyConsts != null">safety_consts=#{safetyConsts},</if>
+            <if test="resTitle != null">res_title=#{resTitle},</if>
+            <if test="resDate != null">res_date=#{resDate},</if>
+            <if test="resEd != null">res_ed=#{resEd},</if>
+            <if test="timeExtent != null">time_extent=#{timeExtent},</if>
+            <if test="beginning != null">beginning=#{beginning},</if>
+            <if test="ending != null">ending=#{ending},</if>
+            <if test="rpindName != null">rpind_name=#{rpindName},</if>
+            <if test="rporgName != null">rporg_name=#{rporgName},</if>
+            <if test="rpposName != null">rppos_name=#{rpposName},</if>
+            <if test="role != null">role=#{role},</if>
+            <if test="address != null">address=#{address},</if>
+            <if test="city != null">city=#{city},</if>
+            <if test="adminArea != null">admin_area=#{adminArea},</if>
+            <if test="postalCode != null">postal_code=#{postalCode},</if>
+            <if test="country != null">country=#{country},</if>
+            <if test="createTime != null">create_time=#{createTime},</if>
+            <if test="createBy != null">create_by=#{createBy},</if>
+            <if test="updateTime != null">update_time=#{updateTime},</if>
+            <if test="updateBy != null">update_by=#{updateBy},</if>
+            <if test="permi != null">permi=#{permi},</if>
+            <if test="gettime != null">gettime=#{gettime},</if>
+            <if test="linktel != null">linktel=#{linktel},</if>
+            <if test="township != null">township=#{township},</if>
+            <if test="pchargeName != null">pcharge_name=#{pchargeName},</if>
+            <if test="prunitName != null">prunit_name=#{prunitName},</if>
+            <if test="ppostName != null">ppost_name=#{ppostName},</if>
+            <if test="ptellink != null">ptellink=#{ptellink},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCimDatasourceMetaById" parameterType="String">
+        delete from cim_datasource_meta where id = #{id}
+    </delete>
+
+    <delete id="deleteCimDatasourceMetaByIds" parameterType="String">
+        delete from cim_datasource_meta where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+</mapper>

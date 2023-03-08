@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hndist.server.mapper.CimVideoMapper">
+
+
+    <resultMap type="CimVideo" id="CimVideoResult">
+        <result property="id" column="id"/>
+        <result property="videoName" column="video_name"/>
+        <result property="videoDesc" column="video_desc"/>
+        <result property="videoType" column="video_type"/>
+        <result property="videoAddr" column="video_addr"/>
+        <result property="longt" column="longt"/>
+        <result property="lat" column="lat"/>
+        <result property="altitude" column="altitude"/>
+        <result property="thumbnail" column="thumbnail"/>
+        <result property="name" column="name"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateBy" column="update_by"/>
+    </resultMap>
+
+    <sql id="selectCimVideoVo">
+        select
+                id
+                ,video_name
+                ,video_desc
+                ,video_type
+                ,video_addr
+                ,longt
+                ,lat
+                ,altitude
+                ,thumbnail
+                ,name
+                ,create_time
+                ,create_by
+                ,update_time
+                ,update_by
+        from cim_video
+    </sql>
+
+    <select id="selectCimVideoById" resultMap="CimVideoResult">
+        <include refid="selectCimVideoVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectCimVideoList" resultMap="CimVideoResult">
+        <include refid="selectCimVideoVo"/>
+        <where>
+                        <if test="vo.id != null  and vo.id != ''"> and id = #{vo.id}</if>
+                        <if test="vo.videoName != null  and vo.videoName != ''"> and video_name like concat('%', #{vo.videoName}, '%')</if>
+                        <if test="vo.videoDesc != null  and vo.videoDesc != ''"> and video_desc = #{vo.videoDesc}</if>
+                        <if test="vo.videoType != null  and vo.videoType != ''"> and video_type = #{vo.videoType}</if>
+                        <if test="vo.videoAddr != null  and vo.videoAddr != ''"> and video_addr = #{vo.videoAddr}</if>
+                        <if test="vo.longt != null  and vo.longt != ''"> and longt = #{vo.longt}</if>
+                        <if test="vo.lat != null  and vo.lat != ''"> and lat = #{vo.lat}</if>
+                        <if test="vo.altitude != null  and vo.altitude != ''"> and altitude = #{vo.altitude}</if>
+                        <if test="vo.thumbnail != null  and vo.thumbnail != ''"> and thumbnail = #{vo.thumbnail}</if>
+                        <if test="vo.name != null  and vo.name != ''"> and name = #{vo.name}</if>
+                        <if test="vo.createTime != null  and vo.createTime != ''"> and create_time = #{vo.createTime}</if>
+                        <if test="vo.createBy != null  and vo.createBy != ''"> and create_by = #{vo.createBy}</if>
+                        <if test="vo.updateTime != null  and vo.updateTime != ''"> and update_time = #{vo.updateTime}</if>
+                        <if test="vo.updateBy != null  and vo.updateBy != ''"> and update_by = #{vo.updateBy}</if>
+        </where>
+    </select>
+
+    <insert id="insertCimVideo" parameterType="CimVideo" useGeneratedKeys="true" keyProperty="id">
+        insert into cim_video
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="videoName != null">video_name,</if>
+            <if test="videoDesc != null">video_desc,</if>
+            <if test="videoType != null">video_type,</if>
+            <if test="videoAddr != null">video_addr,</if>
+            <if test="longt != null">longt,</if>
+            <if test="lat != null">lat,</if>
+            <if test="altitude != null">altitude,</if>
+            <if test="thumbnail != null">thumbnail,</if>
+            <if test="name != null">name,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+           <if test="id != null">#{id},</if>
+           <if test="videoName != null">#{videoName},</if>
+           <if test="videoDesc != null">#{videoDesc},</if>
+           <if test="videoType != null">#{videoType},</if>
+           <if test="videoAddr != null">#{videoAddr},</if>
+           <if test="longt != null">#{longt},</if>
+           <if test="lat != null">#{lat},</if>
+           <if test="altitude != null">#{altitude},</if>
+           <if test="thumbnail != null">#{thumbnail},</if>
+           <if test="name != null">#{name},</if>
+           <if test="createTime != null">#{createTime},</if>
+           <if test="createBy != null">#{createBy},</if>
+           <if test="updateTime != null">#{updateTime},</if>
+           <if test="updateBy != null">#{updateBy},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCimVideo" parameterType="CimVideo">
+        update cim_video
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="videoName != null">video_name=#{videoName},</if>
+            <if test="videoDesc != null">video_desc=#{videoDesc},</if>
+            <if test="videoType != null">video_type=#{videoType},</if>
+            <if test="videoAddr != null">video_addr=#{videoAddr},</if>
+            <if test="longt != null">longt=#{longt},</if>
+            <if test="lat != null">lat=#{lat},</if>
+            <if test="altitude != null">altitude=#{altitude},</if>
+            <if test="thumbnail != null">thumbnail=#{thumbnail},</if>
+            <if test="name != null">name=#{name},</if>
+            <if test="createTime != null">create_time=#{createTime},</if>
+            <if test="createBy != null">create_by=#{createBy},</if>
+            <if test="updateTime != null">update_time=#{updateTime},</if>
+            <if test="updateBy != null">update_by=#{updateBy},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCimVideoById" parameterType="String">
+        delete from cim_video where id = #{id}
+    </delete>
+
+    <delete id="deleteCimVideoByIds" parameterType="String">
+        delete from cim_video where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+</mapper>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hndist.server.mapper.CimBaseMapMapper">
+
+
+    <resultMap type="CimBaseMap" id="CimBaseMapResult">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="show" column="is_show"/>
+        <result property="status" column="status"/>
+        <result property="serviceurl" column="serviceurl"/>
+        <result property="key" column="key"/>
+        <result property="spatialReference" column="spatial_reference"/>
+        <result property="thumbnail" column="thumbnail"/>
+        <result property="servicetype" column="servicetype"/>
+        <result property="transparency" column="transparency"/>
+        <result property="reorder" column="reorder"/>
+        <result property="createTime" column="create_time"/>
+        <result property="context" column="context"/>
+        <result property="serviceengine" column="serviceengine"/>
+    </resultMap>
+
+    <sql id="selectCimBaseMapVo">
+        select
+                id
+                ,name
+                ,is_show
+                ,status
+                ,serviceurl
+                ,key
+                ,spatial_reference
+                ,thumbnail
+                ,servicetype
+                ,transparency
+                ,reorder
+                ,create_time
+                ,context
+                ,serviceengine
+        from cim_base_map
+    </sql>
+
+    <select id="selectCimBaseMapById" resultMap="CimBaseMapResult">
+        <include refid="selectCimBaseMapVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectCimBaseMapList" resultMap="CimBaseMapResult">
+        <include refid="selectCimBaseMapVo"/>
+        <where>
+                        <if test="vo.id != null  and vo.id != ''"> and id = #{vo.id}</if>
+                        <if test="vo.name != null  and vo.name != ''"> and name like concat('%',#{vo.name},'%')</if>
+                        <if test="vo.show != null  and vo.show != ''"> and is_show = #{vo.show}</if>
+                        <if test="vo.status != null  and vo.status != ''"> and status = #{vo.status}</if>
+                        <if test="vo.serviceurl != null  and vo.serviceurl != ''"> and serviceurl = #{vo.serviceurl}</if>
+                        <if test="vo.key != null  and vo.key != ''"> and key = #{vo.key}</if>
+                        <if test="vo.spatialReference != null  and vo.spatialReference != ''"> and spatial_reference = #{vo.spatialReference}</if>
+                        <if test="vo.thumbnail != null  and vo.thumbnail != ''"> and thumbnail = #{vo.thumbnail}</if>
+                        <if test="vo.servicetype != null  and vo.servicetype != ''"> and servicetype = #{vo.servicetype}</if>
+                        <if test="vo.transparency != null  and vo.transparency != ''"> and transparency = #{vo.transparency}</if>
+                        <if test="vo.reorder != null  and vo.reorder != ''"> and reorder = #{vo.reorder}</if>
+                        <if test="vo.createTime != null  and vo.createTime != ''"> and create_time = #{vo.createTime}</if>
+                        <if test="vo.context != null  and vo.context != ''"> and context = #{vo.context}</if>
+                        <if test="vo.serviceengine != null  and vo.serviceengine != ''"> and serviceengine = #{vo.serviceengine}</if>
+        </where>
+    </select>
+
+    <insert id="insertCimBaseMap" parameterType="CimBaseMap" useGeneratedKeys="true" keyProperty="id">
+        insert into cim_base_map
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="show != null">is_show,</if>
+            <if test="status != null">status,</if>
+            <if test="serviceurl != null">serviceurl,</if>
+            <if test="key != null">key,</if>
+            <if test="spatialReference != null">spatial_reference,</if>
+            <if test="thumbnail != null">thumbnail,</if>
+            <if test="servicetype != null">servicetype,</if>
+            <if test="transparency != null">transparency,</if>
+            <if test="reorder != null">reorder,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="context != null">context,</if>
+            <if test="serviceengine != null">serviceengine,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+           <if test="id != null">#{id},</if>
+           <if test="name != null">#{name},</if>
+           <if test="show != null">#{show},</if>
+           <if test="status != null">#{status},</if>
+           <if test="serviceurl != null">#{serviceurl},</if>
+           <if test="key != null">#{key},</if>
+           <if test="spatialReference != null">#{spatialReference},</if>
+           <if test="thumbnail != null">#{thumbnail},</if>
+           <if test="servicetype != null">#{servicetype},</if>
+           <if test="transparency != null">#{transparency},</if>
+           <if test="reorder != null">#{reorder},</if>
+           <if test="createTime != null">#{createTime},</if>
+           <if test="context != null">#{context},</if>
+           <if test="serviceengine != null">#{serviceengine},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCimBaseMap" parameterType="CimBaseMap">
+        update cim_base_map
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name=#{name},</if>
+            <if test="show != null">is_show=#{show},</if>
+            <if test="status != null">status=#{status},</if>
+            <if test="serviceurl != null">serviceurl=#{serviceurl},</if>
+            <if test="key != null">key=#{key},</if>
+            <if test="spatialReference != null">spatial_reference=#{spatialReference},</if>
+            <if test="thumbnail != null">thumbnail=#{thumbnail},</if>
+            <if test="servicetype != null">servicetype=#{servicetype},</if>
+            <if test="transparency != null">transparency=#{transparency},</if>
+            <if test="reorder != null">reorder=#{reorder},</if>
+            <if test="createTime != null">create_time=#{createTime},</if>
+            <if test="context != null">context=#{context},</if>
+            <if test="serviceengine != null">serviceengine=#{serviceengine},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCimBaseMapById" parameterType="String">
+        delete from cim_base_map where id = #{id}
+    </delete>
+
+    <delete id="deleteCimBaseMapByIds" parameterType="String">
+        delete from cim_base_map where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+</mapper>

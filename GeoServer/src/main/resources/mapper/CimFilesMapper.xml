@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hndist.server.mapper.CimFilesMapper">
+
+
+    <resultMap type="CimFiles" id="CimFilesResult">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="pid" column="pid"/>
+        <result property="isparent" column="isparent"/>
+        <result property="status" column="status"/>
+        <result property="servicesUrl" column="services_url"/>
+        <result property="city" column="city"/>
+        <result property="key" column="key"/>
+        <result property="spatialReference" column="spatial_reference"/>
+        <result property="tags" column="tags"/>
+        <result property="thumbnailUrl" column="thumbnail_url"/>
+        <result property="serveType" column="serve_type"/>
+        <result property="serviceEngine" column="service_engine"/>
+        <result property="opacity" column="opacity"/>
+        <result property="sortNum" column="sort_num"/>
+        <result property="context" column="context"/>
+        <result property="show" column="is_show"/>
+        <result property="datasourceMetaid" column="datasource_metaid"/>
+        <result property="programme" column="programme"/>
+        <result property="openlod" column="openlod"/>
+        <result property="icon" column="icon"/>
+        <result property="filePath" column="file_path"/>
+        <result property="fileurl" column="fileurl"/>
+    </resultMap>
+
+    <sql id="selectCimFilesVo">
+        select
+               cf.id ,
+               cf.name,
+               cf.pid,
+               cf.isparent,
+               cf.status,
+               cf.services_url,
+               cf.city,
+               cf.key,
+               cf.spatial_reference,
+               cf.tags,
+               cf.thumbnail_url,
+               cf.serve_type,
+               cf.service_engine,
+               cf.opacity,
+               cf.sort_num,
+               cf.context,
+               cf.is_show,
+               cd.id datasource_metaid,
+               cf.programme,
+               cf.openlod,
+               cf.icon,
+               cf.file_path,
+               cf.fileurl
+        from
+            cim_files cf
+                left join cim_datasource_meta cd on cf.id=cd.datasource_id
+    </sql>
+
+    <select id="selectCimFilesById" resultMap="CimFilesResult">
+        <include refid="selectCimFilesVo"/>
+        where cf.id = #{id}
+    </select>
+
+    <select id="selectCimFilesList" resultMap="CimFilesResult">
+        <include refid="selectCimFilesVo"/>
+        <where>
+                        <if test="vo.id != null  and vo.id != ''"> and cf.id = #{vo.id}</if>
+                        <if test="vo.name != null  and vo.name != ''"> and cf.name like concat('%',#{vo.name},'%')</if>
+                        <if test="vo.pid != null  and vo.pid != ''"> and cf.pid = #{vo.pid}</if>
+                        <if test="vo.isparent != null  and vo.isparent != ''"> and cf.isparent = #{vo.isparent}</if>
+                        <if test="vo.status != null  and vo.status != ''"> and cf.status = #{vo.status}</if>
+                        <if test="vo.servicesUrl != null  and vo.servicesUrl != ''"> and cf.services_url = #{vo.servicesUrl}</if>
+                        <if test="vo.city != null  and vo.city != ''"> and cf.city = #{vo.city}</if>
+                        <if test="vo.key != null  and vo.key != ''"> and cf.key = #{vo.key}</if>
+                        <if test="vo.spatialReference != null  and vo.spatialReference != ''"> and cf.spatial_reference = #{vo.spatialReference}</if>
+                        <if test="vo.tags != null  and vo.tags != ''"> and cf.tags = #{vo.tags}</if>
+                        <if test="vo.thumbnailUrl != null  and vo.thumbnailUrl != ''"> and cf.thumbnail_url = #{vo.thumbnailUrl}</if>
+                        <if test="vo.serveType != null  and vo.serveType != ''"> and cf.serve_type = #{vo.serveType}</if>
+                        <if test="vo.serviceEngine != null  and vo.serviceEngine != ''"> and cf.service_engine = #{vo.serviceEngine}</if>
+                        <if test="vo.opacity != null  and vo.opacity != ''"> and cf.opacity = #{vo.opacity}</if>
+                        <if test="vo.sortNum != null  and vo.sortNum != ''"> and cf.sort_num = #{vo.sortNum}</if>
+                        <if test="vo.context != null  and vo.context != ''"> and cf.context = #{vo.context}</if>
+                        <if test="vo.programme != null  and vo.programme != ''"> and cf.programme = #{vo.programme}</if>
+                        <if test="vo.openlod != null  and vo.openlod != ''"> and cf.openlod = #{vo.openlod}</if>
+                        <if test="vo.filePath != null  and vo.filePath != ''"> and cf.file_path = #{vo.filePath}</if>
+                        <if test="vo.fileurl != null  and vo.fileurl != ''"> and cf.fileurl = #{vo.fileurl}</if>
+        </where>
+    </select>
+
+    <insert id="insertCimFiles" parameterType="CimFiles" useGeneratedKeys="true" keyProperty="id">
+        insert into cim_files
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="pid != null">pid,</if>
+            <if test="isparent != null">isparent,</if>
+            <if test="status != null">status,</if>
+            <if test="servicesUrl != null">services_url,</if>
+            <if test="city != null">city,</if>
+            <if test="key != null">key,</if>
+            <if test="spatialReference != null">spatial_reference,</if>
+            <if test="tags != null">tags,</if>
+            <if test="thumbnailUrl != null">thumbnail_url,</if>
+            <if test="serveType != null">serve_type,</if>
+            <if test="serviceEngine != null">service_engine,</if>
+            <if test="opacity != null">opacity,</if>
+            <if test="sortNum != null">sort_num,</if>
+            <if test="context != null">context,</if>
+            <if test="show != null">is_show,</if>
+            <if test="programme != null">programme,</if>
+            <if test="openlod != null">openlod,</if>
+            <if test="icon != null">icon,</if>
+            <if test="filePath != null">file_path,</if>
+            <if test="fileurl != null">fileurl,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+           <if test="id != null">#{id},</if>
+           <if test="name != null">#{name},</if>
+           <if test="pid != null">#{pid},</if>
+           <if test="isparent != null">#{isparent},</if>
+           <if test="status != null">#{status},</if>
+           <if test="servicesUrl != null">#{servicesUrl},</if>
+           <if test="city != null">#{city},</if>
+           <if test="key != null">#{key},</if>
+           <if test="spatialReference != null">#{spatialReference},</if>
+           <if test="tags != null">#{tags},</if>
+           <if test="thumbnailUrl != null">#{thumbnailUrl},</if>
+           <if test="serveType != null">#{serveType},</if>
+           <if test="serviceEngine != null">#{serviceEngine},</if>
+           <if test="opacity != null">#{opacity},</if>
+           <if test="sortNum != null">#{sortNum},</if>
+           <if test="context != null">#{context},</if>
+           <if test="show != null">#{show},</if>
+           <if test="programme != null">#{programme},</if>
+           <if test="openlod != null">#{openlod},</if>
+           <if test="icon != null">#{icon},</if>
+           <if test="filePath != null">#{filePath},</if>
+           <if test="fileurl != null">#{fileurl},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCimFiles" parameterType="CimFiles">
+        update cim_files
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name=#{name},</if>
+            <if test="pid != null">pid=#{pid},</if>
+            <if test="isparent != null">isparent=#{isparent},</if>
+            <if test="status != null">status=#{status},</if>
+            <if test="servicesUrl != null">services_url=#{servicesUrl},</if>
+            <if test="city != null">city=#{city},</if>
+            <if test="key != null">key=#{key},</if>
+            <if test="spatialReference != null">spatial_reference=#{spatialReference},</if>
+            <if test="tags != null">tags=#{tags},</if>
+            <if test="thumbnailUrl != null">thumbnail_url=#{thumbnailUrl},</if>
+            <if test="serveType != null">serve_type=#{serveType},</if>
+            <if test="serviceEngine != null">service_engine=#{serviceEngine},</if>
+            <if test="opacity != null">opacity=#{opacity},</if>
+            <if test="sortNum != null">sort_num=#{sortNum},</if>
+            <if test="context != null">context=#{context},</if>
+            <if test="show != null">is_show=#{show},</if>
+            <if test="programme != null">programme=#{programme},</if>
+            <if test="openlod != null">openlod=#{openlod},</if>
+            <if test="icon != null">icon=#{icon},</if>
+            <if test="filePath != null">file_path=#{filePath},</if>
+            <if test="fileurl != null">fileurl=#{fileurl},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCimFilesById" parameterType="String">
+        delete from cim_files where id = #{id}
+    </delete>
+
+    <delete id="deleteCimFilesByIds" parameterType="String">
+        delete from cim_files where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="selectCimFilesTreeList" parameterType="String" resultMap="CimFilesResult">
+        <include refid="selectCimFilesVo"/>
+        <where>
+            <if test="type==null or type=='' "> and cf.isparent = '1'</if>
+        </where>
+    </select>
+
+
+</mapper>

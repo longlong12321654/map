@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hndist.server.mapper.CimSpecialMapper">
+
+
+    <resultMap type="CimSpecial" id="CimSpecialResult">
+        <result property="id" column="id"/>
+        <result property="pid" column="pid"/>
+        <result property="name" column="name"/>
+        <result property="thumbnail" column="thumbnail"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+        <result property="isparent" column="isparent"/>
+        <result property="icon" column="icon"/>
+        <result property="serviceurl" column="serviceurl"/>
+        <result property="serviceengine" column="serviceengine"/>
+        <result property="servicetype" column="servicetype"/>
+    </resultMap>
+
+    <sql id="selectCimSpecialVo">
+        select
+                id
+                ,pid
+                ,name
+                ,thumbnail
+                ,create_by
+                ,create_time
+                ,update_by
+                ,update_time
+                ,remark
+                ,isparent
+                ,icon
+                ,serviceurl
+                ,serviceengine
+                ,servicetype
+        from cim_special
+    </sql>
+
+    <select id="selectCimSpecialById" resultMap="CimSpecialResult">
+        <include refid="selectCimSpecialVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectCimSpecialList" resultMap="CimSpecialResult">
+        <include refid="selectCimSpecialVo"/>
+        <where>
+                        <if test="vo.id != null  and vo.id != ''"> and id = #{vo.id}</if>
+                        <if test="vo.pid != null  and vo.pid != ''"> and pid = #{vo.pid}</if>
+                        <if test="vo.name != null  and vo.name != ''"> and name like concat('%',#{vo.name},'%')</if>
+                        <if test="vo.thumbnail != null  and vo.thumbnail != ''"> and thumbnail = #{vo.thumbnail}</if>
+                        <if test="vo.createBy != null  and vo.createBy != ''"> and create_by = #{vo.createBy}</if>
+                        <if test="vo.createTime != null  and vo.createTime != ''"> and create_time = #{vo.createTime}</if>
+                        <if test="vo.updateBy != null  and vo.updateBy != ''"> and update_by = #{vo.updateBy}</if>
+                        <if test="vo.updateTime != null  and vo.updateTime != ''"> and update_time = #{vo.updateTime}</if>
+                        <if test="vo.remark != null  and vo.remark != ''"> and remark = #{vo.remark}</if>
+                        <if test="vo.isparent != null  and vo.isparent != ''"> and isparent = #{vo.isparent}</if>
+                        <if test="vo.serviceengine != null  and vo.serviceengine != ''"> and serviceengine = #{vo.serviceengine}</if>
+                        <if test="vo.servicetype != null  and vo.servicetype != ''"> and servicetype = #{vo.servicetype}</if>
+        </where>
+    </select>
+
+    <insert id="insertCimSpecial" parameterType="CimSpecial" useGeneratedKeys="true" keyProperty="id">
+        insert into cim_special
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="pid != null">pid,</if>
+            <if test="name != null">name,</if>
+            <if test="thumbnail != null">thumbnail,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="isparent != null">isparent,</if>
+            <if test="icon != null">icon,</if>
+            <if test="serviceurl != null">serviceurl,</if>
+            <if test="serviceengine != null">serviceengine,</if>
+            <if test="servicetype != null">servicetype,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+           <if test="id != null">#{id},</if>
+           <if test="pid != null">#{pid},</if>
+           <if test="name != null">#{name},</if>
+           <if test="thumbnail != null">#{thumbnail},</if>
+           <if test="createBy != null">#{createBy},</if>
+           <if test="createTime != null">#{createTime},</if>
+           <if test="updateBy != null">#{updateBy},</if>
+           <if test="updateTime != null">#{updateTime},</if>
+           <if test="remark != null">#{remark},</if>
+           <if test="isparent != null">#{isparent},</if>
+           <if test="icon != null">#{icon},</if>
+           <if test="serviceurl != null">#{serviceurl},</if>
+           <if test="serviceengine != null">#{serviceengine},</if>
+           <if test="servicetype != null">#{servicetype},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCimSpecial" parameterType="CimSpecial">
+        update cim_special
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pid != null">pid=#{pid},</if>
+            <if test="name != null">name=#{name},</if>
+            <if test="thumbnail != null">thumbnail=#{thumbnail},</if>
+            <if test="createBy != null">create_by=#{createBy},</if>
+            <if test="createTime != null">create_time=#{createTime},</if>
+            <if test="updateBy != null">update_by=#{updateBy},</if>
+            <if test="updateTime != null">update_time=#{updateTime},</if>
+            <if test="remark != null">remark=#{remark},</if>
+            <if test="isparent != null">isparent=#{isparent},</if>
+            <if test="icon != null">icon=#{icon},</if>
+            <if test="serviceurl != null">serviceurl=#{serviceurl},</if>
+            <if test="serviceengine != null">serviceengine=#{serviceengine},</if>
+            <if test="servicetype != null">servicetype=#{servicetype},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCimSpecialById" parameterType="String">
+        delete from cim_special where id = #{id}
+    </delete>
+
+    <delete id="deleteCimSpecialByIds" parameterType="String">
+        delete from cim_special where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="selectCimSpecialTreeList" parameterType="String" resultMap="CimSpecialResult">
+        <include refid="selectCimSpecialVo"/>
+        <where>
+            <if test="type==null or type=='' "> and isparent = '1'</if>
+        </where>
+    </select>
+
+
+</mapper>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>城市信息模型（CIM）服务端</title>
+    <!-- 引用icon -->
+    <link rel="shortcut icon" href="/${projectName}/favicon.ico">
+    <!-- 引用主样式文件 -->
+    <link href="/${projectName}/css/main.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div>
+    <div class="wrapper">
+        <!-- 头部 -->
+        <div class="header">
+            <div class="title">城市信息模型（CIM）基础平台 - 接口服务</div>
+            <div class="login">
+                <a href="http://www.hndist.com/" target="_blank">API文档</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="http://www.hndist.com/" target="_blank">关于数慧</a>
+            </div>
+        </div>
+        <!-- 导航 -->
+        <div class="nav">
+            <span class="menu"><a href="/${projectName}/cim/rest">首页</a></span> >
+            <span class="menu"><a href="/${projectName}/cim/rest/services">地图服务</a></span>
+            <#if mapServer.catalog??>
+            > <span class="menu"><a href="/${projectName}/cim/rest/services/${mapServer.catalog}">${mapServer.catalog}</a></span>
+            > <span class="menu"><a href="/${projectName}/cim/rest/services/${mapServer.catalog}/${mapServer.name}/MapServer">${mapServer.name}</a></span>
+            > <span class="menu"><a href="/${projectName}/cim/rest/services/${mapServer.catalog}/${mapServer.name}/MapServer/${layerName}">${layerName}</a></span>
+            <#else>
+            > <span class="menu"><a href="/${projectName}/cim/rest/services/${mapServer.name}/MapServer">${mapServer.name}</a></span>
+            > <span class="menu"><a href="/${projectName}/cim/rest/services/${mapServer.name}/MapServer/${layerName}">${layerName}</a></span>
+        </#if>
+    </div>
+    <!-- 主体 -->
+    <div class="main">
+        <div class="folder">
+            地图图层:${layerName}
+        </div>
+        <#if mapServer.mapLayerList??>
+        <#list mapServer.mapLayerList as layer>
+        <#if layer.name?? && layer.name == layerName>
+        <div class="info">图层类型：${layer.spaceType}</div>
+        <div class="info">查询默认记录数：1000</div>
+        <div class="info">支持查询格式：JSON, geoJSON</div>
+        <div class="info">地图范围：</div>
+        <div class="extent">
+            <#if layer.extent??>
+            <span>XMin: ${layer.extent.xmin?c}</span>
+            <span>YMin: ${layer.extent.ymin?c}</span>
+            <span>XMax: ${layer.extent.xmax?c}</span>
+            <span>YMax: ${layer.extent.xmax?c}</span>
+            <span>空间参考: 4490</span>
+            </#if>
+        </div>
+        <div class="info">字段列表：</div>
+        <div class="extent">
+            <#if layer.fields??>
+            <#list layer.fields as field>
+            <span>${field.name} (类型:${field.type})</span>
+        </#list>
+    </#if>
+</div>
+</#if>
+</#list>
+</#if>
+</div>
+<div class="interfaces">支持的接口：
+    <span><a href="/${projectName}/cim/rest/services/<#if mapServer.catalog??>${mapServer.catalog}/</#if>${mapServer.name}/MapServer/${layerName}?f=json" target="_blank">REST</a></span>
+    &nbsp;&nbsp;
+    <#assign open = "">
+    <#if mapServer.mapLayerList??>
+        <#list mapServer.mapLayerList as layer>
+        <#if layer.spaceType?contains("RASTER")>
+            <#assign open = "1">
+        <#else>
+            <#assign open = "2">
+        </#if>
+        </#list>
+        <#if open == "2">
+        <span><a href="/${projectName}/cim/rest/services/<#if mapServer.catalog??>${mapServer.catalog}/</#if>${mapServer.name}/MapServer/${layerName}/query" target="_blank">空间查询</a></span>
+        </#if>
+    </#if>
+</div>
+</div>
+
+</div>
+</body>
+</html>
